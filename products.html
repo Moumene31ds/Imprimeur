@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Produits — L'Artisan Imprimeur</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ── FILTER BAR ── */
+.filter-bar {
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  margin-bottom:44px;
+}
+.filter-btn {
+  padding:9px 20px;border-radius:50px;font-size:.8rem;font-weight:500;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.65);cursor:pointer;transition:all .2s;
+  font-family:'DM Sans',sans-serif;
+}
+.filter-btn:hover,.filter-btn.active {
+  background:rgba(155,126,248,.18);border-color:rgba(155,126,248,.4);color:#c4b5fd;
+}
+.filter-search {
+  margin-left:auto;padding:9px 18px;
+  border-radius:50px;background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.12);color:#fff;font-size:.8rem;
+  font-family:'DM Sans',sans-serif;outline:none;
+  transition:all .2s;width:200px;
+}
+.filter-search:focus{border-color:rgba(155,126,248,.4);background:rgba(155,126,248,.08);width:240px;}
+.filter-search::placeholder{color:var(--text-dim);}
+
+/* ── PRODUCT GRID ── */
+.products-grid-main {
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:22px;
+}
+.prod-card {
+  overflow:hidden;cursor:pointer;
+  transition:transform .35s var(--transition),box-shadow .35s;
+  min-height:380px;display:flex;flex-direction:column;justify-content:flex-end;
+  padding:32px;position:relative;
+}
+.prod-card:hover{transform:translateY(-7px);box-shadow:0 28px 64px rgba(0,0,0,.35);}
+.prod-card .pc-bg{position:absolute;inset:0;transition:transform .5s;}
+.prod-card:hover .pc-bg{transform:scale(1.06);}
+.prod-card .pc-deco{position:absolute;inset:0;opacity:.13;}
+.prod-card .pc-content{position:relative;z-index:2;}
+.prod-card .pc-tag{
+  font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;
+  color:rgba(255,255,255,.5);margin-bottom:6px;
+}
+.prod-card .pc-name{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:6px;}
+.prod-card .pc-desc{font-size:.82rem;color:rgba(255,255,255,.65);line-height:1.55;margin-bottom:18px;}
+.prod-card .pc-footer{display:flex;align-items:center;justify-content:space-between;}
+.prod-card .pc-price{font-size:.9rem;font-weight:600;color:rgba(255,255,255,.9);}
+.prod-card .pc-btn{
+  padding:9px 20px;border-radius:50px;font-size:.78rem;font-weight:600;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+  color:#fff;cursor:pointer;transition:all .2s;backdrop-filter:blur(8px);
+}
+.prod-card .pc-btn:hover{background:rgba(255,255,255,.25);}
+
+/* colour themes */
+.pt-purple .pc-bg{background:linear-gradient(145deg,#1e0a4e 0%,#4a1d96 40%,#7c3aed 100%);}
+.pt-purple .pc-deco{background:repeating-linear-gradient(48deg,rgba(255,255,255,.7) 0,rgba(255,255,255,.7) 1px,transparent 1px,transparent 16px);}
+.pt-rose .pc-bg{background:linear-gradient(145deg,#500724 0%,#9d174d 40%,#ec4899 100%);}
+.pt-rose .pc-deco{background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.5),transparent 45%);}
+.pt-sky .pc-bg{background:linear-gradient(145deg,#0c4a6e 0%,#0369a1 40%,#38bdf8 100%);}
+.pt-sky .pc-deco{background:repeating-radial-gradient(circle at 50% 50%,rgba(255,255,255,.25) 0px,rgba(255,255,255,.25) 1px,transparent 1px,transparent 28px);}
+.pt-green .pc-bg{background:linear-gradient(145deg,#052e16 0%,#166534 40%,#4ade80 100%);}
+.pt-green .pc-deco{background:conic-gradient(from 30deg at 70% 70%,transparent 0deg,rgba(255,255,255,.18) 60deg,transparent 120deg);}
+.pt-amber .pc-bg{background:linear-gradient(145deg,#451a03 0%,#92400e 40%,#f59e0b 100%);}
+.pt-amber .pc-deco{background:repeating-linear-gradient(-45deg,rgba(255,255,255,.3) 0,rgba(255,255,255,.3) 1px,transparent 1px,transparent 14px);}
+.pt-teal .pc-bg{background:linear-gradient(145deg,#042f2e 0%,#0f766e 40%,#2dd4bf 100%);}
+.pt-teal .pc-deco{background:radial-gradient(ellipse at 20% 80%,rgba(255,255,255,.4),transparent 50%);}
+
+/* ── PRODUCT DETAIL MODAL ── */
+.modal-overlay {
+  position:fixed;inset:0;z-index:2000;
+  background:rgba(7,5,14,.85);backdrop-filter:blur(16px);
+  display:flex;align-items:center;justify-content:center;padding:24px;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal-box {
+  width:100%;max-width:860px;max-height:90vh;overflow-y:auto;
+  background:rgba(15,10,30,.9);border:1px solid rgba(255,255,255,.18);
+  border-radius:var(--radius);box-shadow:0 24px 80px rgba(0,0,0,.5);
+  padding:48px;position:relative;
+  transform:translateY(20px);transition:transform .3s var(--transition);
+}
+.modal-overlay.open .modal-box{transform:translateY(0);}
+.modal-close{
+  position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
+  color:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.modal-close:hover{background:rgba(255,255,255,.2);}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
+.modal-preview{
+  border-radius:20px;min-height:280px;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.modal-info .eyebrow{margin-bottom:8px;}
+.modal-info h2{font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:14px;}
+.modal-info p{font-size:.9rem;color:var(--text-muted);line-height:1.72;margin-bottom:24px;}
+.modal-specs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;}
+.spec-item{padding:10px 14px;background:rgba(255,255,255,.06);border-radius:10px;}
+.spec-lbl{font-size:.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;}
+.spec-val{font-size:.85rem;font-weight:500;}
+.modal-actions{display:flex;gap:10px;}
+
+/* ── OPTIONS ── */
+.option-section{margin-bottom:22px;}
+.option-title{font-size:.78rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;}
+.option-pills{display:flex;gap:8px;flex-wrap:wrap;}
+.option-pill{
+  padding:7px 16px;border-radius:50px;font-size:.8rem;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.7);cursor:pointer;transition:all .2s;
+}
+.option-pill:hover,.option-pill.selected{background:rgba(155,126,248,.2);border-color:rgba(155,126,248,.45);color:#c4b5fd;}
+
+/* ── SECTION ANCHORS ── */
+.section-anchor{padding-top:100px;margin-top:-80px;}
+
+@media(max-width:700px){
+  .modal-grid{grid-template-columns:1fr;}
+  .products-grid-main{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb reveal">
+      <a href="index.html">Accueil</a><span>/</span><span>Produits</span>
+    </div>
+    <span class="eyebrow reveal">Notre Catalogue</span>
+    <h1 class="display-title reveal">Tout pour votre<br><em class="grad">communication visuelle</em></h1>
+    <p class="body-lead reveal">Du simple flyer à la carte de visite luxe — chaque produit est fabriqué avec les meilleurs matériaux et une précision artisanale.</p>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<section style="position:relative;z-index:2;padding:0 0 20px;">
+  <div class="container">
+    <div class="filter-bar reveal">
+      <button class="filter-btn active" data-filter="all">Tout voir</button>
+      <button class="filter-btn" data-filter="cartes">Cartes de visite</button>
+      <button class="filter-btn" data-filter="invitations">Invitations</button>
+      <button class="filter-btn" data-filter="flyers">Flyers</button>
+      <button class="filter-btn" data-filter="stickers">Stickers</button>
+      <button class="filter-btn" data-filter="autocollants">Autocollants</button>
+      <input type="search" class="filter-search" placeholder="🔍  Rechercher..." id="searchInput">
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS GRID -->
+<section class="section" style="padding-top:20px;" id="all">
+  <div class="container">
+    <div class="products-grid-main" id="productsGrid">
+
+      <!-- CARTES DE VISITE -->
+      <div class="prod-card glass pt-purple reveal delay-1 section-anchor" id="cartes" data-category="cartes"
+           data-name="Carte de Visite Standard" data-price="19€ / 100 pièces"
+           data-desc="Format 85×54mm, idéale pour les professionnels. Disponible en mat, brillant ou soft-touch. Papier 350g/m² certifié FSC."
+           data-specs='{"Format":"85 × 54 mm","Papier":"350g/m² FSC","Finition":"Mat / Brillant / Soft-touch","Délai":"48h"}'
+           onclick="openModal(this)">
+        <div class="pc-bg"></div><div class="pc-deco"></div>
+        <div class="pc-content">
+          <div class="pc-tag">Cartes de visite</div>
+          <div class="pc-name">Carte Standard</div>
+          <div class="pc-desc">Format classique 85×54mm. Papier 350g/m², plusieurs finitions disponibles.</div>
+          <div class="pc-footer">
+            <span class="pc-price">Dès 19€ / 100 pcs</span>
+            <button class="pc-btn">Voir →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-card glass pt-purple reveal delay-2" data-category="cartes"
+           data-name="Carte de Visite Premium" data-price="45€ / 100 pièces"
+           data-desc="Carte haut de gamme avec dorure à chaud, vernis sélectif ou gaufrage. Papier coton 600g/m². Pour une première impression inoubliable."
+           data-specs='{"Format":"85 × 54 mm","Papier":"Coton 600g/m²","Finition":"Dorure / Vernis / Gaufrage","Délai":"72h"}'
+           onclick="openModal(this)">
+        <div class="pc-bg"></div><div class="pc-deco"></div>
+        <div class="pc-content">
+          <div class="pc-tag">Cartes de visite</div>
+          <div class="pc-name">Carte Premium</div>
+          <div class="pc-desc">Papier coton, dorure à chaud, vernis sélectif. L'excellence absolue.</div>
+          <div class="pc-footer">
+            <span class="pc-price">Dès 45€ / 100 pcs</span>
+            <button class="pc-btn">Voir →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-card glass pt-purple reveal delay-3" data-category="cartes"
+           data-name="Carte de Visite Ronde" data-price="29€ / 100 pièces"
+           data-desc="Format circulaire original Ø55mm. Idéale pour se démarquer. Plastification mat ou brillant."
+           data-specs='{"Format":"Ø 55 mm","Papier":"350g/m²","Finition":"Mat / Brillant","Délai":"72h"}'
+           onclick="openModal(this)">
+        <div class="pc-bg"></div><div class="pc-deco"></div>
+        <div class="pc-content">
+          <div class="pc-tag">Cartes de visite</div>
+          <div class="pc-name">Carte Ronde</div>
+          <div class="pc-desc">Format circulaire Ø55mm pour une identité unique et mémorable.</div>
+          <div class="pc-footer">
+            <span class="pc-price">Dès 29€ / 100 pcs</span>
+            <button class="pc-btn">Voir →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- INVITATIONS -->
+      <div class="prod-card glass pt-rose reveal delay-1 section-anchor" id="invitations" data-category="invitations"
+           data-name="Invitation Mariage" data-price="85€ / 50 pièces"
+           data-desc="Invitation de mariage luxueuse sur papier vergé 300g/m². Enveloppe assortie incluse. Personnalisation complète du texte et des couleurs."
+           data-specs='{"Format":"A5 (148×210)","Papier":"Vergé 300g/m²","Enveloppe":"Incluse","Délai":"5 jours"}'
+           onclick="openModal(this)">
+        <div class="pc-bg"></div><div class="pc-deco"></div>
+        <div class="pc-content">
+          <div class="pc-tag">Invitations</div>
+          <div class="pc-name">Mariage Luxe</div>
+          <div class="pc-desc">Papier vergé 300g/m², enveloppe assortie incluse. Pour votre jour le plus beau.</div>
+          <div class="pc-footer">
+            <span class="pc-price">Dès 85€ / 50 pcs</span>
+            <button class="pc-btn">Voir →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-card glass pt-rose reveal delay-2" data-category="invitations"
+           data-name="Invitation Soirée" data-price="45€ / 50 pièces"
+           data-desc="Invitation pour soirées, gala, cocktails d'entreprise. Format carré 150×150mm, impression recto-verso."
+           data-specs='{"Format":"150 × 150 mm","Papier":"250g/m²","Finition":"Mat ou Brillant","Délai":"72h"}'
+           onclick="openModal(this)">
+        <div class="pc-bg"></div><div class="pc-deco"></div>
+        <div class="pc-content">
+          <div class="pc-tag">Invitations</div>
+          <div class="pc-name">Soirée & Gala</div>
+          <div class="pc-desc">Format carré élégant, recto-verso. Idéale pour vos événements d'entreprise.</div>
+          <div class="pc-footer">
+            <span class="pc-price">Dès 45€ / 50 pcs</span>
+            <button class="pc-btn">Voir →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- FLYERS -->
+      <div class="prod-card glass pt-sky reveal delay-1 section-anchor" id="flyers" data-category="flyers"
+           data-name="Flyer A5 Recto-Verso" data-price="12€ / 100 pièces"
+           data-desc="Flyer A5 imprimé recto-verso en haute définition. Papier couché 150g/m², couleurs vibrantes et précises."
+           data-specs='{"Format":"A5 (148×210)","Papier":"Couché 150g/m²","Impression":"Recto-verso HD","Délai":"48h"}'
+           onclick="openModal(this)">
+        <div class="pc-bg"></div><div class="pc-deco"></div>
+        <div class="pc-content">
+          <div class="pc-tag">Flyers</div>
+          <div class="pc-name">Flyer A5 HD</div>
+          <div class="pc-desc">Format A5, recto-verso haute définition. Idéal pour promotions et événements.</div>
+          <div class="pc-footer">
+            <span class="pc-price">Dès 12€ / 100 pcs</span>
+            <button class="pc-btn">Voir →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-card glass pt-sky reveal delay-2" data-category="flyers"
+           data-name="Flyer A4 Menu" data-price="18€ / 100 pièces"
+           data-desc="Format A4, idéal pour les menus de restaurants, catalogues de produits, dépliants promotionnels."
+           data-specs='{"Format":"A4 (210×297)","Papier":"Couché 200g/m²","Impression":"Recto-verso","Délai":"48h"}'
+           onclick="openModal(this)">
+        <div class="pc-bg"></div><div class="pc-deco"></div>
+        <div class="pc-content">
+          <div class="pc-tag">Flyers</div>
+          <div class="pc-name">Flyer A4 Menu</div>
+          <div class="pc-desc">Grand format A4 pour vos menus, catalogues et dépliants promotionnels.</div>
+          <div class="pc-footer">
+            <span class="pc-price">Dès 18€ / 100 pcs</span>
+            <button class="pc-btn">Voir →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STICKERS -->
+      <div class="prod-card glass pt-green reveal delay-1 section-anchor" id="stickers" data-category="stickers"
+           data-name="Stickers Découpés" data-price="9€ / 50 pièces"
+           data-desc="Stickers découpés à la forme, résistants à l'eau. Idéaux pour personnaliser vos emballages, produits ou équipements."
+           data-specs='{"Découpe":"À la forme","Matériau":"Vinyle","Résistance":"Eau & abrasion","Délai":"72h"}'
+           onclick="openModal(this)">
+        <div class="pc-bg"></div><div class="pc-deco"></div>
+        <div class="pc-content">
+          <div class="pc-tag">Stickers</div>
+          <div class="pc-name">Stickers Découpés</div>
+          <div class="pc-desc">Découpe à la forme, vinyle résistant à l'eau. Pour vos emballages et produits.</div>
+          <div class="pc-footer">
+            <span class="pc-price">Dès 9€ / 50 pcs</span>
+            <button class="pc-btn">Voir →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-card glass pt-green reveal delay-2" data-category="stickers"
+           data-name="Stickers Holographiques" data-price="18€ / 50 pièces"
+           data-desc="Stickers à effet holographique, brillant et irisé. Idéaux pour les marques mode, cosmétique, gaming."
+           data-specs='{"Effet":"Holographique","Matériau":"Film irisé","Finition":"Brillant","Délai":"72h"}'
+           onclick="openModal(this)">
+        <div class="pc-bg"></div><div class="pc-deco"></div>
+        <div class="pc-content">
+          <div class="pc-tag">Stickers</div>
+          <div class="pc-name">Holographiques</div>
+          <div class="pc-desc">Effet irisé et holographique. Pour les marques qui veulent briller.</div>
+          <div class="pc-footer">
+            <span class="pc-price">Dès 18€ / 50 pcs</span>
+            <button class="pc-btn">Voir →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- AUTOCOLLANTS -->
+      <div class="prod-card glass pt-amber reveal delay-1 section-anchor" id="autocollants" data-category="autocollants"
+           data-name="Autocollant Vinyle Extérieur" data-price="14€ / 50 pièces"
+           data-desc="Vinyle haute durabilité pour intérieur & extérieur. Résistant aux UV, intempéries et lavages. Idéal pour véhicules, vitrines, équipements."
+           data-specs='{"Usage":"Int. & Ext.","Matériau":"Vinyle 7 ans","Résistance":"UV + Intempéries","Délai":"72h"}'
+           onclick="openModal(this)">
+        <div class="pc-bg"></div><div class="pc-deco"></div>
+        <div class="pc-content">
+          <div class="pc-tag">Autocollants</div>
+          <div class="pc-name">Vinyle Extérieur</div>
+          <div class="pc-desc">Vinyle 7 ans, résistant UV et intempéries. Vitrines, véhicules, équipements.</div>
+          <div class="pc-footer">
+            <span class="pc-price">Dès 14€ / 50 pcs</span>
+            <button class="pc-btn">Voir →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-card glass pt-teal reveal delay-2" data-category="autocollants"
+           data-name="Autocollant Transparent" data-price="16€ / 50 pièces"
+           data-desc="Fond transparent pour une intégration parfaite sur toutes surfaces. Impression CMJN haute définition sur vinyle transparent."
+           data-specs='{"Fond":"Transparent","Impression":"CMJN HD","Surface":"Toutes","Délai":"72h"}'
+           onclick="openModal(this)">
+        <div class="pc-bg"></div><div class="pc-deco"></div>
+        <div class="pc-content">
+          <div class="pc-tag">Autocollants</div>
+          <div class="pc-name">Transparent HD</div>
+          <div class="pc-desc">Fond transparent, impression HD. Intégration parfaite sur toutes surfaces.</div>
+          <div class="pc-footer">
+            <span class="pc-price">Dès 16€ / 50 pcs</span>
+            <button class="pc-btn">Voir →</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /grid -->
+  </div>
+</section>
+
+</div><!-- /page-wrap -->
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-box glass">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-grid">
+      <div class="modal-preview" id="modalPreview">
+        <div style="font-size:4rem;">🖨️</div>
+      </div>
+      <div class="modal-info">
+        <span class="eyebrow" id="modalCat">Produit</span>
+        <h2 id="modalName">Nom du produit</h2>
+        <p id="modalDesc">Description</p>
+        <div class="modal-specs" id="modalSpecs"></div>
+        <!-- Options -->
+        <div class="option-section">
+          <div class="option-title">Quantité</div>
+          <div class="option-pills" id="optQty">
+            <div class="option-pill" onclick="selectOpt(this,'qty')">50</div>
+            <div class="option-pill selected" onclick="selectOpt(this,'qty')">100</div>
+            <div class="option-pill" onclick="selectOpt(this,'qty')">250</div>
+            <div class="option-pill" onclick="selectOpt(this,'qty')">500</div>
+            <div class="option-pill" onclick="selectOpt(this,'qty')">1000</div>
+          </div>
+        </div>
+        <div class="option-section">
+          <div class="option-title">Finition</div>
+          <div class="option-pills">
+            <div class="option-pill selected" onclick="selectOpt(this,'fin')">Mat</div>
+            <div class="option-pill" onclick="selectOpt(this,'fin')">Brillant</div>
+            <div class="option-pill" onclick="selectOpt(this,'fin')">Soft-touch</div>
+            <div class="option-pill" onclick="selectOpt(this,'fin')">Dorure à chaud</div>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" onclick="addToCartModal()">Ajouter au panier →</button>
+          <a href="configurator.html" class="btn btn-secondary">Configurer</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="shared.js"></script>
+<script>
+initShared('products');
+
+// Filter
+const filterBtns = document.querySelectorAll('.filter-btn');
+const cards = document.querySelectorAll('.prod-card');
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    cards.forEach(c => {
+      c.style.display = (f === 'all' || c.dataset.category === f) ? 'flex' : 'none';
+    });
+  });
+});
+
+// Search
+document.getElementById('searchInput').addEventListener('input', e => {
+  const q = e.target.value.toLowerCase();
+  cards.forEach(c => {
+    const txt = (c.dataset.name + c.dataset.desc + c.dataset.category).toLowerCase();
+    c.style.display = txt.includes(q) ? 'flex' : 'none';
+  });
+});
+
+// Modal
+let currentCard = null;
+function openModal(card) {
+  currentCard = card;
+  const specs = JSON.parse(card.dataset.specs || '{}');
+  document.getElementById('modalName').textContent = card.dataset.name;
+  document.getElementById('modalDesc').textContent = card.dataset.desc;
+  document.getElementById('modalCat').textContent = card.dataset.category;
+  document.getElementById('modalSpecs').innerHTML = Object.entries(specs).map(([k,v]) =>
+    `<div class="spec-item"><div class="spec-lbl">${k}</div><div class="spec-val">${v}</div></div>`
+  ).join('');
+  // Preview bg clone
+  const bgEl = card.querySelector('.pc-bg');
+  const prev = document.getElementById('modalPreview');
+  prev.style.background = bgEl ? getComputedStyle(bgEl).background : '#1a0a3e';
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('modalOverlay') && !e.currentTarget.classList?.contains('modal-close')) return;
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function selectOpt(el, group) {
+  el.closest('.option-pills').querySelectorAll('.option-pill').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function addToCartModal() {
+  if (!currentCard) return;
+  const qty = document.querySelector('#optQty .selected')?.textContent || '100';
+  const fin = document.querySelector('.option-pills:last-of-type .selected')?.textContent || 'Mat';
+  addToCart({ name: currentCard.dataset.name, price: currentCard.dataset.price, qty, fin });
+  closeModal({target:document.getElementById('modalOverlay')});
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+</script>
+</body>
+</html>

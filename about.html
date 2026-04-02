@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>À Propos — L'Artisan Imprimeur</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+/* STORY */
+.story-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.story-visual{
+  border-radius:28px;height:440px;position:relative;overflow:hidden;
+  background:linear-gradient(145deg,#1e0a4e,#4a1d96,#7c3aed);
+}
+.story-visual .sv-pattern{position:absolute;inset:0;opacity:.13;background:repeating-linear-gradient(55deg,rgba(255,255,255,.7) 0,rgba(255,255,255,.7) 1px,transparent 1px,transparent 18px);}
+.story-visual .sv-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
+.year-badge{font-family:'Playfair Display',serif;font-size:5rem;font-style:italic;font-weight:700;background:linear-gradient(135deg,rgba(255,255,255,.9),rgba(196,181,253,.6));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.year-sub{font-size:.8rem;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.4);}
+
+/* VALUES */
+.values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px;}
+.val-card{padding:30px;text-align:center;}
+.val-icon{font-size:2.2rem;margin-bottom:14px;}
+.val-title{font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:8px;}
+.val-text{font-size:.84rem;color:var(--text-muted);line-height:1.65;}
+
+/* TEAM */
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:56px;}
+.team-card{padding:24px;text-align:center;transition:transform .3s;}
+.team-card:hover{transform:translateY(-4px);}
+.team-av{
+  width:80px;height:80px;border-radius:50%;margin:0 auto 16px;
+  font-size:2rem;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#9b7ef8,#f472b6);
+}
+.team-name{font-weight:600;font-size:.95rem;margin-bottom:4px;}
+.team-role{font-size:.78rem;color:var(--text-muted);margin-bottom:12px;}
+.team-bio{font-size:.78rem;color:var(--text-dim);line-height:1.6;}
+
+/* TIMELINE */
+.timeline{margin-top:56px;position:relative;}
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,rgba(155,126,248,.3),transparent);}
+.tl-item{display:flex;gap:40px;margin-bottom:44px;align-items:start;}
+.tl-item:nth-child(even){flex-direction:row-reverse;}
+.tl-content{flex:1;padding:24px;border-radius:20px;}
+.tl-item:nth-child(even) .tl-content{text-align:right;}
+.tl-dot{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#9b7ef8,#f472b6);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;margin-top:4px;box-shadow:0 0 0 4px rgba(155,126,248,.15);}
+.tl-year{font-family:'Playfair Display',serif;font-size:1.5rem;font-style:italic;margin-bottom:6px;background:linear-gradient(135deg,#c4b5fd,#f9a8d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.tl-text{font-size:.85rem;color:var(--text-muted);line-height:1.65;}
+
+/* CERTIFICATIONS */
+.certs-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:40px;}
+.cert-badge{padding:14px 22px;display:flex;align-items:center;gap:10px;}
+.cert-icon{font-size:1.5rem;}
+.cert-title{font-size:.85rem;font-weight:600;margin-bottom:2px;}
+.cert-sub{font-size:.72rem;color:var(--text-muted);}
+
+/* FAQ */
+.faq-list{margin-top:40px;}
+.faq-item{border-bottom:1px solid rgba(255,255,255,.07);overflow:hidden;}
+.faq-q{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px 0;cursor:pointer;transition:color .2s;
+  font-size:.95rem;font-weight:500;
+}
+.faq-q:hover{color:#c4b5fd;}
+.faq-ico{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.85rem;transition:all .3s;flex-shrink:0;}
+.faq-item.open .faq-ico{background:rgba(155,126,248,.2);border-color:rgba(155,126,248,.4);transform:rotate(45deg);}
+.faq-a{font-size:.88rem;color:var(--text-muted);line-height:1.75;max-height:0;overflow:hidden;transition:max-height .4s var(--transition),padding .3s;}
+.faq-item.open .faq-a{max-height:200px;padding-bottom:20px;}
+
+/* STATS LARGE */
+.stats-large{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:rgba(255,255,255,.05);border-radius:28px;overflow:hidden;margin-top:56px;}
+.sl-item{padding:36px 24px;text-align:center;background:rgba(255,255,255,.03);}
+.sl-num{font-family:'Playfair Display',serif;font-size:3rem;font-weight:700;background:linear-gradient(135deg,#c4b5fd,#f9a8d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.sl-lbl{font-size:.8rem;color:var(--text-muted);margin-top:4px;line-height:1.5;}
+
+@media(max-width:900px){
+  .story-layout,.timeline{display:block;}
+  .timeline::before{display:none;}
+  .tl-item,.tl-item:nth-child(even){flex-direction:column;}
+  .tl-item:nth-child(even) .tl-content{text-align:left;}
+  .values-grid,.team-grid{grid-template-columns:repeat(2,1fr);}
+  .stats-large{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:520px){
+  .team-grid{grid-template-columns:1fr 1fr;}
+  .values-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb reveal"><a href="index.html">Accueil</a><span>/</span><span>À propos</span></div>
+    <span class="eyebrow reveal">Notre Histoire</span>
+    <h1 class="display-title reveal">L'artisanat au cœur<br>de chaque <em class="grad">impression</em></h1>
+    <p class="body-lead reveal">Depuis 2012, nous combinons savoir-faire artisanal et technologies modernes pour créer des impressions qui marquent les esprits.</p>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="section">
+  <div class="container">
+    <div class="story-layout">
+      <div class="story-visual reveal left">
+        <div class="sv-pattern"></div>
+        <div class="sv-content">
+          <div class="year-badge">2012</div>
+          <div class="year-sub">Fondé à Paris, France</div>
+          <div style="display:flex;gap:24px;margin-top:12px;">
+            <div style="text-align:center;"><div style="font-family:'Playfair Display',serif;font-size:1.6rem;">50K+</div><div style="font-size:.65rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;">Clients</div></div>
+            <div style="text-align:center;"><div style="font-family:'Playfair Display',serif;font-size:1.6rem;">12</div><div style="font-size:.65rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;">Artisans</div></div>
+            <div style="text-align:center;"><div style="font-family:'Playfair Display',serif;font-size:1.6rem;">3M+</div><div style="font-size:.65rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;">Pièces / an</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal right">
+        <span class="eyebrow">Notre histoire</span>
+        <h2 class="display-title">Nés d'une passion<br><em>pour le détail</em></h2>
+        <p class="body-lead" style="margin-bottom:18px;">L'Artisan Imprimeur est né en 2012 de la rencontre entre deux passionnés : un typographe de troisième génération et une designeuse issue du monde de la haute couture.</p>
+        <p style="font-size:.92rem;color:var(--text-muted);line-height:1.8;margin-bottom:18px;">Ensemble, ils ont fondé un atelier où chaque commande est traitée comme une création unique. Pas de template générique, pas de production à la chaîne : chaque pièce reflète l'identité de son commanditaire.</p>
+        <p style="font-size:.92rem;color:var(--text-muted);line-height:1.8;">Aujourd'hui, notre équipe de 12 artisans et designers sert plus de 50 000 clients en France et en Europe, des indépendants aux grandes maisons de luxe.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="section-sm" style="position:relative;z-index:2;">
+  <div class="container">
+    <div class="stats-large glass reveal">
+      <div class="sl-item"><div class="sl-num">50K+</div><div class="sl-lbl">Clients satisfaits<br>en France et en Europe</div></div>
+      <div class="sl-item"><div class="sl-num">99%</div><div class="sl-lbl">Taux de satisfaction<br>mesuré en continu</div></div>
+      <div class="sl-item"><div class="sl-num">3M+</div><div class="sl-lbl">Pièces imprimées<br>chaque année</div></div>
+      <div class="sl-item"><div class="sl-num">12</div><div class="sl-lbl">Artisans & designers<br>dans notre équipe</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="section">
+  <div class="container">
+    <div style="text-align:center;" class="reveal">
+      <span class="eyebrow">Nos Valeurs</span>
+      <h2 class="display-title">Ce qui nous <em>guide</em></h2>
+    </div>
+    <div class="values-grid">
+      <div class="val-card glass reveal delay-1">
+        <div class="val-icon">✦</div>
+        <div class="val-title">Excellence</div>
+        <p class="val-text">Chaque commande est traitée avec une attention minutieuse. Nous refusons le médiocre et ne livrons que ce qui nous rend fiers.</p>
+      </div>
+      <div class="val-card glass reveal delay-2">
+        <div class="val-icon">🤝</div>
+        <div class="val-title">Honnêteté</div>
+        <p class="val-text">Prix transparents, délais tenus, problèmes annoncés immédiatement. Nous construisons des relations de confiance sur le long terme.</p>
+      </div>
+      <div class="val-card glass reveal delay-3">
+        <div class="val-icon">♻️</div>
+        <div class="val-title">Responsabilité</div>
+        <p class="val-text">Papiers FSC, encres végétales, emballages biodégradables, énergie renouvelable. Notre planète mérite notre attention.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="section" style="background:rgba(155,126,248,.03);">
+  <div class="container">
+    <div style="text-align:center;" class="reveal">
+      <span class="eyebrow">Notre Équipe</span>
+      <h2 class="display-title">Les <em>visages</em> de l'artisanat</h2>
+    </div>
+    <div class="team-grid">
+      <div class="team-card glass reveal delay-1">
+        <div class="team-av">👨‍🎨</div>
+        <div class="team-name">Antoine Moreau</div>
+        <div class="team-role">Co-fondateur & Typographe</div>
+        <div class="team-bio">Typographe de 3e génération, Antoine maîtrise les arts de l'impression depuis 20 ans.</div>
+      </div>
+      <div class="team-card glass reveal delay-2">
+        <div class="team-av">👩‍💼</div>
+        <div class="team-name">Isabelle Faure</div>
+        <div class="team-role">Co-fondatrice & Directrice Créative</div>
+        <div class="team-bio">Ancienne directrice artistique chez Chanel, Isabelle apporte l'exigence du luxe à chaque projet.</div>
+      </div>
+      <div class="team-card glass reveal delay-3">
+        <div class="team-av">👨‍💻</div>
+        <div class="team-name">Lucas Bernard</div>
+        <div class="team-role">Responsable Production</div>
+        <div class="team-bio">Lucas coordonne notre atelier de 12 artisans pour garantir qualité et délais.</div>
+      </div>
+      <div class="team-card glass reveal delay-4">
+        <div class="team-av">👩‍🎨</div>
+        <div class="team-name">Chloé Petit</div>
+        <div class="team-role">Graphiste Senior</div>
+        <div class="team-bio">Spécialisée en identité visuelle de luxe, Chloé donne vie aux idées de nos clients.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="section" id="process">
+  <div class="container">
+    <div style="text-align:center;" class="reveal">
+      <span class="eyebrow">Notre Parcours</span>
+      <h2 class="display-title">12 ans d'<em>histoire</em></h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-content glass"><div class="tl-year">2012</div><h4 style="margin-bottom:6px;">Fondation</h4><p class="tl-text">Antoine et Isabelle ouvrent l'atelier rue du Louvre avec 2 presses et une vision : l'artisanat premium rendu accessible.</p></div>
+        <div class="tl-dot">✦</div>
+        <div style="flex:1;"></div>
+      </div>
+      <div class="tl-item reveal">
+        <div style="flex:1;"></div>
+        <div class="tl-dot">🏆</div>
+        <div class="tl-content glass"><div class="tl-year">2015</div><h4 style="margin-bottom:6px;">Premier Prix</h4><p class="tl-text">Lauréat du Prix de l'Excellence Artisanale décerné par la CCI Paris. 5 000 clients, première expansion de l'atelier.</p></div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-content glass"><div class="tl-year">2018</div><h4 style="margin-bottom:6px;">Lancement Digital</h4><p class="tl-text">Ouverture de la boutique en ligne avec configurateur 3D. Livraison express 24h dans toute la France.</p></div>
+        <div class="tl-dot">🌐</div>
+        <div style="flex:1;"></div>
+      </div>
+      <div class="tl-item reveal">
+        <div style="flex:1;"></div>
+        <div class="tl-dot">🌿</div>
+        <div class="tl-content glass"><div class="tl-year">2021</div><h4 style="margin-bottom:6px;">Engagement Vert</h4><p class="tl-text">100% encres végétales, papiers FSC, emballages biodégradables. Certification Imprim'Vert obtenue.</p></div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-content glass"><div class="tl-year">2025</div><h4 style="margin-bottom:6px;">Aujourd'hui</h4><p class="tl-text">50 000 clients, 3 millions de pièces par an, une équipe de 12 passionnés. Et l'aventure continue.</p></div>
+        <div class="tl-dot">🚀</div>
+        <div style="flex:1;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section class="section-sm" style="position:relative;z-index:2;text-align:center;">
+  <div class="container">
+    <span class="eyebrow reveal">Certifications</span>
+    <h3 class="reveal" style="font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:6px;">Nos engagements <em>certifiés</em></h3>
+    <div class="certs-row">
+      <div class="cert-badge glass reveal delay-1"><div class="cert-icon">🌿</div><div><div class="cert-title">Imprim'Vert</div><div class="cert-sub">Certification éco-responsable</div></div></div>
+      <div class="cert-badge glass reveal delay-2"><div class="cert-icon">🌲</div><div><div class="cert-title">FSC</div><div class="cert-sub">Papiers certifiés forêts gérées</div></div></div>
+      <div class="cert-badge glass reveal delay-3"><div class="cert-icon">🏅</div><div><div class="cert-title">ISO 9001</div><div class="cert-sub">Qualité certifiée</div></div></div>
+      <div class="cert-badge glass reveal delay-4"><div class="cert-icon">🔒</div><div><div class="cert-title">GDPR</div><div class="cert-sub">Données protégées</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="container container-sm">
+    <div style="text-align:center;" class="reveal">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="display-title">Questions <em>fréquentes</em></h2>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Quels sont vos délais de livraison ?</span><div class="faq-ico">+</div></div>
+        <div class="faq-a">Nous proposons trois options : standard (3–5 jours ouvrés), express 48h, et urgent 24h pour les commandes passées avant 14h. Le suivi est inclus dans tous les cas. Les délais courent à partir de la validation de votre BAT.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Proposez-vous un service de design ?</span><div class="faq-ico">+</div></div>
+        <div class="faq-a">Oui ! Notre équipe de graphistes peut créer votre visuel à partir de 49€. Décrivez simplement votre projet dans le configurateur (style, couleurs, message) et nous vous soumettons une proposition sous 24h avec 2 révisions incluses.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Quel format de fichier dois-je fournir ?</span><div class="faq-ico">+</div></div>
+        <div class="faq-a">Nous acceptons les fichiers PDF, AI (Illustrator), PSD (Photoshop), PNG et JPEG en 300 DPI minimum avec fond perdu de 3mm. Si vous n'avez pas de fichier aux bonnes spécifications, notre équipe peut vous aider à préparer votre fichier.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Puis-je commander des petites quantités ?</span><div class="faq-ico">+</div></div>
+        <div class="faq-a">Oui, dès 50 pièces pour les cartes de visite et flyers, et dès 25 pièces pour les stickers. Nous ne pratiquons pas de minimum élevé car nous savons que les indépendants ont des besoins différents des grandes entreprises.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Quelles sont vos politiques de remboursement ?</span><div class="faq-ico">+</div></div>
+        <div class="faq-a">Si votre commande présente un défaut de fabrication ou ne correspond pas au BAT validé, nous la réimprimons gratuitement ou vous remboursons intégralement. Les erreurs de votre fichier ne sont pas couvertes, c'est pourquoi nous recommandons toujours de valider attentivement le BAT numérique.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Livrez-vous en dehors de la France ?</span><div class="faq-ico">+</div></div>
+        <div class="faq-a">Nous livrons dans toute l'Europe. Les délais et tarifs varient selon la destination. Pour les livraisons hors France, nous recommandons de prévoir 2–3 jours supplémentaires. Contactez-nous pour un devis personnalisé sur les grandes quantités à l'export.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+<script src="shared.js"></script>
+<script>
+initShared('about');
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if(!isOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>

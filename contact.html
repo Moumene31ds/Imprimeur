@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Contact — L'Artisan Imprimeur</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+.contact-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:48px;align-items:start;margin-top:60px;}
+.contact-info{position:sticky;top:100px;}
+.ci-card{padding:28px;margin-bottom:16px;}
+.ci-icon{font-size:1.5rem;margin-bottom:12px;}
+.ci-title{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:6px;}
+.ci-val{font-size:.95rem;font-weight:500;}
+.ci-sub{font-size:.78rem;color:var(--text-muted);margin-top:3px;}
+
+/* Map placeholder */
+.map-placeholder{
+  border-radius:20px;height:200px;margin-bottom:16px;
+  background:linear-gradient(145deg,#0c1a3a,#1e0a4e);
+  border:1px solid rgba(255,255,255,.1);overflow:hidden;
+  position:relative;display:flex;align-items:center;justify-content:center;
+}
+.map-grid{position:absolute;inset:0;opacity:.08;background:repeating-linear-gradient(0deg,rgba(155,126,248,.6) 0,rgba(155,126,248,.6) 1px,transparent 1px,transparent 30px),repeating-linear-gradient(90deg,rgba(155,126,248,.6) 0,rgba(155,126,248,.6) 1px,transparent 1px,transparent 30px);}
+.map-pin{font-size:2rem;position:relative;z-index:1;filter:drop-shadow(0 4px 12px rgba(155,126,248,.6));}
+.map-address{position:relative;z-index:1;text-align:center;}
+.map-address .ma-street{font-weight:600;font-size:.9rem;}
+.map-address .ma-city{font-size:.8rem;color:var(--text-muted);}
+
+/* FORM CARD */
+.form-card{padding:40px;}
+.form-section-title{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:6px;}
+.form-section-sub{font-size:.88rem;color:var(--text-muted);margin-bottom:28px;line-height:1.65;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-submit{margin-top:8px;width:100%;justify-content:center;font-size:1rem;padding:16px;}
+
+/* Subject pills */
+.subject-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+.subj-pill{
+  padding:7px 16px;border-radius:50px;font-size:.78rem;cursor:pointer;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.65);transition:all .2s;
+}
+.subj-pill:hover,.subj-pill.selected{background:rgba(155,126,248,.18);border-color:rgba(155,126,248,.4);color:#c4b5fd;}
+
+/* Success state */
+.form-success{
+  display:none;text-align:center;padding:40px 20px;
+}
+.form-success.show{display:block;}
+.success-icon{font-size:3rem;margin-bottom:16px;}
+.success-title{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:10px;}
+.success-text{font-size:.9rem;color:var(--text-muted);line-height:1.72;}
+
+/* Hours table */
+.hours-table{width:100%;border-collapse:collapse;}
+.hours-table tr{border-bottom:1px solid rgba(255,255,255,.06);}
+.hours-table tr:last-child{border-bottom:none;}
+.hours-table td{padding:10px 0;font-size:.84rem;}
+.hours-table td:last-child{text-align:right;color:var(--text-muted);}
+.hours-badge{padding:2px 8px;border-radius:50px;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
+.hb-open{background:rgba(74,222,128,.15);color:#4ade80;border:1px solid rgba(74,222,128,.25);}
+.hb-closed{background:rgba(255,255,255,.07);color:var(--text-muted);}
+
+@media(max-width:900px){
+  .contact-layout{grid-template-columns:1fr;margin-top:20px;}
+  .contact-info{position:static;}
+  .form-row{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+<section class="page-hero" style="padding-bottom:40px;">
+  <div class="container">
+    <div class="breadcrumb reveal"><a href="index.html">Accueil</a><span>/</span><span>Contact</span></div>
+    <span class="eyebrow reveal">Contact</span>
+    <h1 class="display-title reveal">Parlons de votre<br><em class="grad">prochain projet</em></h1>
+    <p class="body-lead reveal">Devis gratuit sous 2h · Réponse garantie dans la journée · Livraison dans toute la France</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="contact-layout">
+
+      <!-- LEFT: INFO -->
+      <div>
+        <!-- Map -->
+        <div class="map-placeholder glass reveal">
+          <div class="map-grid"></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;z-index:1;">
+            <div class="map-pin">📍</div>
+            <div class="map-address">
+              <div class="ma-street">12 rue du Louvre</div>
+              <div class="ma-city">75001 Paris, France</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact cards -->
+        <div class="ci-card glass reveal delay-1">
+          <div class="ci-icon">📞</div>
+          <div class="ci-title">Téléphone</div>
+          <div class="ci-val">01 23 45 67 89</div>
+          <div class="ci-sub">Lun–Ven, 9h–18h</div>
+        </div>
+        <div class="ci-card glass reveal delay-2">
+          <div class="ci-icon">✉️</div>
+          <div class="ci-title">Email</div>
+          <div class="ci-val">bonjour@lartisan.fr</div>
+          <div class="ci-sub">Réponse sous 2h en journée</div>
+        </div>
+        <div class="ci-card glass reveal delay-3">
+          <div class="ci-icon">💬</div>
+          <div class="ci-title">Chat en direct</div>
+          <div class="ci-val">Disponible sur le site</div>
+          <div class="ci-sub"><span class="hours-badge hb-open">En ligne</span> en ce moment</div>
+        </div>
+
+        <!-- Hours -->
+        <div class="ci-card glass reveal">
+          <div class="ci-icon">🕐</div>
+          <div class="ci-title" style="margin-bottom:14px;">Horaires d'ouverture</div>
+          <table class="hours-table">
+            <tr><td>Lundi – Vendredi</td><td><span class="hours-badge hb-open">9h – 18h</span></td></tr>
+            <tr><td>Samedi</td><td><span class="hours-badge hb-open">10h – 16h</span></td></tr>
+            <tr><td>Dimanche</td><td><span class="hours-badge hb-closed">Fermé</span></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- RIGHT: FORM -->
+      <div class="form-card glass reveal right">
+        <div id="formContent">
+          <h2 class="form-section-title">Envoyez-nous un message</h2>
+          <p class="form-section-sub">Devis, questions, demandes de design personnalisé — nous répondons à tout.</p>
+
+          <!-- Subject -->
+          <div class="form-group">
+            <label class="form-label">Objet de votre message</label>
+            <div class="subject-pills">
+              <div class="subj-pill selected" onclick="selectSubj(this)">Demande de devis</div>
+              <div class="subj-pill" onclick="selectSubj(this)">Commande</div>
+              <div class="subj-pill" onclick="selectSubj(this)">Design / Création</div>
+              <div class="subj-pill" onclick="selectSubj(this)">Partenariat</div>
+              <div class="subj-pill" onclick="selectSubj(this)">Autre</div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Prénom *</label>
+              <input type="text" class="form-input" placeholder="Jean" id="fPrenom" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nom *</label>
+              <input type="text" class="form-input" placeholder="Dupont" id="fNom" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Email *</label>
+              <input type="email" class="form-input" placeholder="jean@exemple.fr" id="fEmail" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Téléphone</label>
+              <input type="tel" class="form-input" placeholder="06 12 34 56 78" id="fTel">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Société</label>
+            <input type="text" class="form-input" placeholder="Votre entreprise (optionnel)" id="fSociete">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Produit(s) souhaité(s)</label>
+            <select class="form-select form-input" id="fProduit">
+              <option value="">Sélectionnez un produit...</option>
+              <option>Cartes de visite</option>
+              <option>Invitations</option>
+              <option>Flyers</option>
+              <option>Stickers</option>
+              <option>Autocollants</option>
+              <option>Plusieurs produits</option>
+              <option>Je ne sais pas encore</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Votre message *</label>
+            <textarea class="form-textarea" id="fMessage" placeholder="Décrivez votre projet : quantité souhaitée, délai, style, finitions particulières, budget indicatif..." style="min-height:140px;"></textarea>
+          </div>
+          <div class="form-group">
+            <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;">
+              <input type="checkbox" id="fRgpd" style="margin-top:3px;accent-color:#9b7ef8;">
+              <span style="font-size:.78rem;color:var(--text-muted);line-height:1.65;">J'accepte que mes données soient utilisées pour traiter ma demande. Elles ne seront jamais revendues à des tiers. <a href="#" style="color:#9b7ef8;">Politique de confidentialité</a>.</span>
+            </label>
+          </div>
+          <button class="btn btn-primary form-submit" onclick="submitForm()">Envoyer le message →</button>
+        </div>
+
+        <!-- Success -->
+        <div class="form-success" id="formSuccess">
+          <div class="success-icon">✅</div>
+          <h3 class="success-title">Message envoyé !</h3>
+          <p class="success-text">Merci pour votre message. Notre équipe vous répondra dans les 2 heures pendant les horaires d'ouverture.</p>
+          <div style="margin-top:28px;padding:16px;background:rgba(155,126,248,.08);border:1px solid rgba(155,126,248,.2);border-radius:14px;">
+            <p style="font-size:.82rem;color:var(--text-muted);">En attendant, vous pouvez :</p>
+            <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;justify-content:center;">
+              <a href="products.html" class="btn btn-secondary btn-sm" style="text-decoration:none;">Explorer nos produits</a>
+              <a href="gallery.html" class="btn btn-secondary btn-sm" style="text-decoration:none;">Voir la galerie</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- QUICK LINKS -->
+<section class="section-sm" style="position:relative;z-index:2;">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;" class="reveal">
+      <div class="ci-card glass" style="text-align:center;padding:30px;">
+        <div style="font-size:1.8rem;margin-bottom:12px;">⚡</div>
+        <h4 style="margin-bottom:6px;">Devis express</h4>
+        <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:16px;line-height:1.6;">Configurez votre commande et obtenez un prix instantané.</p>
+        <a href="configurator.html" class="btn btn-primary btn-sm" style="text-decoration:none;">Configurer →</a>
+      </div>
+      <div class="ci-card glass" style="text-align:center;padding:30px;">
+        <div style="font-size:1.8rem;margin-bottom:12px;">📋</div>
+        <h4 style="margin-bottom:6px;">Voir la FAQ</h4>
+        <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:16px;line-height:1.6;">Trouvez les réponses aux questions les plus fréquentes.</p>
+        <a href="about.html#faq" class="btn btn-secondary btn-sm" style="text-decoration:none;">Voir la FAQ</a>
+      </div>
+      <div class="ci-card glass" style="text-align:center;padding:30px;">
+        <div style="font-size:1.8rem;margin-bottom:12px;">🎨</div>
+        <h4 style="margin-bottom:6px;">Besoin d'un designer ?</h4>
+        <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:16px;line-height:1.6;">Notre équipe crée votre visuel à partir de 49€.</p>
+        <a href="configurator.html" class="btn btn-secondary btn-sm" style="text-decoration:none;">En savoir plus</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+<script src="shared.js"></script>
+<script>
+initShared('contact');
+function selectSubj(el){
+  document.querySelectorAll('.subj-pill').forEach(p=>p.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function submitForm(){
+  const prenom=document.getElementById('fPrenom').value.trim();
+  const email=document.getElementById('fEmail').value.trim();
+  const msg=document.getElementById('fMessage').value.trim();
+  const rgpd=document.getElementById('fRgpd').checked;
+  if(!prenom||!email||!msg){showToast('Veuillez remplir les champs obligatoires.','⚠️');return;}
+  if(!rgpd){showToast('Veuillez accepter la politique de confidentialité.','⚠️');return;}
+  // Simulate send
+  document.getElementById('formContent').style.display='none';
+  document.getElementById('formSuccess').classList.add('show');
+  window.scrollTo({top:400,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

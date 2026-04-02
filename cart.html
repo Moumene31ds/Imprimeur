@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Panier — L'Artisan Imprimeur</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+.cart-layout{display:grid;grid-template-columns:1fr 360px;gap:32px;align-items:start;padding-top:160px;padding-bottom:80px;}
+.cart-title{font-family:'Playfair Display',serif;font-size:2rem;margin-bottom:6px;}
+.cart-count{font-size:.85rem;color:var(--text-muted);margin-bottom:36px;}
+.cart-item{padding:24px;display:flex;gap:20px;align-items:start;margin-bottom:14px;transition:all .3s;}
+.ci-preview{width:90px;height:60px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.6rem;background:linear-gradient(135deg,#1e0a4e,#7c3aed);}
+.ci-details{flex:1;}
+.ci-name{font-weight:600;font-size:.95rem;margin-bottom:4px;}
+.ci-opts{font-size:.78rem;color:var(--text-muted);margin-bottom:8px;line-height:1.6;}
+.ci-qty-ctrl{display:flex;align-items:center;gap:8px;}
+.qty-btn{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all .2s;}
+.qty-btn:hover{background:rgba(155,126,248,.2);}
+.qty-num{font-size:.88rem;font-weight:600;min-width:24px;text-align:center;}
+.ci-remove{background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:.85rem;padding:4px;transition:color .2s;}
+.ci-remove:hover{color:#f87171;}
+.ci-price{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;white-space:nowrap;}
+
+.cart-empty{text-align:center;padding:80px 24px;}
+.ce-icon{font-size:4rem;margin-bottom:20px;opacity:.4;}
+.ce-text{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:10px;color:var(--text-muted);}
+
+/* CHECKOUT */
+.checkout-card{padding:28px;position:sticky;top:100px;}
+.co-row{display:flex;justify-content:space-between;font-size:.88rem;margin-bottom:10px;}
+.co-row .cr-l{color:var(--text-muted);}
+.co-total{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-top:1px solid rgba(255,255,255,.1);margin:10px 0;}
+.co-total-label{font-size:.88rem;color:var(--text-muted);}
+.co-total-price{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;}
+
+.promo-input{display:flex;gap:8px;margin-bottom:20px;}
+.promo-input input{flex:1;}
+.promo-input button{padding:13px 18px;border-radius:var(--radius-sm);background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.15);color:#fff;cursor:pointer;font-size:.82rem;white-space:nowrap;transition:all .2s;}
+.promo-input button:hover{background:rgba(255,255,255,.16);}
+
+.trust-row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:14px;}
+.trust-item{padding:5px 10px;background:rgba(255,255,255,.05);border-radius:50px;font-size:.68rem;color:var(--text-dim);}
+
+@media(max-width:900px){
+  .cart-layout{grid-template-columns:1fr;padding-top:120px;}
+  .checkout-card{position:static;}
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+<div class="container">
+<div class="cart-layout">
+
+<!-- LEFT: ITEMS -->
+<div>
+  <div class="breadcrumb reveal"><a href="index.html">Accueil</a><span>/</span><span>Panier</span></div>
+  <h1 class="cart-title reveal">Mon Panier</h1>
+  <p class="cart-count reveal" id="cartCountText">0 article(s)</p>
+
+  <div id="cartItems"></div>
+  <div class="cart-empty" id="cartEmpty" style="display:none;">
+    <div class="ce-icon">🛒</div>
+    <div class="ce-text">Votre panier est vide</div>
+    <p style="font-size:.88rem;color:var(--text-muted);margin-bottom:28px;">Découvrez nos produits et commencez à créer !</p>
+    <a href="products.html" class="btn btn-primary">Explorer nos produits →</a>
+  </div>
+</div>
+
+<!-- RIGHT: CHECKOUT -->
+<div>
+  <div class="checkout-card glass reveal right">
+    <div style="font-size:1rem;font-weight:600;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.08);">Récapitulatif</div>
+    <div class="co-row"><span class="cr-l">Sous-total</span><span id="coSubtotal">0€</span></div>
+    <div class="co-row"><span class="cr-l">Livraison</span><span id="coShip" style="color:#4ade80;">Gratuite</span></div>
+    <div class="co-row"><span class="cr-l">Taxes (TVA 20%)</span><span id="coTax">0€</span></div>
+
+    <div class="promo-input" style="margin-top:16px;">
+      <input type="text" class="form-input" placeholder="Code promo" id="promoCode" style="padding:11px 16px;">
+      <button onclick="applyPromo()">Appliquer</button>
+    </div>
+
+    <div class="co-total">
+      <span class="co-total-label">Total TTC</span>
+      <span class="co-total-price" id="coTotal">0€</span>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button class="btn btn-primary" style="justify-content:center;font-size:1rem;" onclick="proceedCheckout()">Passer la commande →</button>
+      <a href="products.html" class="btn btn-secondary" style="justify-content:center;text-decoration:none;">← Continuer mes achats</a>
+    </div>
+
+    <div class="trust-row">
+      <span class="trust-item">🔒 Paiement sécurisé</span>
+      <span class="trust-item">↩️ Retour 30 jours</span>
+      <span class="trust-item">⚡ Livraison 48h</span>
+    </div>
+
+    <div style="margin-top:16px;padding:14px;background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.18);border-radius:12px;display:flex;gap:10px;align-items:center;">
+      <span>🌿</span>
+      <span style="font-size:.76rem;color:var(--text-muted);line-height:1.6;">Emballage éco-responsable biodégradable inclus</span>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+</div>
+
+<script src="shared.js"></script>
+<script>
+initShared('cart');
+
+const icons = {'Carte de Visite':'🪪','Invitation':'💌','Flyer':'🗞️','Sticker':'⭐','Autocollant':'🏷️'};
+const bgs = {'Carte de Visite':'linear-gradient(135deg,#1e0a4e,#7c3aed)','Invitation':'linear-gradient(135deg,#500724,#ec4899)','Flyer':'linear-gradient(135deg,#0c4a6e,#38bdf8)','Sticker':'linear-gradient(135deg,#052e16,#4ade80)','Autocollant':'linear-gradient(135deg,#451a03,#f59e0b)'};
+
+function getCart(){ return JSON.parse(localStorage.getItem('cart')||'[]'); }
+function saveCart(c){ localStorage.setItem('cart',JSON.stringify(c)); const cc=document.getElementById('cartCount'); if(cc) cc.textContent=c.length; }
+
+function getPrice(item){
+  const p={'50':14,'100':19,'250':38,'500':65,'1000':110};
+  return p[item.qty]||19;
+}
+
+function renderCart(){
+  const cart = getCart();
+  const container = document.getElementById('cartItems');
+  const empty = document.getElementById('cartEmpty');
+  document.getElementById('cartCountText').textContent = cart.length + ' article' + (cart.length!==1?'s':'');
+
+  if(cart.length===0){ container.innerHTML=''; empty.style.display='block'; updateTotals(0); return; }
+  empty.style.display='none';
+
+  container.innerHTML = cart.map((item,i)=>{
+    const price = getPrice(item);
+    const icon = icons[item.product]||'🖨️';
+    const bg = bgs[item.product]||'linear-gradient(135deg,#1e0a4e,#7c3aed)';
+    return `
+    <div class="cart-item glass reveal" id="ci-${i}">
+      <div class="ci-preview" style="background:${bg}">${icon}</div>
+      <div class="ci-details">
+        <div class="ci-name">${item.product||item.name}</div>
+        <div class="ci-opts">
+          Format: ${item.format||'Standard'} · Quantité: ${item.qty||'100'} pcs<br>
+          Finition: ${item.finish||item.fin||'Mat'} · Papier: ${item.paper||'Standard'}
+        </div>
+        <div class="ci-qty-ctrl">
+          <button class="qty-btn" onclick="changeQty(${i},-1)">−</button>
+          <span class="qty-num">1</span>
+          <button class="qty-btn" onclick="changeQty(${i},1)">+</button>
+          <button class="ci-remove" onclick="removeItem(${i})">🗑️ Supprimer</button>
+        </div>
+      </div>
+      <div class="ci-price">${price}€</div>
+    </div>`;
+  }).join('');
+
+  const total = cart.reduce((s,item)=>s+getPrice(item),0);
+  updateTotals(total);
+}
+
+function updateTotals(sub){
+  document.getElementById('coSubtotal').textContent = sub+'€';
+  const tax = Math.round(sub*0.2);
+  document.getElementById('coTax').textContent = tax+'€';
+  document.getElementById('coTotal').textContent = (sub+tax)+'€';
+  document.getElementById('coShip').textContent = sub>=50 ? 'Gratuite 🎉' : '6€';
+}
+
+function removeItem(i){
+  const cart=getCart(); cart.splice(i,1); saveCart(cart); renderCart();
+  showToast('Article supprimé du panier','🗑️');
+}
+
+function changeQty(i,delta){ showToast('Quantité mise à jour','✏️'); }
+
+function applyPromo(){
+  const code=document.getElementById('promoCode').value.toUpperCase();
+  if(code==='ARTISAN10'){showToast('Code ARTISAN10 appliqué ! -10%','🎉');}
+  else if(code==='BIENVENUE'){showToast('Code BIENVENUE appliqué ! -15%','🎉');}
+  else{showToast('Code promo invalide','❌');}
+}
+
+function proceedCheckout(){
+  const cart=getCart();
+  if(cart.length===0){showToast('Votre panier est vide','⚠️');return;}
+  showToast('Redirection vers le paiement sécurisé...','🔒');
+  setTimeout(()=>{alert('🎉 Merci pour votre commande !\n\nCeci est une démo — en production, vous seriez redirigé vers le paiement sécurisé Stripe.');},800);
+}
+
+renderCart();
+</script>
+</body>
+</html>
