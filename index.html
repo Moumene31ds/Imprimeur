@@ -1,385 +1,602 @@
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
 <head>
-  <!-- ── META ESSENTIELS ── -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>L'Artisan Imprimeur — Impression Premium Paris | Cartes de visite, Flyers, Stickers</title>
-  <meta name="description" content="Impression premium à Paris : cartes de visite, invitations, flyers, stickers et autocollants. Qualité artisanale, livraison 24–48h, devis gratuit. Dès 9€.">
-  <meta name="keywords" content="impression paris, carte de visite, flyer, sticker, autocollant, invitation, imprimerie, impression premium">
-  <meta name="author" content="L'Artisan Imprimeur">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://lartisan-imprimeur.fr/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#07050e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>L'Artisan Imprimeur — Impression Premium Algérie</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ── HERO ── */
+.hero {
+  min-height:100svh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:140px 24px 100px;
+}
+.hero-eyebrow { animation:fadeUp .8s .15s var(--transition) both; }
+.hero-title {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3rem,9vw,7.5rem);
+  line-height:.97;letter-spacing:-.035em;
+  margin-bottom:26px;
+  animation:fadeUp .9s .3s var(--transition) both;
+}
+[dir="rtl"] .hero-title {
+  font-family:'Cairo',serif;font-weight:800;
+  letter-spacing:-.01em;line-height:1.1;
+}
+.hero-title .l1 {
+  display:block;
+  background:linear-gradient(160deg,#ffffff 0%,#e0d9ff 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-title .l2 {
+  display:block;font-style:italic;
+  background:linear-gradient(130deg,#c4b5fd 0%,#f9a8d4 50%,#fbbf24 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+[dir="rtl"] .hero-title .l2 { font-style:normal; }
+.hero-sub {
+  font-size:1.1rem;color:var(--text-muted);max-width:500px;line-height:1.8;
+  margin-bottom:44px;
+  animation:fadeUp .9s .45s var(--transition) both;
+}
+.hero-ctas {
+  display:flex;gap:14px;flex-wrap:wrap;justify-content:center;
+  animation:fadeUp .9s .6s var(--transition) both;
+}
 
-  <!-- ── OPEN GRAPH ── -->
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="L'Artisan Imprimeur">
-  <meta property="og:title" content="L'Artisan Imprimeur — Impression Premium Paris">
-  <meta property="og:description" content="Impression premium : cartes de visite, invitations, flyers, stickers. Qualité artisanale, livraison 24–48h.">
-  <meta property="og:url" content="https://lartisan-imprimeur.fr/">
-  <meta property="og:image" content="https://lartisan-imprimeur.fr/images/og-home.jpg">
-  <meta property="og:locale" content="fr_FR">
+.stats-row {
+  display:flex;justify-content:center;flex-wrap:wrap;
+  margin-top:72px;
+  animation:fadeUp .9s .9s var(--transition) both;
+  width:100%;max-width:700px;
+}
+.stat-item {
+  padding:22px 32px;text-align:center;
+  border-right:1px solid rgba(255,255,255,.07);
+  flex:1;min-width:120px;
+}
+.stat-item:last-child{border-right:none;}
+.stat-num {
+  font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;
+  background:linear-gradient(135deg,#fff 0%,#c4b5fd 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.stat-lbl { font-size:.75rem;color:var(--text-muted);margin-top:3px;letter-spacing:.04em; }
 
-  <!-- ── TWITTER CARD ── -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@lartisanimprimeur">
-  <meta name="twitter:title" content="L'Artisan Imprimeur — Impression Premium Paris">
-  <meta name="twitter:description" content="Cartes de visite, flyers, stickers. Qualité artisanale, livraison 24–48h.">
-  <meta name="twitter:image" content="https://lartisan-imprimeur.fr/images/og-home.jpg">
+/* ── FLOATING CARDS ── */
+.cards-scene {
+  position:relative;width:100%;max-width:860px;height:260px;
+  margin-top:68px;
+  animation:fadeUp .9s .75s var(--transition) both;
+}
+.float-card {
+  position:absolute;padding:20px 24px;
+  animation:floatY ease-in-out infinite;
+}
+@keyframes floatY {
+  0%,100%{transform:translateY(0) rotate(var(--rot));}
+  50%{transform:translateY(-12px) rotate(var(--rot));}
+}
+.fc1{width:210px;left:3%;top:20%;--rot:-7deg;animation-duration:5.5s;}
+.fc2{width:230px;left:23%;top:2%;--rot:3deg;animation-duration:6.5s;animation-delay:-2s;}
+.fc3{width:175px;height:245px;right:20%;top:-12%;--rot:-5deg;animation-duration:7s;animation-delay:-1s;display:flex;flex-direction:column;}
+.fc4{width:140px;height:140px;right:3%;top:22%;--rot:11deg;animation-duration:5s;animation-delay:-3.5s;border-radius:50% !important;}
+.float-card .fc-lbl{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.45);margin-bottom:8px;}
+.float-card .fc-body{font-family:'Playfair Display',serif;font-size:1rem;color:#fff;line-height:1.4;}
+.float-card .fc-sub{font-size:.75rem;opacity:.55;margin-top:3px;}
+.fc-pattern{position:absolute;inset:0;border-radius:inherit;overflow:hidden;opacity:.14;}
+.pat1{background:repeating-linear-gradient(48deg,#9b7ef8 0,#9b7ef8 1px,transparent 1px,transparent 14px);}
+.pat2{background:radial-gradient(ellipse at 30% 70%,#f472b6,transparent 60%),radial-gradient(ellipse at 70% 30%,#9b7ef8,transparent 60%);}
+.pat3{background:repeating-linear-gradient(0deg,#38bdf8 0,#38bdf8 1px,transparent 1px,transparent 18px);}
+.pat4{background:conic-gradient(from 0deg,#fbbf24,#f472b6,#9b7ef8,#38bdf8,#fbbf24);}
 
-  <!-- ── FAVICON ── -->
-  <link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
-  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#07050e">
+/* ── PRODUCTS PREVIEW ── */
+.prod-preview {
+  display:grid;grid-template-columns:repeat(5,1fr);gap:12px;
+  margin-top:56px;
+}
+.pp-card {
+  padding:24px 16px;text-align:center;cursor:pointer;
+  transition:all .3s var(--transition);
+}
+.pp-card:hover{transform:translateY(-5px);}
+.pp-icon{font-size:2rem;margin-bottom:10px;}
+.pp-name{font-size:.82rem;font-weight:600;margin-bottom:4px;}
+.pp-from{font-size:.72rem;color:var(--text-muted);}
+.pp-card .pp-bar{
+  height:2px;border-radius:2px;margin-top:12px;
+  background:linear-gradient(to right,var(--c1),var(--c2));
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .3s;
+}
+.pp-card:hover .pp-bar{transform:scaleX(1);}
 
-  <!-- ── FONTS (preconnect first) ── -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+/* ── MARQUEE ── */
+.marquee-section { overflow:hidden;padding:36px 0;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06); }
+.marquee-track {
+  display:flex;gap:0;white-space:nowrap;
+  animation:marqueeScroll 22s linear infinite;
+}
+@keyframes marqueeScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.marquee-item {
+  padding:0 40px;font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1.1rem;color:rgba(255,255,255,.3);
+  border-right:1px solid rgba(255,255,255,.07);
+  flex-shrink:0;
+}
+.marquee-item span{color:rgba(155,126,248,.6);}
 
-  <!-- ── CSS ── -->
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/home.css">
+/* ── FEATURES ── */
+.features-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.features-sticky{position:sticky;top:120px;}
+.feature-cards-list{display:flex;flex-direction:column;gap:14px;}
+.feat-card{padding:26px;transition:all .3s;}
+.feat-card:hover{transform:translateX(4px);}
+[dir="rtl"] .feat-card:hover{transform:translateX(-4px);}
+.feat-card .feat-ico{
+  width:48px;height:48px;border-radius:14px;font-size:1.3rem;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:14px;
+  background:linear-gradient(135deg,rgba(155,126,248,.2),rgba(244,114,182,.12));
+  border:1px solid rgba(155,126,248,.25);
+}
+.feat-card h3{font-size:.98rem;font-weight:600;margin-bottom:7px;}
+.feat-card p{font-size:.84rem;color:var(--text-muted);line-height:1.65;}
 
-  <!-- ── STRUCTURED DATA ── -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "L'Artisan Imprimeur",
-    "url": "https://lartisan-imprimeur.fr",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://lartisan-imprimeur.fr/products.html?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
+/* ── PROCESS ── */
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:56px;}
+.proc-step{padding:30px 22px;text-align:center;position:relative;}
+.proc-num{
+  font-family:'Playfair Display',serif;font-size:3.8rem;font-style:italic;line-height:1;
+  background:linear-gradient(135deg,rgba(155,126,248,.35),rgba(244,114,182,.3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:14px;
+}
+.proc-step h3{font-size:.95rem;font-weight:600;margin-bottom:7px;}
+.proc-step p{font-size:.82rem;color:var(--text-muted);line-height:1.65;}
+
+/* ── TESTIMONIALS ── */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px;}
+.testi-card{padding:28px;}
+.testi-stars{color:#fbbf24;font-size:.85rem;letter-spacing:2px;margin-bottom:14px;}
+.testi-body{font-style:italic;font-size:.9rem;color:rgba(255,255,255,.78);line-height:1.72;margin-bottom:20px;}
+[dir="rtl"] .testi-body{font-style:normal;}
+.testi-author{display:flex;align-items:center;gap:12px;}
+.author-av{
+  width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+  background:linear-gradient(135deg,#9b7ef8,#f472b6);
+  flex-shrink:0;
+}
+.author-name{font-size:.86rem;font-weight:600;}
+.author-role{font-size:.74rem;color:var(--text-muted);}
+
+/* ── BRANDS ── */
+.brands-row{display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap;margin-top:40px;}
+.brand-pill{
+  padding:10px 22px;border-radius:50px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);
+  font-size:.82rem;color:rgba(255,255,255,.4);letter-spacing:.04em;
+  transition:all .2s;
+}
+.brand-pill:hover{background:rgba(255,255,255,.09);color:rgba(255,255,255,.7);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .features-layout{grid-template-columns:1fr;gap:40px;}
+  .features-sticky{position:static;}
+  .process-grid{grid-template-columns:repeat(2,1fr);}
+  .testi-grid{grid-template-columns:1fr;}
+  .prod-preview{grid-template-columns:repeat(3,1fr);}
+  .cards-scene{display:none;}
+  .stats-row{max-width:100%;}
+}
+@media(max-width:600px){
+  .hero{padding:120px 16px 80px;}
+  .prod-preview{grid-template-columns:repeat(2,1fr);}
+  .stat-item{padding:16px 16px;min-width:90px;}
+  .stat-num{font-size:1.8rem;}
+  .hero-ctas{flex-direction:column;align-items:center;width:100%;}
+  .hero-ctas .btn{width:100%;max-width:320px;justify-content:center;}
+  .process-grid{grid-template-columns:1fr 1fr;}
+  .testi-grid{
+    display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;gap:14px;
+    margin-left:-16px;margin-right:-16px;padding:0 16px 12px;
+    scrollbar-width:none;
   }
-  </script>
+  .testi-grid::-webkit-scrollbar{display:none;}
+  .testi-card{min-width:280px;scroll-snap-align:start;flex-shrink:0;}
+  .brands-row{gap:10px;}
+  .brand-pill{padding:8px 16px;font-size:.76rem;}
+}
+@media(max-width:400px){
+  .prod-preview{grid-template-columns:1fr 1fr;}
+  .pp-icon{font-size:1.6rem;}
+  .pp-name{font-size:.76rem;}
+}
+</style>
 </head>
 <body>
 <div class="page-wrap">
 
-<!-- ═══════════════════════════════════
-     HERO
-════════════════════════════════════ -->
-<main id="main-content">
-<section class="hero" aria-labelledby="hero-title">
+<!-- HERO -->
+<section class="hero">
+  <div class="badge badge-live hero-eyebrow" id="heroEyebrow" style="margin-bottom:28px;">
+    Livraison express 48h · Qualité Premium · Algérie
+  </div>
+  <h1 class="hero-title">
+    <span class="l1" id="heroL1">L'impression,</span>
+    <span class="l2" id="heroL2">réinventée.</span>
+  </h1>
+  <p class="hero-sub" id="heroSub">Cartes de visite, invitations, flyers, stickers &amp; autocollants. Chaque détail pensé pour laisser une impression inoubliable.</p>
+  <div class="hero-ctas">
+    <a href="products.html" class="btn btn-primary btn-lg" id="heroCta1">Explorer nos produits →</a>
+    <a href="gallery.html" class="btn btn-secondary btn-lg" id="heroCta2">Voir la galerie</a>
+  </div>
+
+  <div class="stats-row glass">
+    <div class="stat-item"><div class="stat-num">50K+</div><div class="stat-lbl" id="statClients">Clients satisfaits</div></div>
+    <div class="stat-item"><div class="stat-num">99%</div><div class="stat-lbl" id="statSatisf">Taux de satisfaction</div></div>
+    <div class="stat-item"><div class="stat-num">48h</div><div class="stat-lbl" id="statDeliv">Délai livraison</div></div>
+    <div class="stat-item"><div class="stat-num">12+</div><div class="stat-lbl" id="statYears">Années d'expertise</div></div>
+  </div>
+
+  <div class="cards-scene">
+    <div class="float-card glass fc1">
+      <div class="fc-pattern pat1"></div>
+      <div class="fc-lbl" id="fcLbl1">Carte de visite</div>
+      <div class="fc-body">Amine Belouizdad<div class="fc-sub">Directeur Créatif · Alger</div></div>
+    </div>
+    <div class="float-card glass fc2">
+      <div class="fc-pattern pat2"></div>
+      <div class="fc-lbl" id="fcLbl2">Invitation</div>
+      <div class="fc-body" style="font-style:italic">Soirée de Gala<div class="fc-sub">20 Juin 2025 · 20h00</div></div>
+    </div>
+    <div class="float-card glass fc3">
+      <div class="fc-pattern pat3"></div>
+      <div class="fc-lbl" id="fcLbl3">Flyer</div>
+      <div class="fc-body">Festival<br>d'Été 2025<div class="fc-sub">Open Air · Alger</div></div>
+    </div>
+    <div class="float-card glass fc4">
+      <div class="fc-pattern pat4"></div>
+      <div class="fc-lbl" id="fcLbl4" style="text-align:center;margin-top:20px;">Sticker</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section" style="position:relative;z-index:2;">
+  <div class="marquee-track">
+    <div class="marquee-item">Cartes de Visite <span>✦</span></div>
+    <div class="marquee-item">Invitations Premium <span>✦</span></div>
+    <div class="marquee-item">Flyers HD <span>✦</span></div>
+    <div class="marquee-item">Stickers Découpés <span>✦</span></div>
+    <div class="marquee-item">Autocollants Vinyle <span>✦</span></div>
+    <div class="marquee-item">Dorure à chaud <span>✦</span></div>
+    <div class="marquee-item">Vernis sélectif <span>✦</span></div>
+    <div class="marquee-item">Papier recyclé <span>✦</span></div>
+    <div class="marquee-item">Design sur mesure <span>✦</span></div>
+    <div class="marquee-item">Livraison 48h <span>✦</span></div>
+    <div class="marquee-item">Cartes de Visite <span>✦</span></div>
+    <div class="marquee-item">Invitations Premium <span>✦</span></div>
+    <div class="marquee-item">Flyers HD <span>✦</span></div>
+    <div class="marquee-item">Stickers Découpés <span>✦</span></div>
+    <div class="marquee-item">Autocollants Vinyle <span>✦</span></div>
+    <div class="marquee-item">Dorure à chaud <span>✦</span></div>
+    <div class="marquee-item">Vernis sélectif <span>✦</span></div>
+    <div class="marquee-item">Papier recyclé <span>✦</span></div>
+    <div class="marquee-item">Design sur mesure <span>✦</span></div>
+    <div class="marquee-item">Livraison 48h <span>✦</span></div>
+  </div>
+</div>
+
+<!-- PRODUCTS QUICK PREVIEW -->
+<section class="section">
   <div class="container">
-    <div class="hero-content">
+    <div class="reveal" style="text-align:center;margin-bottom:0;">
+      <span class="eyebrow" id="catEyebrow">Notre Catalogue</span>
+      <h2 class="display-title" id="catTitle">Tout ce dont vous<br><em>avez besoin</em></h2>
+    </div>
+    <div class="prod-preview">
+      <a href="products.html#cartes" class="pp-card glass reveal delay-1" style="text-decoration:none;color:inherit;">
+        <div class="pp-icon">🪪</div>
+        <div class="pp-name" id="pp1Name">Cartes de Visite</div>
+        <div class="pp-from" id="pp1Price">Dès 2.750 DA / 100 pièces</div>
+        <div class="pp-bar" style="--c1:#9b7ef8;--c2:#c4b5fd;"></div>
+      </a>
+      <a href="products.html#invitations" class="pp-card glass reveal delay-2" style="text-decoration:none;color:inherit;">
+        <div class="pp-icon">💌</div>
+        <div class="pp-name" id="pp2Name">Invitations</div>
+        <div class="pp-from" id="pp2Price">Dès 5.000 DA / 50 pièces</div>
+        <div class="pp-bar" style="--c1:#f472b6;--c2:#fda4af;"></div>
+      </a>
+      <a href="products.html#flyers" class="pp-card glass reveal delay-3" style="text-decoration:none;color:inherit;">
+        <div class="pp-icon">🗞️</div>
+        <div class="pp-name" id="pp3Name">Flyers</div>
+        <div class="pp-from" id="pp3Price">Dès 1.750 DA / 100 pièces</div>
+        <div class="pp-bar" style="--c1:#38bdf8;--c2:#7dd3fc;"></div>
+      </a>
+      <a href="products.html#stickers" class="pp-card glass reveal delay-4" style="text-decoration:none;color:inherit;">
+        <div class="pp-icon">⭐</div>
+        <div class="pp-name" id="pp4Name">Stickers</div>
+        <div class="pp-from" id="pp4Price">Dès 1.300 DA / 50 pièces</div>
+        <div class="pp-bar" style="--c1:#4ade80;--c2:#86efac;"></div>
+      </a>
+      <a href="products.html#autocollants" class="pp-card glass reveal delay-5" style="text-decoration:none;color:inherit;">
+        <div class="pp-icon">🏷️</div>
+        <div class="pp-name" id="pp5Name">Autocollants</div>
+        <div class="pp-from" id="pp5Price">Dès 2.000 DA / 50 pièces</div>
+        <div class="pp-bar" style="--c1:#fbbf24;--c2:#fde68a;"></div>
+      </a>
+    </div>
+    <div class="swipe-hint">← Glissez pour voir plus →</div>
+  </div>
+</section>
 
-      <div class="badge badge-live hero-badge reveal up" aria-label="Livraison disponible">
-        Livraison express 24–48h · Qualité Premium
+<!-- FEATURES -->
+<section class="section" style="background:rgba(155,126,248,.03);">
+  <div class="container">
+    <div class="features-layout">
+      <div class="features-sticky reveal left">
+        <span class="eyebrow" id="featEyebrow">Pourquoi nous choisir</span>
+        <h2 class="display-title" id="featTitle">L'artisanat au service<br><em>de votre image</em></h2>
+        <p class="body-lead" id="featLead" style="margin-bottom:32px;">Chaque commande est traitée avec une attention minutieuse aux détails. Parce que votre image mérite le meilleur.</p>
+        <a href="about.html" class="btn btn-secondary" id="featBtn">En savoir plus →</a>
       </div>
-
-      <h1 class="hero-title reveal up d1" id="hero-title">
-        <span class="line-1 text-white-grad">L'impression,</span>
-        <span class="line-2 text-grad">réinventée.</span>
-      </h1>
-
-      <p class="hero-sub body-lg reveal up d2">
-        Cartes de visite, invitations, flyers, stickers & autocollants. Chaque détail pensé pour laisser une impression inoubliable.
-      </p>
-
-      <div class="hero-ctas reveal up d3">
-        <a href="products.html" class="btn btn-primary btn-xl">
-          <span>Explorer nos produits</span>
-          <span aria-hidden="true">→</span>
-        </a>
-        <a href="gallery.html" class="btn btn-secondary btn-xl">
-          <span>Voir la galerie</span>
-        </a>
-      </div>
-
-      <!-- STATS ROW -->
-      <div class="stats-row glass reveal up d4" role="list" aria-label="Chiffres clés">
-        <div class="stat-item" role="listitem">
-          <div class="stat-num" aria-label="50 000 clients satisfaits">50K+</div>
-          <div class="stat-lbl">Clients satisfaits</div>
+      <div class="feature-cards-list">
+        <div class="feat-card glass reveal delay-1">
+          <div class="feat-ico">🎨</div>
+          <h3 id="feat1T">Design sur mesure</h3>
+          <p id="feat1P">Nos graphistes créent des visuels uniques adaptés à votre identité. Templates premium ou création from scratch.</p>
         </div>
-        <div class="stat-item" role="listitem">
-          <div class="stat-num" aria-label="99% de satisfaction">99%</div>
-          <div class="stat-lbl">Taux de satisfaction</div>
+        <div class="feat-card glass reveal delay-2">
+          <div class="feat-ico">🔬</div>
+          <h3 id="feat2T">Qualité Premium</h3>
+          <p id="feat2P">Papiers certifiés FSC, encres écologiques, finitions exclusives — vernis, dorure, gaufrage.</p>
         </div>
-        <div class="stat-item" role="listitem">
-          <div class="stat-num" aria-label="Livraison en 48 heures">48h</div>
-          <div class="stat-lbl">Délai de livraison</div>
+        <div class="feat-card glass reveal delay-3">
+          <div class="feat-ico">⚡</div>
+          <h3 id="feat3T">Livraison Express 48h</h3>
+          <p id="feat3P">Commandez avant 14h et recevez votre commande dès le lendemain. Suivi en temps réel inclus.</p>
         </div>
-        <div class="stat-item" role="listitem">
-          <div class="stat-num" aria-label="12 ans d'expérience">12+</div>
-          <div class="stat-lbl">Années d'expertise</div>
-        </div>
-      </div>
-
-      <!-- FLOATING CARDS -->
-      <div class="cards-scene reveal up d5" aria-hidden="true">
-        <div class="float-card fc-bc glass">
-          <div class="fc-pattern pat1"></div>
-          <div class="fc-label">Carte de visite</div>
-          <div class="fc-body">Jean Moreau<br><span class="fc-sub">Directeur Créatif · Paris</span></div>
-        </div>
-        <div class="float-card fc-inv glass">
-          <div class="fc-pattern pat2"></div>
-          <div class="fc-label">Invitation</div>
-          <div class="fc-body italic">Soirée de Gala<br><span class="fc-sub">15 Juin 2025 · 20h00</span></div>
-        </div>
-        <div class="float-card fc-fly glass">
-          <div class="fc-pattern pat3"></div>
-          <div class="fc-label">Flyer</div>
-          <div class="fc-body">Festival<br>d'Été 2025<span class="fc-sub" style="display:block">Open Air · Vincennes</span></div>
-        </div>
-        <div class="float-card fc-stk glass">
-          <div class="fc-pattern pat4"></div>
-          <div class="fc-label" style="text-align:center;margin-top:22px">Sticker</div>
+        <div class="feat-card glass reveal delay-4">
+          <div class="feat-ico">♻️</div>
+          <h3 id="feat4T">Éco-responsable</h3>
+          <p id="feat4P">Papiers recyclés et certifiés, encres végétales, emballages 100% biodégradables. Nous aimons la planète.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════
-     MARQUEE
-════════════════════════════════════ -->
-<div class="marquee-section" aria-hidden="true">
-  <div class="marquee-wrap">
-    <div class="marquee-track">
-      <span class="marquee-item">Cartes de Visite <em>✦</em></span>
-      <span class="marquee-item">Invitations Premium <em>✦</em></span>
-      <span class="marquee-item">Flyers HD <em>✦</em></span>
-      <span class="marquee-item">Stickers Découpés <em>✦</em></span>
-      <span class="marquee-item">Autocollants Vinyle <em>✦</em></span>
-      <span class="marquee-item">Dorure à chaud <em>✦</em></span>
-      <span class="marquee-item">Vernis sélectif <em>✦</em></span>
-      <span class="marquee-item">Papier recyclé FSC <em>✦</em></span>
-      <span class="marquee-item">Design sur mesure <em>✦</em></span>
-      <span class="marquee-item">Livraison 24h <em>✦</em></span>
-      <!-- Duplicate for seamless loop -->
-      <span class="marquee-item">Cartes de Visite <em>✦</em></span>
-      <span class="marquee-item">Invitations Premium <em>✦</em></span>
-      <span class="marquee-item">Flyers HD <em>✦</em></span>
-      <span class="marquee-item">Stickers Découpés <em>✦</em></span>
-      <span class="marquee-item">Autocollants Vinyle <em>✦</em></span>
-      <span class="marquee-item">Dorure à chaud <em>✦</em></span>
-      <span class="marquee-item">Vernis sélectif <em>✦</em></span>
-      <span class="marquee-item">Papier recyclé FSC <em>✦</em></span>
-      <span class="marquee-item">Design sur mesure <em>✦</em></span>
-      <span class="marquee-item">Livraison 24h <em>✦</em></span>
+<!-- PROCESS -->
+<section class="section">
+  <div class="container">
+    <div style="text-align:center;" class="reveal">
+      <span class="eyebrow" id="procEyebrow">Notre Processus</span>
+      <h2 class="display-title" id="procTitle">Simple, rapide, <em>parfait</em></h2>
+    </div>
+    <div class="process-grid">
+      <div class="proc-step glass reveal delay-1">
+        <div class="proc-num">01</div>
+        <h3 id="proc1T">Choisissez</h3>
+        <p id="proc1P">Sélectionnez votre produit, format, papier et quantité.</p>
+      </div>
+      <div class="proc-step glass reveal delay-2">
+        <div class="proc-num">02</div>
+        <h3 id="proc2T">Concevez</h3>
+        <p id="proc2P">Uploadez votre fichier ou laissez nos designers créer.</p>
+      </div>
+      <div class="proc-step glass reveal delay-3">
+        <div class="proc-num">03</div>
+        <h3 id="proc3T">Validez</h3>
+        <p id="proc3P">Prévisualisez et validez votre BAT numérique.</p>
+      </div>
+      <div class="proc-step glass reveal delay-4">
+        <div class="proc-num">04</div>
+        <h3 id="proc4T">Recevez</h3>
+        <p id="proc4P">Livraison à domicile sous 48h partout en Algérie.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" style="background:rgba(155,126,248,.03);">
+  <div class="container">
+    <div style="text-align:center;" class="reveal">
+      <span class="eyebrow" id="testiEyebrow">Témoignages</span>
+      <h2 class="display-title" id="testiTitle">Ce que disent <em>nos clients</em></h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card glass reveal delay-1">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-body">"Des cartes de visite d'une qualité exceptionnelle. Le papier est épais, la dorure impeccable. Mes clients sont toujours impressionnés."</p>
+        <div class="testi-author"><div class="author-av">👩</div><div><div class="author-name">Selma Haddad</div><div class="author-role">Architecte d'intérieur · Alger</div></div></div>
+      </div>
+      <div class="testi-card glass reveal delay-2">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-body">"Les flyers pour mon restaurant ont été livrés en 48h. Couleurs vibrantes, papier solide. Je commande ici pour tout maintenant."</p>
+        <div class="testi-author"><div class="author-av">👨</div><div><div class="author-name">Karim Benamara</div><div class="author-role">Restaurateur · Oran</div></div></div>
+      </div>
+      <div class="testi-card glass reveal delay-3">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-body">"Les stickers découpés pour nos produits sont parfaits. Service client réactif et délais toujours respectés. Bravo l'équipe !"</p>
+        <div class="testi-author"><div class="author-av">👩‍💼</div><div><div class="author-name">Amira Boukhetala</div><div class="author-role">Fondatrice de startup · Annaba</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUSTED BY -->
+<section class="section-sm" style="position:relative;z-index:2;">
+  <div class="container" style="text-align:center;">
+    <p id="trustedLabel" style="font-size:.78rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:20px;">Ils nous font confiance</p>
+    <div class="brands-row">
+      <div class="brand-pill">Djezzy</div>
+      <div class="brand-pill">Ooredoo</div>
+      <div class="brand-pill">BNA</div>
+      <div class="brand-pill">Cevital</div>
+      <div class="brand-pill">Condor</div>
+      <div class="brand-pill">Air Algérie</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band" style="position:relative;z-index:2;">
+  <div class="container">
+    <div class="cta-inner glass-strong reveal" style="max-width:680px;margin:0 auto;text-align:center;">
+      <div class="cta-glow"></div>
+      <h2 id="ctaTitle" style="position:relative;z-index:1;">Prêt à laisser une<br><em>impression durable?</em></h2>
+      <p class="body-lead" id="ctaLead" style="position:relative;z-index:1;max-width:520px;margin:0 auto 36px;">Rejoignez plus de 50 000 clients qui font confiance à L'Artisan Imprimeur pour leur communication visuelle.</p>
+      <a href="configurator.html" class="btn btn-primary btn-lg" id="ctaBtn" style="position:relative;z-index:1;">Commencer ma commande →</a>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════
-     CATALOGUE RAPIDE
-════════════════════════════════════ -->
-<section class="section" aria-labelledby="catalog-title">
-  <div class="container">
-    <div class="section-header">
-      <span class="eyebrow reveal up">Notre Catalogue</span>
-      <h2 class="display-md reveal up d1" id="catalog-title">
-        Tout ce dont vous<br><em>avez besoin</em>
-      </h2>
-    </div>
-    <div class="products-quick-grid" role="list">
-      <a href="products.html#cartes"       class="pq-card glass card-hover reveal up d1" role="listitem" aria-label="Cartes de visite, dès 19€ par 100 pièces">
-        <div class="pq-icon" aria-hidden="true">🪪</div>
-        <div class="pq-name">Cartes de Visite</div>
-        <div class="pq-from">Dès 19€ / 100 pcs</div>
-        <div class="pq-bar" style="--c1:#9b7ef8;--c2:#c4b5fd"></div>
-      </a>
-      <a href="products.html#invitations"  class="pq-card glass card-hover reveal up d2" role="listitem" aria-label="Invitations, dès 35€ par 50 pièces">
-        <div class="pq-icon" aria-hidden="true">💌</div>
-        <div class="pq-name">Invitations</div>
-        <div class="pq-from">Dès 35€ / 50 pcs</div>
-        <div class="pq-bar" style="--c1:#f472b6;--c2:#fda4af"></div>
-      </a>
-      <a href="products.html#flyers"       class="pq-card glass card-hover reveal up d3" role="listitem" aria-label="Flyers, dès 12€ par 100 pièces">
-        <div class="pq-icon" aria-hidden="true">🗞️</div>
-        <div class="pq-name">Flyers</div>
-        <div class="pq-from">Dès 12€ / 100 pcs</div>
-        <div class="pq-bar" style="--c1:#38bdf8;--c2:#7dd3fc"></div>
-      </a>
-      <a href="products.html#stickers"     class="pq-card glass card-hover reveal up d4" role="listitem" aria-label="Stickers, dès 9€ par 50 pièces">
-        <div class="pq-icon" aria-hidden="true">⭐</div>
-        <div class="pq-name">Stickers</div>
-        <div class="pq-from">Dès 9€ / 50 pcs</div>
-        <div class="pq-bar" style="--c1:#4ade80;--c2:#86efac"></div>
-      </a>
-      <a href="products.html#autocollants" class="pq-card glass card-hover reveal up d5" role="listitem" aria-label="Autocollants, dès 14€ par 50 pièces">
-        <div class="pq-icon" aria-hidden="true">🏷️</div>
-        <div class="pq-name">Autocollants</div>
-        <div class="pq-from">Dès 14€ / 50 pcs</div>
-        <div class="pq-bar" style="--c1:#fbbf24;--c2:#fde68a"></div>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════
-     FEATURES
-════════════════════════════════════ -->
-<section class="section features-section" aria-labelledby="features-title">
-  <div class="container">
-    <div class="features-layout">
-      <div class="features-left reveal left">
-        <span class="eyebrow">Pourquoi nous choisir</span>
-        <h2 class="display-md" id="features-title">L'artisanat au service<br><em>de votre image</em></h2>
-        <p class="body-md" style="margin-bottom:32px">Chaque commande est traitée avec une attention minutieuse aux détails. Parce que votre image mérite le meilleur.</p>
-        <a href="about.html" class="btn btn-secondary">En savoir plus →</a>
-      </div>
-      <div class="features-right">
-        <article class="feat-card glass card-hover reveal up d1">
-          <div class="feat-ico" aria-hidden="true">🎨</div>
-          <h3>Design sur mesure</h3>
-          <p class="body-sm">Nos graphistes créent des visuels uniques adaptés à votre identité. Templates premium ou création from scratch.</p>
-        </article>
-        <article class="feat-card glass card-hover reveal up d2">
-          <div class="feat-ico" aria-hidden="true">🔬</div>
-          <h3>Qualité Premium</h3>
-          <p class="body-sm">Papiers certifiés FSC, encres écologiques, finitions exclusives — vernis UV, dorure, gaufrage à chaud.</p>
-        </article>
-        <article class="feat-card glass card-hover reveal up d3">
-          <div class="feat-ico" aria-hidden="true">⚡</div>
-          <h3>Livraison Express 24h</h3>
-          <p class="body-sm">Commandez avant 14h et recevez votre commande dès le lendemain. Suivi en temps réel inclus.</p>
-        </article>
-        <article class="feat-card glass card-hover reveal up d4">
-          <div class="feat-ico" aria-hidden="true">♻️</div>
-          <h3>Éco-responsable</h3>
-          <p class="body-sm">Papiers recyclés FSC, encres végétales, emballages 100% biodégradables. Certification Imprim'Vert.</p>
-        </article>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════
-     PROCESS
-════════════════════════════════════ -->
-<section class="section process-section" aria-labelledby="process-title">
-  <div class="container">
-    <div class="section-header">
-      <span class="eyebrow reveal up">Notre Processus</span>
-      <h2 class="display-md reveal up d1" id="process-title">Simple, rapide, <em>parfait</em></h2>
-    </div>
-    <ol class="process-grid" aria-label="Étapes de commande">
-      <li class="proc-step glass reveal up d1">
-        <div class="proc-num" aria-hidden="true">01</div>
-        <h3>Choisissez</h3>
-        <p class="body-sm">Sélectionnez votre produit, format, papier et quantité parmi notre catalogue complet.</p>
-      </li>
-      <li class="proc-step glass reveal up d2">
-        <div class="proc-num" aria-hidden="true">02</div>
-        <h3>Concevez</h3>
-        <p class="body-sm">Uploadez votre fichier ou confiez la création à nos graphistes professionnels.</p>
-      </li>
-      <li class="proc-step glass reveal up d3">
-        <div class="proc-num" aria-hidden="true">03</div>
-        <h3>Validez</h3>
-        <p class="body-sm">Prévisualisez et validez votre BAT numérique en toute confiance avant impression.</p>
-      </li>
-      <li class="proc-step glass reveal up d4">
-        <div class="proc-num" aria-hidden="true">04</div>
-        <h3>Recevez</h3>
-        <p class="body-sm">Livraison à domicile sous 24–48h partout en France, emballage éco-responsable.</p>
-      </li>
-    </ol>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════
-     TESTIMONIALS
-════════════════════════════════════ -->
-<section class="section testi-section" aria-labelledby="testi-title">
-  <div class="container">
-    <div class="section-header">
-      <span class="eyebrow reveal up">Témoignages</span>
-      <h2 class="display-md reveal up d1" id="testi-title">Ce que disent <em>nos clients</em></h2>
-    </div>
-    <div class="testi-grid" role="list">
-      <article class="testi-card glass reveal up d1" role="listitem" itemscope itemtype="https://schema.org/Review">
-        <div class="testi-stars" aria-label="5 étoiles sur 5">★★★★★</div>
-        <blockquote class="testi-body" itemprop="reviewBody">"Des cartes de visite d'une qualité exceptionnelle. Le papier est épais, la dorure impeccable. Mes clients sont toujours impressionnés."</blockquote>
-        <div class="testi-author" itemprop="author" itemscope itemtype="https://schema.org/Person">
-          <div class="author-av" aria-hidden="true">👩</div>
-          <div>
-            <div class="author-name" itemprop="name">Sophie Leclerc</div>
-            <div class="author-role">Architecte d'intérieur</div>
-          </div>
-        </div>
-      </article>
-      <article class="testi-card glass reveal up d2" role="listitem" itemscope itemtype="https://schema.org/Review">
-        <div class="testi-stars" aria-label="5 étoiles sur 5">★★★★★</div>
-        <blockquote class="testi-body" itemprop="reviewBody">"Les flyers pour mon restaurant ont été livrés le lendemain. Couleurs vibrantes, papier solide. Je commande ici pour tout maintenant."</blockquote>
-        <div class="testi-author" itemprop="author" itemscope itemtype="https://schema.org/Person">
-          <div class="author-av" aria-hidden="true">👨</div>
-          <div>
-            <div class="author-name" itemprop="name">Marc Dupont</div>
-            <div class="author-role">Restaurateur</div>
-          </div>
-        </div>
-      </article>
-      <article class="testi-card glass reveal up d3" role="listitem" itemscope itemtype="https://schema.org/Review">
-        <div class="testi-stars" aria-label="5 étoiles sur 5">★★★★★</div>
-        <blockquote class="testi-body" itemprop="reviewBody">"Les stickers pour nos produits sont parfaits. Service client réactif, délais tenus. L'équipe dépasse toujours nos attentes !"</blockquote>
-        <div class="testi-author" itemprop="author" itemscope itemtype="https://schema.org/Person">
-          <div class="author-av" aria-hidden="true">👩‍💼</div>
-          <div>
-            <div class="author-name" itemprop="name">Camille Bernard</div>
-            <div class="author-role">Fondatrice de startup</div>
-          </div>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════
-     TRUSTED BY
-════════════════════════════════════ -->
-<section class="section-xs trusted-section" aria-label="Clients de référence">
-  <div class="container">
-    <p class="trusted-label reveal up">Ils nous font confiance</p>
-    <div class="brands-row reveal up d1">
-      <span class="brand-pill">Vogue Paris</span>
-      <span class="brand-pill">LVMH</span>
-      <span class="brand-pill">BNP Paribas</span>
-      <span class="brand-pill">Le Bon Marché</span>
-      <span class="brand-pill">Galeries Lafayette</span>
-      <span class="brand-pill">Air France</span>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════
-     CTA
-════════════════════════════════════ -->
-<section class="section cta-section" aria-labelledby="cta-title">
-  <div class="container">
-    <div class="cta-inner glass-strong reveal scale">
-      <div class="cta-glow" aria-hidden="true"></div>
-      <h2 class="display-md" id="cta-title">
-        Prêt à laisser une<br><em>impression durable ?</em>
-      </h2>
-      <p class="body-lg" style="margin-bottom:36px">
-        Rejoignez plus de 50 000 clients qui font confiance à L'Artisan Imprimeur pour leur communication visuelle.
-      </p>
-      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-        <a href="configurator.html" class="btn btn-primary btn-xl">Commencer ma commande →</a>
-        <a href="contact.html"      class="btn btn-secondary btn-xl">Demander un devis</a>
-      </div>
-    </div>
-  </div>
-</section>
-</main>
-
 </div><!-- /page-wrap -->
-
-<!-- ── SCRIPTS ── -->
-<script src="js/app.js"></script>
+<script src="shared.js"></script>
 <script>
-  initApp('index');
+initShared('index');
+
+// ── Apply translations based on current language ──
+const lang = localStorage.getItem('lang') || 'fr';
+
+const translations = {
+  fr: {
+    heroEyebrow: 'Livraison express 48h · Qualité Premium · Algérie',
+    heroL1: "L'impression,",
+    heroL2: 'réinventée.',
+    heroSub: 'Cartes de visite, invitations, flyers, stickers & autocollants. Chaque détail pensé pour laisser une impression inoubliable.',
+    heroCta1: 'Explorer nos produits →',
+    heroCta2: 'Voir la galerie',
+    statClients: 'Clients satisfaits',
+    statSatisf: 'Satisfaction',
+    statDeliv: 'Délai livraison',
+    statYears: "Années d'expertise",
+    catEyebrow: 'Notre Catalogue',
+    catTitle: 'Tout ce dont vous<br><em>avez besoin</em>',
+    pp1Name: 'Cartes de Visite', pp1Price: 'Dès 2.750 DA / 100 pcs',
+    pp2Name: 'Invitations',      pp2Price: 'Dès 5.000 DA / 50 pcs',
+    pp3Name: 'Flyers',           pp3Price: 'Dès 1.750 DA / 100 pcs',
+    pp4Name: 'Stickers',         pp4Price: 'Dès 1.300 DA / 50 pcs',
+    pp5Name: 'Autocollants',     pp5Price: 'Dès 2.000 DA / 50 pcs',
+    featEyebrow: 'Pourquoi nous choisir',
+    featTitle: "L'artisanat au service<br><em>de votre image</em>",
+    featLead: 'Chaque commande est traitée avec une attention minutieuse aux détails.',
+    featBtn: 'En savoir plus →',
+    feat1T: 'Design sur mesure', feat1P: 'Nos graphistes créent des visuels uniques adaptés à votre identité.',
+    feat2T: 'Qualité Premium',   feat2P: 'Papiers certifiés FSC, encres écologiques, finitions exclusives.',
+    feat3T: 'Livraison Express 48h', feat3P: 'Commandez avant 14h et recevez votre commande le lendemain.',
+    feat4T: 'Éco-responsable',   feat4P: 'Papiers recyclés, encres végétales, emballages biodégradables.',
+    procEyebrow: 'Notre Processus',
+    procTitle: 'Simple, rapide, <em>parfait</em>',
+    proc1T: 'Choisissez', proc1P: 'Sélectionnez votre produit, format, papier et quantité.',
+    proc2T: 'Concevez',   proc2P: 'Uploadez votre fichier ou laissez nos designers créer.',
+    proc3T: 'Validez',    proc3P: 'Prévisualisez et validez votre BAT numérique.',
+    proc4T: 'Recevez',    proc4P: 'Livraison à domicile sous 48h partout en Algérie.',
+    testiEyebrow: 'Témoignages',
+    testiTitle: 'Ce que disent <em>nos clients</em>',
+    trustedLabel: 'Ils nous font confiance',
+    ctaTitle: 'Prêt à laisser une<br><em>impression durable?</em>',
+    ctaLead: "Rejoignez plus de 50 000 clients qui font confiance à L'Artisan Imprimeur.",
+    ctaBtn: 'Commencer ma commande →',
+  },
+  ar: {
+    heroEyebrow: 'توصيل سريع 48 ساعة · جودة فائقة · الجزائر',
+    heroL1: 'الطباعة،',
+    heroL2: 'تُعاد ابتكارها.',
+    heroSub: 'بطاقات أعمال، دعوات، منشورات، ملصقات وفينيل. كل تفصيل مدروس ليترك انطباعاً لا يُنسى.',
+    heroCta1: '← استعرض منتجاتنا',
+    heroCta2: 'شاهد المعرض',
+    statClients: 'عميل راضٍ',
+    statSatisf: 'معدل الرضا',
+    statDeliv: 'توصيل خلال',
+    statYears: 'سنوات خبرة',
+    catEyebrow: 'كتالوج منتجاتنا',
+    catTitle: 'كل ما تحتاجه<br><em>في مكان واحد</em>',
+    pp1Name: 'بطاقات الأعمال', pp1Price: 'من 2,750 دج / 100 قطعة',
+    pp2Name: 'الدعوات',        pp2Price: 'من 5,000 دج / 50 قطعة',
+    pp3Name: 'المنشورات',      pp3Price: 'من 1,750 دج / 100 قطعة',
+    pp4Name: 'الملصقات',       pp4Price: 'من 1,300 دج / 50 قطعة',
+    pp5Name: 'لاصقات الفينيل', pp5Price: 'من 2,000 دج / 50 قطعة',
+    featEyebrow: 'لماذا تختارنا',
+    featTitle: 'الحرفية في خدمة<br><em>صورتك</em>',
+    featLead: 'كل طلب يُعالَج باهتمام دقيق بالتفاصيل. لأن صورتك تستحق الأفضل.',
+    featBtn: '← اعرف المزيد',
+    feat1T: 'تصميم مخصص',    feat1P: 'مصمموناسينشئون لك مرئيات فريدة تناسب هويتك التجارية.',
+    feat2T: 'جودة فائقة',     feat2P: 'أوراق معتمدة، أحبار بيئية، وتشطيبات حصرية.',
+    feat3T: 'توصيل سريع 48ساعة', feat3P: 'اطلب قبل الساعة الرابعة واستلم طلبك في اليوم التالي.',
+    feat4T: 'صديق للبيئة',   feat4P: 'أوراق معاد تدويرها، أحبار نباتية، تعبئة قابلة للتحلل.',
+    procEyebrow: 'طريقة العمل',
+    procTitle: 'بسيط، سريع، <em>مثالي</em>',
+    proc1T: 'اختر',      proc1P: 'اختر منتجك، الحجم، الورق والكمية.',
+    proc2T: 'صمم',        proc2P: 'ارفع ملفك أو اترك مصممينا يبدعون لك.',
+    proc3T: 'راجع',       proc3P: 'استعرض وراجع نموذجك الرقمي.',
+    proc4T: 'استلم',     proc4P: 'توصيل للمنزل خلال 48 ساعة في كل الجزائر.',
+    testiEyebrow: 'آراء العملاء',
+    testiTitle: 'ماذا يقول <em>عملاؤنا</em>',
+    trustedLabel: 'يثقون بنا',
+    ctaTitle: 'هل أنت مستعد لإحداث<br><em>انطباع دائم؟</em>',
+    ctaLead: 'انضم إلى أكثر من 50,000 عميل يثقون بالحرفي للطباعة.',
+    ctaBtn: '← ابدأ طلبك الآن',
+  },
+  en: {
+    heroEyebrow: 'Express 48h Delivery · Premium Quality · Algeria',
+    heroL1: 'Printing,',
+    heroL2: 'reimagined.',
+    heroSub: 'Business cards, invitations, flyers, stickers & vinyl labels. Every detail crafted to leave an unforgettable impression.',
+    heroCta1: 'Explore Products →',
+    heroCta2: 'View Gallery',
+    statClients: 'Happy Clients',
+    statSatisf: 'Satisfaction Rate',
+    statDeliv: 'Delivery Time',
+    statYears: 'Years of Expertise',
+    catEyebrow: 'Our Catalogue',
+    catTitle: 'Everything you<br><em>need</em>',
+    pp1Name: 'Business Cards', pp1Price: 'From 2,750 DA / 100 pcs',
+    pp2Name: 'Invitations',    pp2Price: 'From 5,000 DA / 50 pcs',
+    pp3Name: 'Flyers',         pp3Price: 'From 1,750 DA / 100 pcs',
+    pp4Name: 'Stickers',       pp4Price: 'From 1,300 DA / 50 pcs',
+    pp5Name: 'Vinyl Labels',   pp5Price: 'From 2,000 DA / 50 pcs',
+    featEyebrow: 'Why Choose Us',
+    featTitle: 'Craftsmanship at the service<br><em>of your image</em>',
+    featLead: 'Every order handled with meticulous attention to detail. Because your image deserves the best.',
+    featBtn: 'Learn More →',
+    feat1T: 'Custom Design',   feat1P: 'Our designers create unique visuals tailored to your identity.',
+    feat2T: 'Premium Quality', feat2P: 'FSC-certified papers, eco inks, exclusive finishes.',
+    feat3T: 'Express 48h Delivery', feat3P: 'Order before 2pm and receive your order the next day.',
+    feat4T: 'Eco-Friendly',    feat4P: 'Recycled papers, vegetable inks, 100% biodegradable packaging.',
+    procEyebrow: 'Our Process',
+    procTitle: 'Simple, fast, <em>perfect</em>',
+    proc1T: 'Choose',  proc1P: 'Select your product, format, paper and quantity.',
+    proc2T: 'Design',  proc2P: 'Upload your file or let our designers create.',
+    proc3T: 'Validate', proc3P: 'Preview and validate your digital proof.',
+    proc4T: 'Receive', proc4P: 'Home delivery within 48h anywhere in Algeria.',
+    testiEyebrow: 'Testimonials',
+    testiTitle: 'What <em>our clients</em> say',
+    trustedLabel: 'They trust us',
+    ctaTitle: 'Ready to make a<br><em>lasting impression?</em>',
+    ctaLead: "Join over 50,000 clients who trust L'Artisan Imprimeur.",
+    ctaBtn: 'Start My Order →',
+  }
+};
+
+const tx = translations[lang] || translations.fr;
+
+// Apply all translations
+Object.keys(tx).forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = tx[id];
+});
 </script>
 </body>
 </html>

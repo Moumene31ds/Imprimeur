@@ -1,51 +1,26 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" dir="ltr">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#07050e">
 <title>Galerie — L'Artisan Imprimeur</title>
-<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="shared.css">
 <style>
-.gallery-filter { display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:48px; }
-.gf-btn {
-  padding:9px 22px;border-radius:50px;font-size:.8rem;font-weight:500;cursor:pointer;
-  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
-  color:rgba(255,255,255,.65);transition:all .2s;font-family:'DM Sans',sans-serif;
-}
+.gallery-filter{display:flex;gap:8px;flex-wrap:nowrap;justify-content:center;margin-bottom:48px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px;}
+.gallery-filter::-webkit-scrollbar{display:none;}
+.gf-btn{padding:10px 20px;border-radius:50px;font-size:.8rem;font-weight:500;cursor:pointer;min-height:44px;white-space:nowrap;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.65);transition:all .2s;font-family:'DM Sans',sans-serif;}
 .gf-btn:hover,.gf-btn.active{background:rgba(155,126,248,.18);border-color:rgba(155,126,248,.4);color:#c4b5fd;}
-
-/* MASONRY GRID */
-.masonry {
-  columns:3;column-gap:16px;
-}
-.masonry-item {
-  break-inside:avoid;margin-bottom:16px;position:relative;
-  border-radius:20px;overflow:hidden;cursor:pointer;
-  transition:transform .3s var(--transition);
-}
+.masonry{columns:3;column-gap:16px;}
+.masonry-item{break-inside:avoid;margin-bottom:16px;position:relative;border-radius:20px;overflow:hidden;cursor:pointer;transition:transform .3s var(--transition);}
 .masonry-item:hover{transform:scale(1.02);}
 .masonry-item:hover .mi-overlay{opacity:1;}
-.mi-visual {
-  width:100%;display:block;
-  border-radius:20px;min-height:140px;
-  position:relative;
-}
-.mi-overlay {
-  position:absolute;inset:0;border-radius:20px;
-  background:linear-gradient(to top,rgba(7,5,14,.85) 0%,transparent 50%);
-  opacity:0;transition:opacity .3s;
-  display:flex;flex-direction:column;justify-content:flex-end;padding:20px;
-}
+.mi-visual{width:100%;display:block;border-radius:20px;min-height:140px;position:relative;}
+.mi-overlay{position:absolute;inset:0;border-radius:20px;background:linear-gradient(to top,rgba(7,5,14,.85) 0%,transparent 50%);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;}
 .mi-cat{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.5);margin-bottom:4px;}
 .mi-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;}
-.mi-btn{
-  margin-top:10px;padding:7px 16px;border-radius:50px;font-size:.75rem;font-weight:600;
-  background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);
-  color:#fff;cursor:pointer;backdrop-filter:blur(8px);
-  width:fit-content;transition:all .2s;
-}
+.mi-btn{margin-top:10px;padding:8px 16px;border-radius:50px;font-size:.75rem;font-weight:600;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);color:#fff;cursor:pointer;backdrop-filter:blur(8px);width:fit-content;transition:all .2s;min-height:36px;}
 .mi-btn:hover{background:rgba(255,255,255,.3);}
-
-/* Visual cards with CSS patterns */
 .v1{background:linear-gradient(145deg,#1e0a4e,#4a1d96,#7c3aed);height:220px;}
 .v2{background:linear-gradient(145deg,#500724,#9d174d,#ec4899);height:180px;}
 .v3{background:linear-gradient(145deg,#0c4a6e,#0369a1,#38bdf8);height:260px;}
@@ -58,44 +33,37 @@
 .v10{background:linear-gradient(145deg,#500724,#be185d,#f9a8d4);height:170px;}
 .v11{background:linear-gradient(145deg,#052e16,#15803d,#86efac);height:280px;}
 .v12{background:linear-gradient(145deg,#431407,#c2410c,#fb923c);height:200px;}
-
 .vi-pattern{position:absolute;inset:0;opacity:.15;}
 .vp1{background:repeating-linear-gradient(48deg,rgba(255,255,255,.8) 0,rgba(255,255,255,.8) 1px,transparent 1px,transparent 16px);}
 .vp2{background:radial-gradient(ellipse at 30% 30%,rgba(255,255,255,.6),transparent 45%),radial-gradient(ellipse at 70% 70%,rgba(255,255,255,.4),transparent 45%);}
 .vp3{background:repeating-radial-gradient(circle at 50% 50%,rgba(255,255,255,.3) 0px,rgba(255,255,255,.3) 1px,transparent 1px,transparent 22px);}
 .vp4{background:conic-gradient(from 30deg,transparent,rgba(255,255,255,.2) 60deg,transparent 120deg,rgba(255,255,255,.1) 180deg,transparent);}
 .vp5{background:repeating-linear-gradient(-45deg,rgba(255,255,255,.3) 0,rgba(255,255,255,.3) 1px,transparent 1px,transparent 12px);}
-
 .vi-content{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;padding:16px;}
 .vi-label{font-family:'Playfair Display',serif;font-size:1rem;text-align:center;font-style:italic;}
 .vi-sublabel{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;opacity:.55;}
-
-/* LIGHTBOX */
-.lightbox{
-  position:fixed;inset:0;z-index:3000;
-  background:rgba(7,5,14,.92);backdrop-filter:blur(20px);
-  display:flex;align-items:center;justify-content:center;padding:24px;
-  opacity:0;pointer-events:none;transition:opacity .3s;
-}
+.lightbox{position:fixed;inset:0;z-index:3000;background:rgba(7,5,14,.92);backdrop-filter:blur(20px);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
 .lightbox.open{opacity:1;pointer-events:all;}
-.lb-inner{
-  max-width:680px;width:100%;
-  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);
-  border-radius:28px;overflow:hidden;position:relative;
-  transform:scale(.95);transition:transform .3s var(--transition);
-}
-.lightbox.open .lb-inner{transform:scale(1);}
-.lb-visual{width:100%;height:340px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
-.lb-info{padding:28px;}
+.lb-inner{max-width:680px;width:100%;background:rgba(15,10,30,.97);border:1px solid rgba(255,255,255,.15);border-radius:var(--radius) var(--radius) 0 0;overflow:hidden;position:relative;transform:translateY(40px);transition:transform .3s var(--transition);}
+.lightbox.open .lb-inner{transform:translateY(0);}
+.lb-handle{width:40px;height:4px;border-radius:4px;background:rgba(255,255,255,.2);margin:12px auto 0;}
+.lb-visual{width:100%;height:280px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.lb-info{padding:24px 28px calc(24px + env(safe-area-inset-bottom));}
 .lb-cat{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:6px;}
-.lb-title{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:10px;}
+.lb-title{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:10px;}
 .lb-desc{font-size:.88rem;color:var(--text-muted);line-height:1.7;margin-bottom:20px;}
-.lb-actions{display:flex;gap:10px;}
+.lb-actions{display:flex;gap:10px;flex-wrap:wrap;}
+.lb-actions .btn{flex:1;justify-content:center;}
 .lb-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:1;transition:all .2s;}
 .lb-close:hover{background:rgba(255,255,255,.2);}
 
 @media(max-width:768px){.masonry{columns:2;}}
 @media(max-width:480px){.masonry{columns:1;}}
+@media(min-width:769px){
+  .lightbox{align-items:center;padding:24px;}
+  .lb-inner{border-radius:var(--radius);}
+  .lb-handle{display:none;}
+}
 </style>
 </head>
 <body>
@@ -103,93 +71,82 @@
 
 <section class="page-hero">
   <div class="container">
-    <div class="breadcrumb reveal"><a href="index.html">Accueil</a><span>/</span><span>Galerie</span></div>
-    <span class="eyebrow reveal">Portfolio</span>
-    <h1 class="display-title reveal">Nos <em class="grad">réalisations</em></h1>
-    <p class="body-lead reveal">Découvrez une sélection de créations réalisées pour nos clients. Chaque pièce, une histoire unique.</p>
+    <div class="breadcrumb reveal">
+      <a href="index.html" id="breadHome">Accueil</a><span>/</span><span id="breadGallery">Galerie</span>
+    </div>
+    <span class="eyebrow reveal" id="galleryEyebrow">Portfolio</span>
+    <h1 class="display-title reveal" id="galleryTitle">Nos <em class="grad">réalisations</em></h1>
+    <p class="body-lead reveal" id="galleryLead">Découvrez une sélection de créations réalisées pour nos clients. Chaque pièce, une histoire unique.</p>
   </div>
 </section>
 
 <section class="section" style="padding-top:0;">
   <div class="container">
-    <div class="gallery-filter reveal">
-      <button class="gf-btn active" data-cat="all">Tout</button>
-      <button class="gf-btn" data-cat="cartes">Cartes de visite</button>
-      <button class="gf-btn" data-cat="invitations">Invitations</button>
-      <button class="gf-btn" data-cat="flyers">Flyers</button>
-      <button class="gf-btn" data-cat="stickers">Stickers</button>
-      <button class="gf-btn" data-cat="autocollants">Autocollants</button>
+    <div class="gallery-filter reveal" id="galleryFilter">
+      <button class="gf-btn active" data-cat="all" id="gfAll">Tout</button>
+      <button class="gf-btn" data-cat="cartes" id="gfCartes">Cartes de visite</button>
+      <button class="gf-btn" data-cat="invitations" id="gfInv">Invitations</button>
+      <button class="gf-btn" data-cat="flyers" id="gfFlyers">Flyers</button>
+      <button class="gf-btn" data-cat="stickers" id="gfStick">Stickers</button>
+      <button class="gf-btn" data-cat="autocollants" id="gfAuto">Autocollants</button>
     </div>
 
     <div class="masonry" id="masonryGrid">
-
-      <div class="masonry-item reveal" data-cat="cartes" onclick="openLB('Carte Premium Dorée','cartes','Carte de visite haut de gamme sur papier coton 600g avec dorure à chaud. Réalisée pour une agence de luxe parisienne.','v1 vp1')">
-        <div class="mi-visual v1"><div class="vi-pattern vp1"></div><div class="vi-content"><div class="vi-label">Sophie Martin<br>Architecte</div><div class="vi-sublabel">Carte de Visite · Dorure</div></div></div>
-        <div class="mi-overlay"><div class="mi-cat">Cartes de visite</div><div class="mi-title">Carte Premium Dorée</div><button class="mi-btn">Voir →</button></div>
+      <div class="masonry-item reveal" data-cat="cartes" onclick="openLB(0)">
+        <div class="mi-visual v1"><div class="vi-pattern vp1"></div><div class="vi-content"><div class="vi-label">Amine Belouizdad<br>Architecte</div><div class="vi-sublabel">Carte de Visite · Dorure</div></div></div>
+        <div class="mi-overlay"><div class="mi-cat" id="miCat0">Cartes de visite</div><div class="mi-title" id="miTitle0">Carte Premium Dorée</div><button class="mi-btn" id="miBtn0">Voir →</button></div>
       </div>
-
-      <div class="masonry-item reveal delay-1" data-cat="invitations" onclick="openLB('Invitation Mariage Élégance','invitations','Invitation de mariage sur vergé ivoire 300g avec enveloppe assortie. Typographie calligraphiée et ruban de soie inclus.','v2 vp2')">
-        <div class="mi-visual v2"><div class="vi-pattern vp2"></div><div class="vi-content"><div class="vi-label" style="font-style:italic">Mariage<br>Emma & Thomas</div><div class="vi-sublabel">Invitation · Vergé</div></div></div>
-        <div class="mi-overlay"><div class="mi-cat">Invitations</div><div class="mi-title">Mariage Élégance</div><button class="mi-btn">Voir →</button></div>
+      <div class="masonry-item reveal delay-1" data-cat="invitations" onclick="openLB(1)">
+        <div class="mi-visual v2"><div class="vi-pattern vp2"></div><div class="vi-content"><div class="vi-label" style="font-style:italic">Mariage<br>Lina & Youcef</div><div class="vi-sublabel">Invitation · Vergé</div></div></div>
+        <div class="mi-overlay"><div class="mi-cat" id="miCat1">Invitations</div><div class="mi-title" id="miTitle1">Mariage Élégance</div><button class="mi-btn" id="miBtn1">Voir →</button></div>
       </div>
-
-      <div class="masonry-item reveal delay-2" data-cat="flyers" onclick="openLB('Flyer Festival Nuit','flyers','Flyer A5 recto-verso pour un festival de musique. Impression HD avec rendu chromé des teintes néon.','v3 vp3')">
+      <div class="masonry-item reveal delay-2" data-cat="flyers" onclick="openLB(2)">
         <div class="mi-visual v3"><div class="vi-pattern vp3"></div><div class="vi-content"><div class="vi-label">Festival<br>Nuit Blanche</div><div class="vi-sublabel">Flyer · A5 HD</div></div></div>
-        <div class="mi-overlay"><div class="mi-cat">Flyers</div><div class="mi-title">Festival Nuit Blanche</div><button class="mi-btn">Voir →</button></div>
+        <div class="mi-overlay"><div class="mi-cat" id="miCat2">Flyers</div><div class="mi-title" id="miTitle2">Festival Nuit Blanche</div><button class="mi-btn" id="miBtn2">Voir →</button></div>
       </div>
-
-      <div class="masonry-item reveal" data-cat="stickers" onclick="openLB('Stickers Holographiques','stickers','Pack de stickers holographiques découpés à la forme pour une marque cosmétique. Effet irisé très haut de gamme.','v4 vp4')">
+      <div class="masonry-item reveal" data-cat="stickers" onclick="openLB(3)">
         <div class="mi-visual v4"><div class="vi-pattern vp4"></div><div class="vi-content"><div class="vi-label">Aura Beauty<br>Collection</div><div class="vi-sublabel">Stickers · Holographique</div></div></div>
-        <div class="mi-overlay"><div class="mi-cat">Stickers</div><div class="mi-title">Stickers Holographiques</div><button class="mi-btn">Voir →</button></div>
+        <div class="mi-overlay"><div class="mi-cat" id="miCat3">Stickers</div><div class="mi-title" id="miTitle3">Stickers Holographiques</div><button class="mi-btn" id="miBtn3">Voir →</button></div>
       </div>
-
-      <div class="masonry-item reveal delay-1" data-cat="autocollants" onclick="openLB('Autocollants Véhicule','autocollants','Autocollants vinyle grand format pour flotte de véhicules. Résistants UV et intempéries, durée de vie 7 ans.','v5 vp5')">
-        <div class="mi-visual v5"><div class="vi-pattern vp5"></div><div class="vi-content"><div class="vi-label">Livraison<br>Express</div><div class="vi-sublabel">Autocollant · Vinyle</div></div></div>
-        <div class="mi-overlay"><div class="mi-cat">Autocollants</div><div class="mi-title">Autocollants Véhicule</div><button class="mi-btn">Voir →</button></div>
+      <div class="masonry-item reveal delay-1" data-cat="autocollants" onclick="openLB(4)">
+        <div class="mi-visual v5"><div class="vi-pattern vp5"></div><div class="vi-content"><div class="vi-label">Livraison<br>Express DZ</div><div class="vi-sublabel">Autocollant · Vinyle</div></div></div>
+        <div class="mi-overlay"><div class="mi-cat" id="miCat4">Autocollants</div><div class="mi-title" id="miTitle4">Autocollants Véhicule</div><button class="mi-btn" id="miBtn4">Voir →</button></div>
       </div>
-
-      <div class="masonry-item reveal delay-2" data-cat="cartes" onclick="openLB('Carte Minimaliste Gaufrage','cartes','Carte de visite en papier naturel avec gaufrage à sec. Design épuré pour un cabinet d\'avocat.','v6 vp1')">
-        <div class="mi-visual v6"><div class="vi-pattern vp1"></div><div class="vi-content"><div class="vi-label">Pierre Leroy<br>Avocat</div><div class="vi-sublabel">Carte de Visite · Gaufrage</div></div></div>
-        <div class="mi-overlay"><div class="mi-cat">Cartes de visite</div><div class="mi-title">Carte Gaufrage</div><button class="mi-btn">Voir →</button></div>
+      <div class="masonry-item reveal delay-2" data-cat="cartes" onclick="openLB(5)">
+        <div class="mi-visual v6"><div class="vi-pattern vp1"></div><div class="vi-content"><div class="vi-label">Karim Bensalem<br>Avocat</div><div class="vi-sublabel">Carte · Gaufrage</div></div></div>
+        <div class="mi-overlay"><div class="mi-cat" id="miCat5">Cartes de visite</div><div class="mi-title" id="miTitle5">Carte Gaufrage</div><button class="mi-btn" id="miBtn5">Voir →</button></div>
       </div>
-
-      <div class="masonry-item reveal" data-cat="invitations" onclick="openLB('Invitation Corporate Gala','invitations','Invitation de gala d\'entreprise format carré 150×150mm. Impression vernis sélectif sur fond sombre.','v7 vp2')">
+      <div class="masonry-item reveal" data-cat="invitations" onclick="openLB(6)">
         <div class="mi-visual v7"><div class="vi-pattern vp2"></div><div class="vi-content"><div class="vi-label" style="font-style:italic">Soirée Annuelle<br>Innovation Awards</div><div class="vi-sublabel">Invitation · Vernis sélectif</div></div></div>
-        <div class="mi-overlay"><div class="mi-cat">Invitations</div><div class="mi-title">Gala Corporate</div><button class="mi-btn">Voir →</button></div>
+        <div class="mi-overlay"><div class="mi-cat" id="miCat6">Invitations</div><div class="mi-title" id="miTitle6">Gala Corporate</div><button class="mi-btn" id="miBtn6">Voir →</button></div>
       </div>
-
-      <div class="masonry-item reveal delay-1" data-cat="flyers" onclick="openLB('Menu Restaurant','flyers','Menu de restaurant gastronomique format A4 plastifié mat. Photographe et mise en page inclus.','v8 vp3')">
-        <div class="mi-visual v8"><div class="vi-pattern vp3"></div><div class="vi-content"><div class="vi-label">Le Petit Zinc<br>Menu Dégustation</div><div class="vi-sublabel">Flyer · A4 Premium</div></div></div>
-        <div class="mi-overlay"><div class="mi-cat">Flyers</div><div class="mi-title">Menu Gastronomique</div><button class="mi-btn">Voir →</button></div>
+      <div class="masonry-item reveal delay-1" data-cat="flyers" onclick="openLB(7)">
+        <div class="mi-visual v8"><div class="vi-pattern vp3"></div><div class="vi-content"><div class="vi-label">Restaurant<br>Al Bahdja</div><div class="vi-sublabel">Flyer · A4 Premium</div></div></div>
+        <div class="mi-overlay"><div class="mi-cat" id="miCat7">Flyers</div><div class="mi-title" id="miTitle7">Menu Gastronomique</div><button class="mi-btn" id="miBtn7">Voir →</button></div>
       </div>
-
-      <div class="masonry-item reveal delay-2" data-cat="stickers" onclick="openLB('Stickers Emballage','stickers','Stickers ronds découpés pour gamme de confitures artisanales. Papier kraft, encres végétales.','v9 vp4')">
-        <div class="mi-visual v9"><div class="vi-pattern vp4"></div><div class="vi-content"><div class="vi-label">La Ferme<br>de Mathilde</div><div class="vi-sublabel">Stickers · Papier Kraft</div></div></div>
-        <div class="mi-overlay"><div class="mi-cat">Stickers</div><div class="mi-title">Stickers Artisanaux</div><button class="mi-btn">Voir →</button></div>
+      <div class="masonry-item reveal delay-2" data-cat="stickers" onclick="openLB(8)">
+        <div class="mi-visual v9"><div class="vi-pattern vp4"></div><div class="vi-content"><div class="vi-label">La Ferme<br>de Djemila</div><div class="vi-sublabel">Stickers · Papier Kraft</div></div></div>
+        <div class="mi-overlay"><div class="mi-cat" id="miCat8">Stickers</div><div class="mi-title" id="miTitle8">Stickers Artisanaux</div><button class="mi-btn" id="miBtn8">Voir →</button></div>
       </div>
-
-      <div class="masonry-item reveal" data-cat="cartes" onclick="openLB('Carte Double Face Soft-touch','cartes','Carte de visite plastification soft-touch recto-verso. Effet velours très apprécié dans le secteur du luxe.','v10 vp5')">
-        <div class="mi-visual v10"><div class="vi-pattern vp5"></div><div class="vi-content"><div class="vi-label">Claire Dubois<br>Designer Mode</div><div class="vi-sublabel">Carte · Soft-touch</div></div></div>
-        <div class="mi-overlay"><div class="mi-cat">Cartes de visite</div><div class="mi-title">Soft-touch Luxe</div><button class="mi-btn">Voir →</button></div>
+      <div class="masonry-item reveal" data-cat="cartes" onclick="openLB(9)">
+        <div class="mi-visual v10"><div class="vi-pattern vp5"></div><div class="vi-content"><div class="vi-label">Selma Haddad<br>Designer Mode</div><div class="vi-sublabel">Carte · Soft-touch</div></div></div>
+        <div class="mi-overlay"><div class="mi-cat" id="miCat9">Cartes de visite</div><div class="mi-title" id="miTitle9">Soft-touch Luxe</div><button class="mi-btn" id="miBtn9">Voir →</button></div>
       </div>
-
-      <div class="masonry-item reveal delay-1" data-cat="autocollants" onclick="openLB('Autocollants Vitrine','autocollants','Décoration de vitrine pour boutique de mode. Film vinyle repositionnable, sans colle résiduelle.','v11 vp2')">
+      <div class="masonry-item reveal delay-1" data-cat="autocollants" onclick="openLB(10)">
         <div class="mi-visual v11"><div class="vi-pattern vp2"></div><div class="vi-content"><div class="vi-label">Collection<br>Automne 2025</div><div class="vi-sublabel">Autocollant · Vitrine</div></div></div>
-        <div class="mi-overlay"><div class="mi-cat">Autocollants</div><div class="mi-title">Décoration Vitrine</div><button class="mi-btn">Voir →</button></div>
+        <div class="mi-overlay"><div class="mi-cat" id="miCat10">Autocollants</div><div class="mi-title" id="miTitle10">Décoration Vitrine</div><button class="mi-btn" id="miBtn10">Voir →</button></div>
       </div>
-
-      <div class="masonry-item reveal delay-2" data-cat="flyers" onclick="openLB('Flyer Promotionnel','flyers','Flyer promotionnel A5 pour chaîne de restaurants. Impression 4 couleurs, fond perdu, livraison 24h.','v12 vp1')">
-        <div class="mi-visual v12"><div class="vi-pattern vp1"></div><div class="vi-content"><div class="vi-label">Promo<br>-30% ce week-end</div><div class="vi-sublabel">Flyer · Express 24h</div></div></div>
-        <div class="mi-overlay"><div class="mi-cat">Flyers</div><div class="mi-title">Flyer Promotionnel</div><button class="mi-btn">Voir →</button></div>
+      <div class="masonry-item reveal delay-2" data-cat="flyers" onclick="openLB(11)">
+        <div class="mi-visual v12"><div class="vi-pattern vp1"></div><div class="vi-content"><div class="vi-label">Promo<br>-30% ce week-end</div><div class="vi-sublabel">Flyer · Express 48h</div></div></div>
+        <div class="mi-overlay"><div class="mi-cat" id="miCat11">Flyers</div><div class="mi-title" id="miTitle11">Flyer Promotionnel</div><button class="mi-btn" id="miBtn11">Voir →</button></div>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLB(event)">
-  <div class="lb-inner glass">
+<div class="lightbox" id="lightbox" onclick="handleLBClick(event)">
+  <div class="lb-inner">
+    <div class="lb-handle"></div>
     <button class="lb-close" onclick="closeLB()">✕</button>
     <div class="lb-visual" id="lbVisual"><div class="vi-pattern" id="lbPattern"></div></div>
     <div class="lb-info">
@@ -197,44 +154,115 @@
       <h2 class="lb-title" id="lbTitle">Titre</h2>
       <p class="lb-desc" id="lbDesc">Description</p>
       <div class="lb-actions">
-        <a href="configurator.html" class="btn btn-primary">Commander similaire →</a>
-        <a href="products.html" class="btn btn-secondary">Voir les produits</a>
+        <a href="configurator.html" class="btn btn-primary" id="lbBtnOrder">Commander similaire →</a>
+        <a href="products.html" class="btn btn-secondary" id="lbBtnProds">Voir les produits</a>
       </div>
     </div>
   </div>
 </div>
 
-<script src="js/app.js"></script>
+<script src="shared.js"></script>
 <script>
-initApp('gallery');
+initShared('gallery');
+const lang = localStorage.getItem('lang') || 'fr';
+
+const items = {
+  fr: [
+    {title:'Carte Premium Dorée',cat:'Cartes de visite',desc:"Carte de visite haut de gamme sur papier coton 600g avec dorure à chaud. Réalisée pour un cabinet d'architecture à Alger.",cls:'v1 vp1'},
+    {title:'Mariage Élégance',cat:'Invitations',desc:'Invitation de mariage sur vergé ivoire 300g avec enveloppe assortie. Typographie calligraphiée et personnalisation complète.',cls:'v2 vp2'},
+    {title:'Festival Nuit Blanche',cat:'Flyers',desc:'Flyer A5 recto-verso pour un festival de musique. Impression HD avec rendu chromé des teintes néon.',cls:'v3 vp3'},
+    {title:'Stickers Holographiques',cat:'Stickers',desc:'Pack de stickers holographiques découpés à la forme pour une marque cosmétique algérienne.',cls:'v4 vp4'},
+    {title:'Autocollants Véhicule',cat:'Autocollants',desc:'Autocollants vinyle pour flotte de véhicules de livraison. Résistants UV et intempéries, durée de vie 7 ans.',cls:'v5 vp5'},
+    {title:'Carte Gaufrage',cat:'Cartes de visite',desc:"Carte de visite en papier naturel avec gaufrage à sec. Design épuré pour un cabinet d'avocat.",cls:'v6 vp1'},
+    {title:'Gala Corporate',cat:'Invitations',desc:"Invitation de gala d'entreprise format carré 150×150mm. Impression vernis sélectif sur fond sombre.",cls:'v7 vp2'},
+    {title:'Menu Gastronomique',cat:'Flyers',desc:'Menu de restaurant format A4 plastifié mat. Design élégant pour restaurant algérien haut de gamme.',cls:'v8 vp3'},
+    {title:'Stickers Artisanaux',cat:'Stickers',desc:'Stickers ronds découpés pour gamme de produits artisanaux. Papier kraft, encres végétales.',cls:'v9 vp4'},
+    {title:'Soft-touch Luxe',cat:'Cartes de visite',desc:'Carte de visite plastification soft-touch recto-verso. Effet velours très apprécié dans le secteur du luxe.',cls:'v10 vp5'},
+    {title:'Décoration Vitrine',cat:'Autocollants',desc:'Décoration de vitrine pour boutique de mode. Film vinyle repositionnable.',cls:'v11 vp2'},
+    {title:'Flyer Promotionnel',cat:'Flyers',desc:'Flyer promotionnel A5. Impression 4 couleurs, livraison 48h en Algérie.',cls:'v12 vp1'},
+  ],
+  ar: [
+    {title:'بطاقة ذهبية فاخرة',cat:'بطاقات الأعمال',desc:'بطاقة أعمال فاخرة على ورق قطني 600 جم مع ذهبية حرارية. أُنجزت لمكتب هندسة معمارية بالجزائر العاصمة.',cls:'v1 vp1'},
+    {title:'دعوة زفاف أنيقة',cat:'الدعوات',desc:'دعوة زفاف على ورق مضلع عاجي 300 جم مع مظروف مطابق. خط كاليغرافي وتخصيص كامل.',cls:'v2 vp2'},
+    {title:'مهرجان ليلة بيضاء',cat:'المنشورات',desc:'منشور A5 وجهين لمهرجان موسيقي. طباعة HD بتأثيرات لونية نيون.',cls:'v3 vp3'},
+    {title:'ملصقات هولوغرافية',cat:'الملصقات',desc:'حزمة ملصقات هولوغرافية مقطعة على الشكل لعلامة تجميلية جزائرية.',cls:'v4 vp4'},
+    {title:'لاصقات مركبات',cat:'لاصقات الفينيل',desc:'لاصقات فينيل لأسطول مركبات توصيل. مقاومة للأشعة فوق البنفسجية والطقس، عمر 7 سنوات.',cls:'v5 vp5'},
+    {title:'بطاقة منقوشة',cat:'بطاقات الأعمال',desc:'بطاقة أعمال على ورق طبيعي مع نقش بارد. تصميم نظيف لمكتب محاماة.',cls:'v6 vp1'},
+    {title:'دعوة حفل رسمي',cat:'الدعوات',desc:'دعوة حفل شركة مقاس مربع 150×150 ملم. طباعة بطلاء انتقائي على خلفية داكنة.',cls:'v7 vp2'},
+    {title:'قائمة مطعم فاخر',cat:'المنشورات',desc:'قائمة مطعم مقاس A4 بطلاء مطفي. تصميم أنيق لمطعم جزائري راقٍ.',cls:'v8 vp3'},
+    {title:'ملصقات حرفية',cat:'الملصقات',desc:'ملصقات دائرية مقطعة لمنتجات حرفية. ورق كرافت وأحبار نباتية.',cls:'v9 vp4'},
+    {title:'بطاقة ناعمة فاخرة',cat:'بطاقات الأعمال',desc:'بطاقة أعمال بطلاء ناعم وجهين. تأثير مخملي راقٍ في قطاع الفخامة.',cls:'v10 vp5'},
+    {title:'ديكور واجهة',cat:'لاصقات الفينيل',desc:'ديكور واجهة لمحل أزياء. فينيل قابل لإعادة التموضع دون أثر.',cls:'v11 vp2'},
+    {title:'منشور ترويجي',cat:'المنشورات',desc:'منشور ترويجي A5. طباعة 4 ألوان، توصيل 48 ساعة في الجزائر.',cls:'v12 vp1'},
+  ],
+  en: [
+    {title:'Gold Premium Card',cat:'Business Cards',desc:'High-end business card on 600g cotton paper with hot gold foil. Created for an architecture firm in Algiers.',cls:'v1 vp1'},
+    {title:'Wedding Elegance',cat:'Invitations',desc:'Wedding invitation on ivory 300g laid paper with matching envelope. Calligraphic typography and full customization.',cls:'v2 vp2'},
+    {title:'White Night Festival',cat:'Flyers',desc:'A5 double-sided flyer for a music festival. HD printing with neon tone chrome effect.',cls:'v3 vp3'},
+    {title:'Holographic Stickers',cat:'Stickers',desc:'Die-cut holographic stickers for an Algerian cosmetics brand. Iridescent premium effect.',cls:'v4 vp4'},
+    {title:'Vehicle Labels',cat:'Vinyl Labels',desc:'Vinyl labels for delivery vehicle fleet. UV and weather resistant, 7-year lifespan.',cls:'v5 vp5'},
+    {title:'Embossed Card',cat:'Business Cards',desc:'Business card on natural paper with dry embossing. Clean design for a law firm.',cls:'v6 vp1'},
+    {title:'Corporate Gala',cat:'Invitations',desc:'Corporate gala invitation 150×150mm square format. Selective varnish printing on dark background.',cls:'v7 vp2'},
+    {title:'Gourmet Menu',cat:'Flyers',desc:'Restaurant menu A4 with matte lamination. Elegant design for an upscale Algerian restaurant.',cls:'v8 vp3'},
+    {title:'Artisan Stickers',cat:'Stickers',desc:'Round die-cut stickers for artisan products. Kraft paper, vegetable inks.',cls:'v9 vp4'},
+    {title:'Soft-touch Luxury',cat:'Business Cards',desc:'Double-sided soft-touch laminated business card. Velvety luxury feel.',cls:'v10 vp5'},
+    {title:'Storefront Decor',cat:'Vinyl Labels',desc:'Storefront decoration for fashion boutique. Repositionable vinyl film.',cls:'v11 vp2'},
+    {title:'Promotional Flyer',cat:'Flyers',desc:'A5 promotional flyer. 4-color printing, 48h delivery in Algeria.',cls:'v12 vp1'},
+  ]
+};
+
+const tx = {
+  fr:{breadHome:'Accueil',breadGallery:'Galerie',galleryEyebrow:'Portfolio',galleryTitle:'Nos <em class="grad">réalisations</em>',galleryLead:'Découvrez une sélection de créations réalisées pour nos clients. Chaque pièce, une histoire unique.',gfAll:'Tout',gfCartes:'Cartes de visite',gfInv:'Invitations',gfFlyers:'Flyers',gfStick:'Stickers',gfAuto:'Autocollants',lbBtnOrder:'Commander similaire →',lbBtnProds:'Voir les produits',miView:'Voir →'},
+  ar:{breadHome:'الرئيسية',breadGallery:'المعرض',galleryEyebrow:'أعمالنا',galleryTitle:'<em class="grad">إبداعاتنا</em>',galleryLead:'اكتشف مجموعة مختارة من إبداعاتنا لعملائنا. كل قطعة، قصة فريدة.',gfAll:'الكل',gfCartes:'بطاقات الأعمال',gfInv:'الدعوات',gfFlyers:'المنشورات',gfStick:'الملصقات',gfAuto:'لاصقات الفينيل',lbBtnOrder:'← اطلب مماثلاً',lbBtnProds:'شاهد المنتجات',miView:'عرض →'},
+  en:{breadHome:'Home',breadGallery:'Gallery',galleryEyebrow:'Portfolio',galleryTitle:'Our <em class="grad">Work</em>',galleryLead:'Discover a selection of creations made for our clients. Each piece, a unique story.',gfAll:'All',gfCartes:'Business Cards',gfInv:'Invitations',gfFlyers:'Flyers',gfStick:'Stickers',gfAuto:'Vinyl Labels',lbBtnOrder:'Order Similar →',lbBtnProds:'View Products',miView:'View →'},
+};
+
+const t = tx[lang]||tx.fr;
+const setEl=(id,h)=>{const e=document.getElementById(id);if(e)e.innerHTML=h;};
+Object.keys(t).forEach(k=>setEl(k,t[k]));
+
+// Update item overlays
+const langItems = items[lang]||items.fr;
+langItems.forEach((item,i)=>{
+  setEl('miCat'+i, item.cat);
+  setEl('miTitle'+i, item.title);
+  setEl('miBtn'+i, t.miView);
+});
 
 // Filter
-document.querySelectorAll('.gf-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.gf-btn').forEach(b => b.classList.remove('active'));
+document.querySelectorAll('.gf-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.gf-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
-    const cat = btn.dataset.cat;
-    document.querySelectorAll('.masonry-item').forEach(item => {
-      item.style.display = (cat === 'all' || item.dataset.cat === cat) ? '' : 'none';
+    const cat=btn.dataset.cat;
+    document.querySelectorAll('.masonry-item').forEach(item=>{
+      item.style.display=(cat==='all'||item.dataset.cat===cat)?'':'none';
     });
   });
 });
 
 // Lightbox
-function openLB(title, cat, desc, classes) {
-  document.getElementById('lbTitle').textContent = title;
-  document.getElementById('lbCat').textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
-  document.getElementById('lbDesc').textContent = desc;
-  const vis = document.getElementById('lbVisual');
-  vis.className = 'lb-visual ' + classes;
+function openLB(idx){
+  const item=langItems[idx];
+  if(!item)return;
+  setEl('lbCat',item.cat);
+  setEl('lbTitle',item.title);
+  setEl('lbDesc',item.desc);
+  const vis=document.getElementById('lbVisual');
+  vis.className='lb-visual '+item.cls;
   document.getElementById('lightbox').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow='hidden';
 }
-function closeLB(e) {
-  if(e && e.target !== document.getElementById('lightbox')) return;
+function closeLB(){
   document.getElementById('lightbox').classList.remove('open');
-  document.body.style.overflow = '';
+  document.body.style.overflow='';
 }
+function handleLBClick(e){if(e.target===document.getElementById('lightbox'))closeLB();}
+
+// Swipe down to close
+let lbStartY=0;
+document.querySelector('.lb-inner').addEventListener('touchstart',e=>{lbStartY=e.touches[0].clientY;},{passive:true});
+document.querySelector('.lb-inner').addEventListener('touchmove',e=>{if(e.touches[0].clientY-lbStartY>100)closeLB();},{passive:true});
 </script>
 </body>
 </html>

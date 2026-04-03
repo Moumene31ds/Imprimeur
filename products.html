@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" dir="ltr">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#07050e">
 <title>Produits — L'Artisan Imprimeur</title>
-<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="shared.css">
 <style>
 /* ── FILTER BAR ── */
 .filter-bar {
@@ -11,32 +13,33 @@
   margin-bottom:44px;
 }
 .filter-btn {
-  padding:9px 20px;border-radius:50px;font-size:.8rem;font-weight:500;
+  padding:10px 20px;border-radius:50px;font-size:.8rem;font-weight:500;
   background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
   color:rgba(255,255,255,.65);cursor:pointer;transition:all .2s;
   font-family:'DM Sans',sans-serif;
+  min-height:44px;
 }
 .filter-btn:hover,.filter-btn.active {
   background:rgba(155,126,248,.18);border-color:rgba(155,126,248,.4);color:#c4b5fd;
 }
 .filter-search {
-  margin-left:auto;padding:9px 18px;
+  padding:10px 18px;
   border-radius:50px;background:rgba(255,255,255,.07);
   border:1px solid rgba(255,255,255,.12);color:#fff;font-size:.8rem;
   font-family:'DM Sans',sans-serif;outline:none;
-  transition:all .2s;width:200px;
+  transition:all .2s;width:200px;min-height:44px;
 }
 .filter-search:focus{border-color:rgba(155,126,248,.4);background:rgba(155,126,248,.08);width:240px;}
 .filter-search::placeholder{color:var(--text-dim);}
 
 /* ── PRODUCT GRID ── */
 .products-grid-main {
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:22px;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;
 }
 .prod-card {
   overflow:hidden;cursor:pointer;
   transition:transform .35s var(--transition),box-shadow .35s;
-  min-height:380px;display:flex;flex-direction:column;justify-content:flex-end;
+  min-height:360px;display:flex;flex-direction:column;justify-content:flex-end;
   padding:32px;position:relative;
 }
 .prod-card:hover{transform:translateY(-7px);box-shadow:0 28px 64px rgba(0,0,0,.35);}
@@ -50,12 +53,13 @@
 }
 .prod-card .pc-name{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:6px;}
 .prod-card .pc-desc{font-size:.82rem;color:rgba(255,255,255,.65);line-height:1.55;margin-bottom:18px;}
-.prod-card .pc-footer{display:flex;align-items:center;justify-content:space-between;}
-.prod-card .pc-price{font-size:.9rem;font-weight:600;color:rgba(255,255,255,.9);}
+.prod-card .pc-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.prod-card .pc-price{font-size:.88rem;font-weight:700;color:rgba(255,255,255,.95);}
 .prod-card .pc-btn{
-  padding:9px 20px;border-radius:50px;font-size:.78rem;font-weight:600;
+  padding:10px 20px;border-radius:50px;font-size:.78rem;font-weight:600;
   background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
   color:#fff;cursor:pointer;transition:all .2s;backdrop-filter:blur(8px);
+  min-height:44px;white-space:nowrap;
 }
 .prod-card .pc-btn:hover{background:rgba(255,255,255,.25);}
 
@@ -76,57 +80,80 @@
 /* ── PRODUCT DETAIL MODAL ── */
 .modal-overlay {
   position:fixed;inset:0;z-index:2000;
-  background:rgba(7,5,14,.85);backdrop-filter:blur(16px);
-  display:flex;align-items:center;justify-content:center;padding:24px;
+  background:rgba(7,5,14,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  display:flex;align-items:flex-end;justify-content:center;padding:0;
   opacity:0;pointer-events:none;transition:opacity .3s;
 }
 .modal-overlay.open{opacity:1;pointer-events:all;}
 .modal-box {
-  width:100%;max-width:860px;max-height:90vh;overflow-y:auto;
-  background:rgba(15,10,30,.9);border:1px solid rgba(255,255,255,.18);
-  border-radius:var(--radius);box-shadow:0 24px 80px rgba(0,0,0,.5);
-  padding:48px;position:relative;
-  transform:translateY(20px);transition:transform .3s var(--transition);
+  width:100%;max-width:860px;max-height:92svh;overflow-y:auto;
+  background:rgba(15,10,30,.97);border:1px solid rgba(255,255,255,.18);
+  border-radius:var(--radius) var(--radius) 0 0;
+  box-shadow:0 -24px 80px rgba(0,0,0,.5);
+  padding:32px 32px calc(32px + env(safe-area-inset-bottom));position:relative;
+  transform:translateY(40px);transition:transform .3s var(--transition);
 }
 .modal-overlay.open .modal-box{transform:translateY(0);}
+/* Drag handle */
+.modal-handle {
+  width:40px;height:4px;border-radius:4px;background:rgba(255,255,255,.2);
+  margin:0 auto 24px;cursor:grab;
+}
 .modal-close{
-  position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;
+  position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;
   background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
   color:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;
   transition:all .2s;
 }
 .modal-close:hover{background:rgba(255,255,255,.2);}
-.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px;}
 .modal-preview{
-  border-radius:20px;min-height:280px;display:flex;align-items:center;justify-content:center;
+  border-radius:20px;min-height:260px;display:flex;align-items:center;justify-content:center;
   position:relative;overflow:hidden;
 }
 .modal-info .eyebrow{margin-bottom:8px;}
-.modal-info h2{font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:14px;}
-.modal-info p{font-size:.9rem;color:var(--text-muted);line-height:1.72;margin-bottom:24px;}
-.modal-specs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;}
+.modal-info h2{font-family:'Playfair Display',serif;font-size:1.7rem;margin-bottom:14px;}
+.modal-info p{font-size:.9rem;color:var(--text-muted);line-height:1.72;margin-bottom:20px;}
+.modal-specs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
 .spec-item{padding:10px 14px;background:rgba(255,255,255,.06);border-radius:10px;}
 .spec-lbl{font-size:.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;}
 .spec-val{font-size:.85rem;font-weight:500;}
-.modal-actions{display:flex;gap:10px;}
+.modal-actions{display:flex;gap:10px;flex-wrap:wrap;}
 
 /* ── OPTIONS ── */
-.option-section{margin-bottom:22px;}
+.option-section{margin-bottom:20px;}
 .option-title{font-size:.78rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;}
 .option-pills{display:flex;gap:8px;flex-wrap:wrap;}
 .option-pill{
-  padding:7px 16px;border-radius:50px;font-size:.8rem;
+  padding:9px 16px;border-radius:50px;font-size:.8rem;
   background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
   color:rgba(255,255,255,.7);cursor:pointer;transition:all .2s;
+  min-height:44px;display:flex;align-items:center;
 }
 .option-pill:hover,.option-pill.selected{background:rgba(155,126,248,.2);border-color:rgba(155,126,248,.45);color:#c4b5fd;}
 
 /* ── SECTION ANCHORS ── */
 .section-anchor{padding-top:100px;margin-top:-80px;}
 
+/* ── MOBILE FILTER SCROLL ── */
 @media(max-width:700px){
   .modal-grid{grid-template-columns:1fr;}
+  .modal-preview{min-height:200px;}
+  .filter-bar{
+    flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;
+    scrollbar-width:none;padding-bottom:4px;gap:6px;
+  }
+  .filter-bar::-webkit-scrollbar{display:none;}
+  .filter-search{margin-left:0;width:100%;flex-shrink:0;order:-1;}
   .products-grid-main{grid-template-columns:1fr;}
+  .modal-box{padding:20px 20px calc(20px + env(safe-area-inset-bottom));}
+  .modal-actions{flex-direction:column;}
+  .modal-actions .btn{width:100%;justify-content:center;}
+}
+@media(min-width:701px){
+  .modal-overlay{align-items:center;padding:24px;}
+  .modal-box{border-radius:var(--radius);}
+  .modal-handle{display:none;}
 }
 </style>
 </head>
@@ -137,11 +164,11 @@
 <section class="page-hero">
   <div class="container">
     <div class="breadcrumb reveal">
-      <a href="index.html">Accueil</a><span>/</span><span>Produits</span>
+      <a href="index.html" id="breadHome">Accueil</a><span>/</span><span id="breadProducts">Produits</span>
     </div>
-    <span class="eyebrow reveal">Notre Catalogue</span>
-    <h1 class="display-title reveal">Tout pour votre<br><em class="grad">communication visuelle</em></h1>
-    <p class="body-lead reveal">Du simple flyer à la carte de visite luxe — chaque produit est fabriqué avec les meilleurs matériaux et une précision artisanale.</p>
+    <span class="eyebrow reveal" id="prodEyebrow">Notre Catalogue</span>
+    <h1 class="display-title reveal" id="prodTitle">Tout pour votre<br><em class="grad">communication visuelle</em></h1>
+    <p class="body-lead reveal" id="prodLead">Du simple flyer à la carte de visite luxe — chaque produit est fabriqué avec les meilleurs matériaux et une précision artisanale.</p>
   </div>
 </section>
 
@@ -149,13 +176,13 @@
 <section style="position:relative;z-index:2;padding:0 0 20px;">
   <div class="container">
     <div class="filter-bar reveal">
-      <button class="filter-btn active" data-filter="all">Tout voir</button>
-      <button class="filter-btn" data-filter="cartes">Cartes de visite</button>
-      <button class="filter-btn" data-filter="invitations">Invitations</button>
-      <button class="filter-btn" data-filter="flyers">Flyers</button>
-      <button class="filter-btn" data-filter="stickers">Stickers</button>
-      <button class="filter-btn" data-filter="autocollants">Autocollants</button>
-      <input type="search" class="filter-search" placeholder="🔍  Rechercher..." id="searchInput">
+      <button class="filter-btn active" data-filter="all" id="fAll">Tout voir</button>
+      <button class="filter-btn" data-filter="cartes" id="fCartes">Cartes de visite</button>
+      <button class="filter-btn" data-filter="invitations" id="fInv">Invitations</button>
+      <button class="filter-btn" data-filter="flyers" id="fFlyers">Flyers</button>
+      <button class="filter-btn" data-filter="stickers" id="fStick">Stickers</button>
+      <button class="filter-btn" data-filter="autocollants" id="fAuto">Autocollants</button>
+      <input type="search" class="filter-search" id="searchInput" placeholder="🔍  Rechercher...">
     </div>
   </div>
 </section>
@@ -167,9 +194,12 @@
 
       <!-- CARTES DE VISITE -->
       <div class="prod-card glass pt-purple reveal delay-1 section-anchor" id="cartes" data-category="cartes"
-           data-name="Carte de Visite Standard" data-price="19€ / 100 pièces"
-           data-desc="Format 85×54mm, idéale pour les professionnels. Disponible en mat, brillant ou soft-touch. Papier 350g/m² certifié FSC."
-           data-specs='{"Format":"85 × 54 mm","Papier":"350g/m² FSC","Finition":"Mat / Brillant / Soft-touch","Délai":"48h"}'
+           data-name-fr="Carte de Visite Standard" data-name-ar="بطاقة أعمال قياسية" data-name-en="Standard Business Card"
+           data-price="2.750 DA / 100 pièces"
+           data-desc-fr="Format 85×54mm. Papier 350g/m² certifié FSC. Mat, brillant ou soft-touch."
+           data-desc-ar="مقاس 85×54 ملم. ورق 350 جم/م² معتمد FSC. مطفي أو لامع أو ناعم."
+           data-desc-en="85×54mm format. FSC-certified 350g/m² paper. Matte, glossy or soft-touch."
+           data-specs='{"Format":"85 × 54 mm","Papier":"350g FSC","Finition":"Mat/Brillant","Délai":"48h"}'
            onclick="openModal(this)">
         <div class="pc-bg"></div><div class="pc-deco"></div>
         <div class="pc-content">
@@ -177,16 +207,19 @@
           <div class="pc-name">Carte Standard</div>
           <div class="pc-desc">Format classique 85×54mm. Papier 350g/m², plusieurs finitions disponibles.</div>
           <div class="pc-footer">
-            <span class="pc-price">Dès 19€ / 100 pcs</span>
-            <button class="pc-btn">Voir →</button>
+            <span class="pc-price">Dès 2.750 DA / 100 pcs</span>
+            <button class="pc-btn" id="btnView">Voir →</button>
           </div>
         </div>
       </div>
 
       <div class="prod-card glass pt-purple reveal delay-2" data-category="cartes"
-           data-name="Carte de Visite Premium" data-price="45€ / 100 pièces"
-           data-desc="Carte haut de gamme avec dorure à chaud, vernis sélectif ou gaufrage. Papier coton 600g/m². Pour une première impression inoubliable."
-           data-specs='{"Format":"85 × 54 mm","Papier":"Coton 600g/m²","Finition":"Dorure / Vernis / Gaufrage","Délai":"72h"}'
+           data-name-fr="Carte de Visite Premium" data-name-ar="بطاقة أعمال فاخرة" data-name-en="Premium Business Card"
+           data-price="6.500 DA / 100 pièces"
+           data-desc-fr="Papier coton 600g/m². Dorure à chaud, vernis sélectif ou gaufrage. L'excellence absolue."
+           data-desc-ar="ورق قطني 600 جم/م². ذهبية حرارية، طلاء انتقائي أو نقش. الرقي المطلق."
+           data-desc-en="600g/m² cotton paper. Hot foil, selective varnish or embossing. Absolute excellence."
+           data-specs='{"Format":"85 × 54 mm","Papier":"Coton 600g","Finition":"Dorure/Vernis","Délai":"72h"}'
            onclick="openModal(this)">
         <div class="pc-bg"></div><div class="pc-deco"></div>
         <div class="pc-content">
@@ -194,16 +227,19 @@
           <div class="pc-name">Carte Premium</div>
           <div class="pc-desc">Papier coton, dorure à chaud, vernis sélectif. L'excellence absolue.</div>
           <div class="pc-footer">
-            <span class="pc-price">Dès 45€ / 100 pcs</span>
+            <span class="pc-price">Dès 6.500 DA / 100 pcs</span>
             <button class="pc-btn">Voir →</button>
           </div>
         </div>
       </div>
 
       <div class="prod-card glass pt-purple reveal delay-3" data-category="cartes"
-           data-name="Carte de Visite Ronde" data-price="29€ / 100 pièces"
-           data-desc="Format circulaire original Ø55mm. Idéale pour se démarquer. Plastification mat ou brillant."
-           data-specs='{"Format":"Ø 55 mm","Papier":"350g/m²","Finition":"Mat / Brillant","Délai":"72h"}'
+           data-name-fr="Carte de Visite Ronde" data-name-ar="بطاقة أعمال دائرية" data-name-en="Round Business Card"
+           data-price="4.200 DA / 100 pièces"
+           data-desc-fr="Format circulaire Ø55mm. Idéale pour se démarquer. Plastification mat ou brillant."
+           data-desc-ar="مقاس دائري Ø55 ملم. مثالية للتميز. طلاء مطفي أو لامع."
+           data-desc-en="Circular format Ø55mm. Ideal to stand out. Matte or glossy lamination."
+           data-specs='{"Format":"Ø 55 mm","Papier":"350g","Finition":"Mat/Brillant","Délai":"72h"}'
            onclick="openModal(this)">
         <div class="pc-bg"></div><div class="pc-deco"></div>
         <div class="pc-content">
@@ -211,7 +247,7 @@
           <div class="pc-name">Carte Ronde</div>
           <div class="pc-desc">Format circulaire Ø55mm pour une identité unique et mémorable.</div>
           <div class="pc-footer">
-            <span class="pc-price">Dès 29€ / 100 pcs</span>
+            <span class="pc-price">Dès 4.200 DA / 100 pcs</span>
             <button class="pc-btn">Voir →</button>
           </div>
         </div>
@@ -219,26 +255,32 @@
 
       <!-- INVITATIONS -->
       <div class="prod-card glass pt-rose reveal delay-1 section-anchor" id="invitations" data-category="invitations"
-           data-name="Invitation Mariage" data-price="85€ / 50 pièces"
-           data-desc="Invitation de mariage luxueuse sur papier vergé 300g/m². Enveloppe assortie incluse. Personnalisation complète du texte et des couleurs."
-           data-specs='{"Format":"A5 (148×210)","Papier":"Vergé 300g/m²","Enveloppe":"Incluse","Délai":"5 jours"}'
+           data-name-fr="Invitation Mariage" data-name-ar="دعوة زفاف" data-name-en="Wedding Invitation"
+           data-price="12.300 DA / 50 pièces"
+           data-desc-fr="Papier vergé 300g/m², enveloppe assortie incluse. Personnalisation complète."
+           data-desc-ar="ورق مضلع 300 جم/م². يشمل مظروفاً مطابقاً. تخصيص كامل."
+           data-desc-en="300g/m² laid paper, matching envelope included. Full customization."
+           data-specs='{"Format":"A5 148×210","Papier":"Vergé 300g","Enveloppe":"Incluse","Délai":"5 jours"}'
            onclick="openModal(this)">
         <div class="pc-bg"></div><div class="pc-deco"></div>
         <div class="pc-content">
           <div class="pc-tag">Invitations</div>
           <div class="pc-name">Mariage Luxe</div>
-          <div class="pc-desc">Papier vergé 300g/m², enveloppe assortie incluse. Pour votre jour le plus beau.</div>
+          <div class="pc-desc">Papier vergé 300g/m², enveloppe assortie incluse. Pour votre grand jour.</div>
           <div class="pc-footer">
-            <span class="pc-price">Dès 85€ / 50 pcs</span>
+            <span class="pc-price">Dès 12.300 DA / 50 pcs</span>
             <button class="pc-btn">Voir →</button>
           </div>
         </div>
       </div>
 
       <div class="prod-card glass pt-rose reveal delay-2" data-category="invitations"
-           data-name="Invitation Soirée" data-price="45€ / 50 pièces"
-           data-desc="Invitation pour soirées, gala, cocktails d'entreprise. Format carré 150×150mm, impression recto-verso."
-           data-specs='{"Format":"150 × 150 mm","Papier":"250g/m²","Finition":"Mat ou Brillant","Délai":"72h"}'
+           data-name-fr="Invitation Soirée" data-name-ar="دعوة حفلة" data-name-en="Event Invitation"
+           data-price="6.500 DA / 50 pièces"
+           data-desc-fr="Format carré 150×150mm. Idéale pour soirées, gala, cocktails d'entreprise."
+           data-desc-ar="مقاس مربع 150×150 ملم. مثالية للحفلات والمناسبات."
+           data-desc-en="Square format 150×150mm. Ideal for events, galas, corporate cocktails."
+           data-specs='{"Format":"150×150 mm","Papier":"250g","Finition":"Mat/Brillant","Délai":"72h"}'
            onclick="openModal(this)">
         <div class="pc-bg"></div><div class="pc-deco"></div>
         <div class="pc-content">
@@ -246,7 +288,7 @@
           <div class="pc-name">Soirée & Gala</div>
           <div class="pc-desc">Format carré élégant, recto-verso. Idéale pour vos événements d'entreprise.</div>
           <div class="pc-footer">
-            <span class="pc-price">Dès 45€ / 50 pcs</span>
+            <span class="pc-price">Dès 6.500 DA / 50 pcs</span>
             <button class="pc-btn">Voir →</button>
           </div>
         </div>
@@ -254,9 +296,12 @@
 
       <!-- FLYERS -->
       <div class="prod-card glass pt-sky reveal delay-1 section-anchor" id="flyers" data-category="flyers"
-           data-name="Flyer A5 Recto-Verso" data-price="12€ / 100 pièces"
-           data-desc="Flyer A5 imprimé recto-verso en haute définition. Papier couché 150g/m², couleurs vibrantes et précises."
-           data-specs='{"Format":"A5 (148×210)","Papier":"Couché 150g/m²","Impression":"Recto-verso HD","Délai":"48h"}'
+           data-name-fr="Flyer A5 Recto-Verso" data-name-ar="منشور A5 وجهين" data-name-en="A5 Double-Sided Flyer"
+           data-price="1.750 DA / 100 pièces"
+           data-desc-fr="Format A5, recto-verso HD. Papier couché 150g/m², couleurs vibrantes."
+           data-desc-ar="مقاس A5، طباعة وجهين HD. ورق مطلي 150 جم/م²، ألوان نابضة."
+           data-desc-en="A5 format, double-sided HD. 150g/m² coated paper, vibrant colors."
+           data-specs='{"Format":"A5 148×210","Papier":"Couché 150g","Impression":"Recto-verso HD","Délai":"48h"}'
            onclick="openModal(this)">
         <div class="pc-bg"></div><div class="pc-deco"></div>
         <div class="pc-content">
@@ -264,16 +309,19 @@
           <div class="pc-name">Flyer A5 HD</div>
           <div class="pc-desc">Format A5, recto-verso haute définition. Idéal pour promotions et événements.</div>
           <div class="pc-footer">
-            <span class="pc-price">Dès 12€ / 100 pcs</span>
+            <span class="pc-price">Dès 1.750 DA / 100 pcs</span>
             <button class="pc-btn">Voir →</button>
           </div>
         </div>
       </div>
 
       <div class="prod-card glass pt-sky reveal delay-2" data-category="flyers"
-           data-name="Flyer A4 Menu" data-price="18€ / 100 pièces"
-           data-desc="Format A4, idéal pour les menus de restaurants, catalogues de produits, dépliants promotionnels."
-           data-specs='{"Format":"A4 (210×297)","Papier":"Couché 200g/m²","Impression":"Recto-verso","Délai":"48h"}'
+           data-name-fr="Flyer A4 Menu" data-name-ar="منشور A4 قائمة" data-name-en="A4 Menu Flyer"
+           data-price="2.600 DA / 100 pièces"
+           data-desc-fr="Format A4. Idéal pour menus, catalogues, dépliants promotionnels."
+           data-desc-ar="مقاس A4. مثالي للقوائم والكتالوجات والنشرات."
+           data-desc-en="A4 format. Ideal for menus, catalogues, promotional leaflets."
+           data-specs='{"Format":"A4 210×297","Papier":"Couché 200g","Impression":"Recto-verso","Délai":"48h"}'
            onclick="openModal(this)">
         <div class="pc-bg"></div><div class="pc-deco"></div>
         <div class="pc-content">
@@ -281,7 +329,7 @@
           <div class="pc-name">Flyer A4 Menu</div>
           <div class="pc-desc">Grand format A4 pour vos menus, catalogues et dépliants promotionnels.</div>
           <div class="pc-footer">
-            <span class="pc-price">Dès 18€ / 100 pcs</span>
+            <span class="pc-price">Dès 2.600 DA / 100 pcs</span>
             <button class="pc-btn">Voir →</button>
           </div>
         </div>
@@ -289,8 +337,11 @@
 
       <!-- STICKERS -->
       <div class="prod-card glass pt-green reveal delay-1 section-anchor" id="stickers" data-category="stickers"
-           data-name="Stickers Découpés" data-price="9€ / 50 pièces"
-           data-desc="Stickers découpés à la forme, résistants à l'eau. Idéaux pour personnaliser vos emballages, produits ou équipements."
+           data-name-fr="Stickers Découpés" data-name-ar="ملصقات مقطعة" data-name-en="Die-Cut Stickers"
+           data-price="1.300 DA / 50 pièces"
+           data-desc-fr="Découpe à la forme, vinyle résistant à l'eau. Pour emballages et produits."
+           data-desc-ar="قص على الشكل، فينيل مقاوم للماء. لتخصيص المنتجات والتعبئة."
+           data-desc-en="Die-cut vinyl, water resistant. For packaging and product customization."
            data-specs='{"Découpe":"À la forme","Matériau":"Vinyle","Résistance":"Eau & abrasion","Délai":"72h"}'
            onclick="openModal(this)">
         <div class="pc-bg"></div><div class="pc-deco"></div>
@@ -299,15 +350,18 @@
           <div class="pc-name">Stickers Découpés</div>
           <div class="pc-desc">Découpe à la forme, vinyle résistant à l'eau. Pour vos emballages et produits.</div>
           <div class="pc-footer">
-            <span class="pc-price">Dès 9€ / 50 pcs</span>
+            <span class="pc-price">Dès 1.300 DA / 50 pcs</span>
             <button class="pc-btn">Voir →</button>
           </div>
         </div>
       </div>
 
       <div class="prod-card glass pt-green reveal delay-2" data-category="stickers"
-           data-name="Stickers Holographiques" data-price="18€ / 50 pièces"
-           data-desc="Stickers à effet holographique, brillant et irisé. Idéaux pour les marques mode, cosmétique, gaming."
+           data-name-fr="Stickers Holographiques" data-name-ar="ملصقات هولوغرافية" data-name-en="Holographic Stickers"
+           data-price="2.600 DA / 50 pièces"
+           data-desc-fr="Effet holographique irisé. Pour les marques mode, cosmétique, gaming."
+           data-desc-ar="تأثير هولوغرافي متقزح. للعلامات التجارية في الموضة والتجميل."
+           data-desc-en="Iridescent holographic effect. For fashion, cosmetics, gaming brands."
            data-specs='{"Effet":"Holographique","Matériau":"Film irisé","Finition":"Brillant","Délai":"72h"}'
            onclick="openModal(this)">
         <div class="pc-bg"></div><div class="pc-deco"></div>
@@ -316,7 +370,7 @@
           <div class="pc-name">Holographiques</div>
           <div class="pc-desc">Effet irisé et holographique. Pour les marques qui veulent briller.</div>
           <div class="pc-footer">
-            <span class="pc-price">Dès 18€ / 50 pcs</span>
+            <span class="pc-price">Dès 2.600 DA / 50 pcs</span>
             <button class="pc-btn">Voir →</button>
           </div>
         </div>
@@ -324,8 +378,11 @@
 
       <!-- AUTOCOLLANTS -->
       <div class="prod-card glass pt-amber reveal delay-1 section-anchor" id="autocollants" data-category="autocollants"
-           data-name="Autocollant Vinyle Extérieur" data-price="14€ / 50 pièces"
-           data-desc="Vinyle haute durabilité pour intérieur & extérieur. Résistant aux UV, intempéries et lavages. Idéal pour véhicules, vitrines, équipements."
+           data-name-fr="Autocollant Vinyle Extérieur" data-name-ar="ملصق فينيل خارجي" data-name-en="Outdoor Vinyl Label"
+           data-price="2.000 DA / 50 pièces"
+           data-desc-fr="Vinyle 7 ans, résistant UV et intempéries. Vitrines, véhicules, équipements."
+           data-desc-ar="فينيل 7 سنوات، مقاوم للأشعة فوق البنفسجية والطقس. للواجهات والمركبات."
+           data-desc-en="7-year vinyl, UV and weather resistant. Storefronts, vehicles, equipment."
            data-specs='{"Usage":"Int. & Ext.","Matériau":"Vinyle 7 ans","Résistance":"UV + Intempéries","Délai":"72h"}'
            onclick="openModal(this)">
         <div class="pc-bg"></div><div class="pc-deco"></div>
@@ -334,15 +391,18 @@
           <div class="pc-name">Vinyle Extérieur</div>
           <div class="pc-desc">Vinyle 7 ans, résistant UV et intempéries. Vitrines, véhicules, équipements.</div>
           <div class="pc-footer">
-            <span class="pc-price">Dès 14€ / 50 pcs</span>
+            <span class="pc-price">Dès 2.000 DA / 50 pcs</span>
             <button class="pc-btn">Voir →</button>
           </div>
         </div>
       </div>
 
       <div class="prod-card glass pt-teal reveal delay-2" data-category="autocollants"
-           data-name="Autocollant Transparent" data-price="16€ / 50 pièces"
-           data-desc="Fond transparent pour une intégration parfaite sur toutes surfaces. Impression CMJN haute définition sur vinyle transparent."
+           data-name-fr="Autocollant Transparent" data-name-ar="ملصق شفاف" data-name-en="Transparent Label"
+           data-price="2.300 DA / 50 pièces"
+           data-desc-fr="Fond transparent pour intégration parfaite sur toutes surfaces. Impression CMJN HD."
+           data-desc-ar="خلفية شفافة للتكامل المثالي على جميع الأسطح. طباعة CMJN عالية الدقة."
+           data-desc-en="Transparent background for perfect integration on any surface. HD CMYK print."
            data-specs='{"Fond":"Transparent","Impression":"CMJN HD","Surface":"Toutes","Délai":"72h"}'
            onclick="openModal(this)">
         <div class="pc-bg"></div><div class="pc-deco"></div>
@@ -351,7 +411,7 @@
           <div class="pc-name">Transparent HD</div>
           <div class="pc-desc">Fond transparent, impression HD. Intégration parfaite sur toutes surfaces.</div>
           <div class="pc-footer">
-            <span class="pc-price">Dès 16€ / 50 pcs</span>
+            <span class="pc-price">Dès 2.300 DA / 50 pcs</span>
             <button class="pc-btn">Voir →</button>
           </div>
         </div>
@@ -364,8 +424,9 @@
 </div><!-- /page-wrap -->
 
 <!-- MODAL -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-  <div class="modal-box glass">
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box glass" id="modalBox">
+    <div class="modal-handle" id="modalHandle"></div>
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="modal-grid">
       <div class="modal-preview" id="modalPreview">
@@ -376,9 +437,8 @@
         <h2 id="modalName">Nom du produit</h2>
         <p id="modalDesc">Description</p>
         <div class="modal-specs" id="modalSpecs"></div>
-        <!-- Options -->
         <div class="option-section">
-          <div class="option-title">Quantité</div>
+          <div class="option-title" id="optQtyLabel">Quantité</div>
           <div class="option-pills" id="optQty">
             <div class="option-pill" onclick="selectOpt(this,'qty')">50</div>
             <div class="option-pill selected" onclick="selectOpt(this,'qty')">100</div>
@@ -388,28 +448,81 @@
           </div>
         </div>
         <div class="option-section">
-          <div class="option-title">Finition</div>
+          <div class="option-title" id="optFinLabel">Finition</div>
           <div class="option-pills">
-            <div class="option-pill selected" onclick="selectOpt(this,'fin')">Mat</div>
-            <div class="option-pill" onclick="selectOpt(this,'fin')">Brillant</div>
-            <div class="option-pill" onclick="selectOpt(this,'fin')">Soft-touch</div>
-            <div class="option-pill" onclick="selectOpt(this,'fin')">Dorure à chaud</div>
+            <div class="option-pill selected" onclick="selectOpt(this,'fin')" id="finMat">Mat</div>
+            <div class="option-pill" onclick="selectOpt(this,'fin')" id="finGloss">Brillant</div>
+            <div class="option-pill" onclick="selectOpt(this,'fin')" id="finSoft">Soft-touch</div>
+            <div class="option-pill" onclick="selectOpt(this,'fin')" id="finGold">Dorure à chaud</div>
           </div>
         </div>
         <div class="modal-actions">
-          <button class="btn btn-primary" onclick="addToCartModal()">Ajouter au panier →</button>
-          <a href="configurator.html" class="btn btn-secondary">Configurer</a>
+          <button class="btn btn-primary" onclick="addToCartModal()" id="btnAddCart">Ajouter au panier →</button>
+          <a href="configurator.html" class="btn btn-secondary" id="btnConfig">Configurer</a>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<script src="js/app.js"></script>
+<script src="shared.js"></script>
 <script>
-initApp('products');
+initShared('products');
 
-// Filter
+const lang = localStorage.getItem('lang') || 'fr';
+
+// ── Apply UI translations ──
+const uiTx = {
+  fr: { all:'Tout voir', cartes:'Cartes de visite', inv:'Invitations', flyers:'Flyers', stick:'Stickers', auto:'Autocollants',
+        search:'🔍  Rechercher...', eyebrow:'Notre Catalogue',
+        title:'Tout pour votre<br><em class="grad">communication visuelle</em>',
+        lead:'Du simple flyer à la carte de visite luxe — chaque produit est fabriqué avec les meilleurs matériaux.',
+        breadHome:'Accueil', breadProd:'Produits', qty:'Quantité', fin:'Finition',
+        mat:'Mat', gloss:'Brillant', soft:'Soft-touch', gold:'Dorure à chaud',
+        addCart:'Ajouter au panier →', config:'Configurer', view:'Voir →' },
+  ar: { all:'الكل', cartes:'بطاقات الأعمال', inv:'الدعوات', flyers:'المنشورات', stick:'الملصقات', auto:'لاصقات الفينيل',
+        search:'🔍  بحث...', eyebrow:'كتالوج منتجاتنا',
+        title:'كل شيء لتواصلك<br><em class="grad">البصري الاحترافي</em>',
+        lead:'من المنشور البسيط إلى بطاقة الأعمال الفاخرة — كل منتج مصنوع بأفضل المواد.',
+        breadHome:'الرئيسية', breadProd:'المنتجات', qty:'الكمية', fin:'التشطيب',
+        mat:'مطفي', gloss:'لامع', soft:'ناعم', gold:'ذهبي حراري',
+        addCart:'← إضافة إلى السلة', config:'تخصيص', view:'عرض →' },
+  en: { all:'View All', cartes:'Business Cards', inv:'Invitations', flyers:'Flyers', stick:'Stickers', auto:'Vinyl Labels',
+        search:'🔍  Search...', eyebrow:'Our Catalogue',
+        title:'Everything for your<br><em class="grad">visual communication</em>',
+        lead:'From simple flyer to luxury business card — every product made with the finest materials.',
+        breadHome:'Home', breadProd:'Products', qty:'Quantity', fin:'Finish',
+        mat:'Matte', gloss:'Glossy', soft:'Soft-touch', gold:'Hot Foil Gold',
+        addCart:'Add to Cart →', config:'Configure', view:'View →' },
+};
+
+const tx = uiTx[lang] || uiTx.fr;
+const setEl = (id, html) => { const el = document.getElementById(id); if(el) el.innerHTML = html; };
+const setTxt = (id, txt) => { const el = document.getElementById(id); if(el) el.textContent = txt; };
+const setPlaceholder = (id, txt) => { const el = document.getElementById(id); if(el) el.placeholder = txt; };
+
+setEl('fAll', tx.all); setEl('fCartes', tx.cartes); setEl('fInv', tx.inv);
+setEl('fFlyers', tx.flyers); setEl('fStick', tx.stick); setEl('fAuto', tx.auto);
+setPlaceholder('searchInput', tx.search);
+setEl('prodEyebrow', tx.eyebrow); setEl('prodTitle', tx.title); setEl('prodLead', tx.lead);
+setEl('breadHome', tx.breadHome); setEl('breadProducts', tx.breadProd);
+setEl('optQtyLabel', tx.qty); setEl('optFinLabel', tx.fin);
+setEl('finMat', tx.mat); setEl('finGloss', tx.gloss); setEl('finSoft', tx.soft); setEl('finGold', tx.gold);
+setEl('btnAddCart', tx.addCart); setEl('btnConfig', tx.config);
+
+// ── Update card content based on language ──
+document.querySelectorAll('.prod-card').forEach(card => {
+  const name = card.dataset[`name${lang.charAt(0).toUpperCase()+lang.slice(1)}`] || card.dataset.nameFr;
+  const desc = card.dataset[`desc${lang.charAt(0).toUpperCase()+lang.slice(1)}`] || card.dataset.descFr;
+  const nameEl = card.querySelector('.pc-name');
+  const descEl = card.querySelector('.pc-desc');
+  if(name && nameEl) nameEl.textContent = name;
+  if(desc && descEl) descEl.textContent = desc;
+  const btnEl = card.querySelector('.pc-btn');
+  if(btnEl) btnEl.textContent = tx.view;
+});
+
+// ── Filter ──
 const filterBtns = document.querySelectorAll('.filter-btn');
 const cards = document.querySelectorAll('.prod-card');
 filterBtns.forEach(btn => {
@@ -423,37 +536,41 @@ filterBtns.forEach(btn => {
   });
 });
 
-// Search
+// ── Search ──
 document.getElementById('searchInput').addEventListener('input', e => {
   const q = e.target.value.toLowerCase();
   cards.forEach(c => {
-    const txt = (c.dataset.name + c.dataset.desc + c.dataset.category).toLowerCase();
-    c.style.display = txt.includes(q) ? 'flex' : 'none';
+    const n = (c.dataset.nameFr||'') + (c.dataset.nameAr||'') + (c.dataset.nameEn||'');
+    const d = (c.dataset.descFr||'') + (c.dataset.descAr||'') + (c.dataset.descEn||'');
+    c.style.display = (n + d + (c.dataset.category||'')).toLowerCase().includes(q) ? 'flex' : 'none';
   });
 });
 
-// Modal
+// ── Modal ──
 let currentCard = null;
 function openModal(card) {
   currentCard = card;
   const specs = JSON.parse(card.dataset.specs || '{}');
-  document.getElementById('modalName').textContent = card.dataset.name;
-  document.getElementById('modalDesc').textContent = card.dataset.desc;
+  const name = card.dataset[`name${lang.charAt(0).toUpperCase()+lang.slice(1)}`] || card.dataset.nameFr || '';
+  const desc = card.dataset[`desc${lang.charAt(0).toUpperCase()+lang.slice(1)}`] || card.dataset.descFr || '';
+  document.getElementById('modalName').textContent = name;
+  document.getElementById('modalDesc').textContent = desc;
   document.getElementById('modalCat').textContent = card.dataset.category;
   document.getElementById('modalSpecs').innerHTML = Object.entries(specs).map(([k,v]) =>
     `<div class="spec-item"><div class="spec-lbl">${k}</div><div class="spec-val">${v}</div></div>`
   ).join('');
-  // Preview bg clone
   const bgEl = card.querySelector('.pc-bg');
   const prev = document.getElementById('modalPreview');
   prev.style.background = bgEl ? getComputedStyle(bgEl).background : '#1a0a3e';
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-function closeModal(e) {
-  if (e && e.target !== document.getElementById('modalOverlay') && !e.currentTarget.classList?.contains('modal-close')) return;
+function closeModal() {
   document.getElementById('modalOverlay').classList.remove('open');
   document.body.style.overflow = '';
+}
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
 }
 function selectOpt(el, group) {
   el.closest('.option-pills').querySelectorAll('.option-pill').forEach(p => p.classList.remove('selected'));
@@ -463,11 +580,17 @@ function addToCartModal() {
   if (!currentCard) return;
   const qty = document.querySelector('#optQty .selected')?.textContent || '100';
   const fin = document.querySelector('.option-pills:last-of-type .selected')?.textContent || 'Mat';
-  addToCart({ name: currentCard.dataset.name, price: currentCard.dataset.price, qty, fin });
-  closeModal({target:document.getElementById('modalOverlay')});
-  document.getElementById('modalOverlay').classList.remove('open');
-  document.body.style.overflow = '';
+  const name = currentCard.dataset[`name${lang.charAt(0).toUpperCase()+lang.slice(1)}`] || currentCard.dataset.nameFr;
+  addToCart({ name, price: currentCard.dataset.price, qty, fin });
+  closeModal();
 }
+
+// ── Swipe down to close modal ──
+let mStartY = 0;
+document.getElementById('modalBox').addEventListener('touchstart', e => { mStartY = e.touches[0].clientY; }, {passive:true});
+document.getElementById('modalBox').addEventListener('touchmove', e => {
+  if (e.touches[0].clientY - mStartY > 100) closeModal();
+}, {passive:true});
 </script>
 </body>
 </html>

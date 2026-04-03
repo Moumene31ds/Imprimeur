@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" dir="ltr">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#07050e">
 <title>Contact — L'Artisan Imprimeur</title>
-<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="shared.css">
 <style>
 .contact-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:48px;align-items:start;margin-top:60px;}
 .contact-info{position:sticky;top:100px;}
@@ -11,9 +13,8 @@
 .ci-icon{font-size:1.5rem;margin-bottom:12px;}
 .ci-title{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:6px;}
 .ci-val{font-size:.95rem;font-weight:500;}
+.ci-val a{color:inherit;text-decoration:none;}
 .ci-sub{font-size:.78rem;color:var(--text-muted);margin-top:3px;}
-
-/* Map placeholder */
 .map-placeholder{
   border-radius:20px;height:200px;margin-bottom:16px;
   background:linear-gradient(145deg,#0c1a3a,#1e0a4e);
@@ -21,50 +22,44 @@
   position:relative;display:flex;align-items:center;justify-content:center;
 }
 .map-grid{position:absolute;inset:0;opacity:.08;background:repeating-linear-gradient(0deg,rgba(155,126,248,.6) 0,rgba(155,126,248,.6) 1px,transparent 1px,transparent 30px),repeating-linear-gradient(90deg,rgba(155,126,248,.6) 0,rgba(155,126,248,.6) 1px,transparent 1px,transparent 30px);}
-.map-pin{font-size:2rem;position:relative;z-index:1;filter:drop-shadow(0 4px 12px rgba(155,126,248,.6));}
-.map-address{position:relative;z-index:1;text-align:center;}
+.map-address{position:relative;z-index:1;text-align:center;margin-top:8px;}
 .map-address .ma-street{font-weight:600;font-size:.9rem;}
 .map-address .ma-city{font-size:.8rem;color:var(--text-muted);}
-
-/* FORM CARD */
 .form-card{padding:40px;}
 .form-section-title{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:6px;}
+[dir="rtl"] .form-section-title{font-family:'Cairo',serif;}
 .form-section-sub{font-size:.88rem;color:var(--text-muted);margin-bottom:28px;line-height:1.65;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 .form-submit{margin-top:8px;width:100%;justify-content:center;font-size:1rem;padding:16px;}
-
-/* Subject pills */
 .subject-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
 .subj-pill{
-  padding:7px 16px;border-radius:50px;font-size:.78rem;cursor:pointer;
+  padding:8px 16px;border-radius:50px;font-size:.78rem;cursor:pointer;min-height:40px;
   background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
   color:rgba(255,255,255,.65);transition:all .2s;
 }
 .subj-pill:hover,.subj-pill.selected{background:rgba(155,126,248,.18);border-color:rgba(155,126,248,.4);color:#c4b5fd;}
-
-/* Success state */
-.form-success{
-  display:none;text-align:center;padding:40px 20px;
-}
+.form-success{display:none;text-align:center;padding:40px 20px;}
 .form-success.show{display:block;}
 .success-icon{font-size:3rem;margin-bottom:16px;}
 .success-title{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:10px;}
-.success-text{font-size:.9rem;color:var(--text-muted);line-height:1.72;}
-
-/* Hours table */
+[dir="rtl"] .success-title{font-family:'Cairo',serif;}
 .hours-table{width:100%;border-collapse:collapse;}
 .hours-table tr{border-bottom:1px solid rgba(255,255,255,.06);}
 .hours-table tr:last-child{border-bottom:none;}
 .hours-table td{padding:10px 0;font-size:.84rem;}
-.hours-table td:last-child{text-align:right;color:var(--text-muted);}
+.hours-table td:last-child{text-align:right;}
+[dir="rtl"] .hours-table td:last-child{text-align:left;}
 .hours-badge{padding:2px 8px;border-radius:50px;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
 .hb-open{background:rgba(74,222,128,.15);color:#4ade80;border:1px solid rgba(74,222,128,.25);}
 .hb-closed{background:rgba(255,255,255,.07);color:var(--text-muted);}
+.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
 
 @media(max-width:900px){
   .contact-layout{grid-template-columns:1fr;margin-top:20px;}
   .contact-info{position:static;}
   .form-row{grid-template-columns:1fr;}
+  .form-card{padding:24px;}
+  .quick-grid{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -73,10 +68,12 @@
 
 <section class="page-hero" style="padding-bottom:40px;">
   <div class="container">
-    <div class="breadcrumb reveal"><a href="index.html">Accueil</a><span>/</span><span>Contact</span></div>
-    <span class="eyebrow reveal">Contact</span>
-    <h1 class="display-title reveal">Parlons de votre<br><em class="grad">prochain projet</em></h1>
-    <p class="body-lead reveal">Devis gratuit sous 2h · Réponse garantie dans la journée · Livraison dans toute la France</p>
+    <div class="breadcrumb reveal">
+      <a href="index.html" id="breadHome">Accueil</a><span>/</span><span id="breadContact">Contact</span>
+    </div>
+    <span class="eyebrow reveal" id="contactEyebrow">Contact</span>
+    <h1 class="display-title reveal" id="contactTitle">Parlons de votre<br><em class="grad">prochain projet</em></h1>
+    <p class="body-lead reveal" id="contactLead">Devis gratuit sous 2h · Réponse garantie · Livraison dans toute l'Algérie</p>
   </div>
 </section>
 
@@ -84,184 +81,273 @@
   <div class="container">
     <div class="contact-layout">
 
-      <!-- LEFT: INFO -->
       <div>
-        <!-- Map -->
         <div class="map-placeholder glass reveal">
           <div class="map-grid"></div>
           <div style="display:flex;flex-direction:column;align-items:center;gap:8px;z-index:1;">
-            <div class="map-pin">📍</div>
+            <div style="font-size:2rem;filter:drop-shadow(0 4px 12px rgba(155,126,248,.6));">📍</div>
             <div class="map-address">
-              <div class="ma-street">12 rue du Louvre</div>
-              <div class="ma-city">75001 Paris, France</div>
+              <div class="ma-street" id="mapStreet">Alger Centre, Alger</div>
+              <div class="ma-city" id="mapCity">Algérie</div>
             </div>
           </div>
         </div>
 
-        <!-- Contact cards -->
         <div class="ci-card glass reveal delay-1">
           <div class="ci-icon">📞</div>
-          <div class="ci-title">Téléphone</div>
-          <div class="ci-val">01 23 45 67 89</div>
-          <div class="ci-sub">Lun–Ven, 9h–18h</div>
+          <div class="ci-title" id="telLabel">Téléphone</div>
+          <div class="ci-val"><a href="tel:+213551234567">+213 55 123 45 67</a></div>
+          <div class="ci-sub" id="telHours">Dim–Jeu, 8h–17h</div>
         </div>
         <div class="ci-card glass reveal delay-2">
           <div class="ci-icon">✉️</div>
-          <div class="ci-title">Email</div>
-          <div class="ci-val">bonjour@lartisan.fr</div>
-          <div class="ci-sub">Réponse sous 2h en journée</div>
+          <div class="ci-title" id="emailLabel">Email</div>
+          <div class="ci-val"><a href="mailto:contact@lartisan.dz">contact@lartisan.dz</a></div>
+          <div class="ci-sub" id="emailResp">Réponse sous 2h en journée</div>
         </div>
         <div class="ci-card glass reveal delay-3">
           <div class="ci-icon">💬</div>
-          <div class="ci-title">Chat en direct</div>
-          <div class="ci-val">Disponible sur le site</div>
-          <div class="ci-sub"><span class="hours-badge hb-open">En ligne</span> en ce moment</div>
+          <div class="ci-title" id="chatLabel">Chat en direct</div>
+          <div class="ci-val" id="chatVal">Disponible sur le site</div>
+          <div class="ci-sub"><span class="hours-badge hb-open" id="onlineStatus">En ligne</span></div>
         </div>
 
-        <!-- Hours -->
         <div class="ci-card glass reveal">
           <div class="ci-icon">🕐</div>
-          <div class="ci-title" style="margin-bottom:14px;">Horaires d'ouverture</div>
+          <div class="ci-title" style="margin-bottom:14px;" id="hoursLabel">Horaires d'ouverture</div>
           <table class="hours-table">
-            <tr><td>Lundi – Vendredi</td><td><span class="hours-badge hb-open">9h – 18h</span></td></tr>
-            <tr><td>Samedi</td><td><span class="hours-badge hb-open">10h – 16h</span></td></tr>
-            <tr><td>Dimanche</td><td><span class="hours-badge hb-closed">Fermé</span></td></tr>
+            <tr><td id="h1Day">Dimanche – Jeudi</td><td><span class="hours-badge hb-open">8h – 17h</span></td></tr>
+            <tr><td id="h2Day">Vendredi</td><td><span class="hours-badge hb-open">8h – 12h</span></td></tr>
+            <tr><td id="h3Day">Samedi</td><td><span class="hours-badge hb-closed" id="closedLabel">Fermé</span></td></tr>
           </table>
         </div>
       </div>
 
-      <!-- RIGHT: FORM -->
       <div class="form-card glass reveal right">
         <div id="formContent">
-          <h2 class="form-section-title">Envoyez-nous un message</h2>
-          <p class="form-section-sub">Devis, questions, demandes de design personnalisé — nous répondons à tout.</p>
+          <h2 class="form-section-title" id="formTitle">Envoyez-nous un message</h2>
+          <p class="form-section-sub" id="formSubtitle">Devis, questions, design personnalisé — nous répondons à tout.</p>
 
-          <!-- Subject -->
           <div class="form-group">
-            <label class="form-label">Objet de votre message</label>
-            <div class="subject-pills">
-              <div class="subj-pill selected" onclick="selectSubj(this)">Demande de devis</div>
-              <div class="subj-pill" onclick="selectSubj(this)">Commande</div>
-              <div class="subj-pill" onclick="selectSubj(this)">Design / Création</div>
-              <div class="subj-pill" onclick="selectSubj(this)">Partenariat</div>
-              <div class="subj-pill" onclick="selectSubj(this)">Autre</div>
+            <label class="form-label" id="subjLabel">Objet</label>
+            <div class="subject-pills" id="subjPills">
+              <div class="subj-pill selected" onclick="selectSubj(this)" data-fr="Demande de devis" data-ar="طلب عرض أسعار" data-en="Quote Request">Demande de devis</div>
+              <div class="subj-pill" onclick="selectSubj(this)" data-fr="Commande" data-ar="طلب" data-en="Order">Commande</div>
+              <div class="subj-pill" onclick="selectSubj(this)" data-fr="Design / Création" data-ar="تصميم" data-en="Design">Design</div>
+              <div class="subj-pill" onclick="selectSubj(this)" data-fr="Partenariat" data-ar="شراكة" data-en="Partnership">Partenariat</div>
+              <div class="subj-pill" onclick="selectSubj(this)" data-fr="Autre" data-ar="أخرى" data-en="Other">Autre</div>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label class="form-label">Prénom *</label>
-              <input type="text" class="form-input" placeholder="Jean" id="fPrenom" required>
+              <label class="form-label" id="fPrenomLabel">Prénom *</label>
+              <input type="text" class="form-input" id="fPrenom" required>
             </div>
             <div class="form-group">
-              <label class="form-label">Nom *</label>
-              <input type="text" class="form-input" placeholder="Dupont" id="fNom" required>
+              <label class="form-label" id="fNomLabel">Nom *</label>
+              <input type="text" class="form-input" id="fNom" required>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label class="form-label">Email *</label>
-              <input type="email" class="form-input" placeholder="jean@exemple.fr" id="fEmail" required>
+              <label class="form-label" id="fEmailLabel">Email *</label>
+              <input type="email" class="form-input" id="fEmail" required>
             </div>
             <div class="form-group">
-              <label class="form-label">Téléphone</label>
-              <input type="tel" class="form-input" placeholder="06 12 34 56 78" id="fTel">
+              <label class="form-label" id="fTelLabel">Téléphone</label>
+              <input type="tel" class="form-input" id="fTel" placeholder="+213 55 ...">
             </div>
           </div>
           <div class="form-group">
-            <label class="form-label">Société</label>
-            <input type="text" class="form-input" placeholder="Votre entreprise (optionnel)" id="fSociete">
+            <label class="form-label" id="fSocieteLabel">Société / Entreprise</label>
+            <input type="text" class="form-input" id="fSociete">
           </div>
           <div class="form-group">
-            <label class="form-label">Produit(s) souhaité(s)</label>
-            <select class="form-select form-input" id="fProduit">
-              <option value="">Sélectionnez un produit...</option>
-              <option>Cartes de visite</option>
-              <option>Invitations</option>
-              <option>Flyers</option>
-              <option>Stickers</option>
-              <option>Autocollants</option>
-              <option>Plusieurs produits</option>
-              <option>Je ne sais pas encore</option>
-            </select>
+            <label class="form-label" id="fProduitLabel">Produit(s) souhaité(s)</label>
+            <select class="form-select form-input" id="fProduit"></select>
           </div>
           <div class="form-group">
-            <label class="form-label">Votre message *</label>
-            <textarea class="form-textarea" id="fMessage" placeholder="Décrivez votre projet : quantité souhaitée, délai, style, finitions particulières, budget indicatif..." style="min-height:140px;"></textarea>
+            <label class="form-label" id="fMessageLabel">Votre message *</label>
+            <textarea class="form-textarea" id="fMessage" style="min-height:140px;"></textarea>
           </div>
           <div class="form-group">
             <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;">
-              <input type="checkbox" id="fRgpd" style="margin-top:3px;accent-color:#9b7ef8;">
-              <span style="font-size:.78rem;color:var(--text-muted);line-height:1.65;">J'accepte que mes données soient utilisées pour traiter ma demande. Elles ne seront jamais revendues à des tiers. <a href="#" style="color:#9b7ef8;">Politique de confidentialité</a>.</span>
+              <input type="checkbox" id="fRgpd" style="margin-top:3px;accent-color:#9b7ef8;width:18px;height:18px;">
+              <span style="font-size:.78rem;color:var(--text-muted);line-height:1.65;" id="rgpdText">J'accepte que mes données soient utilisées pour traiter ma demande.</span>
             </label>
           </div>
-          <button class="btn btn-primary form-submit" onclick="submitForm()">Envoyer le message →</button>
+          <button class="btn btn-primary form-submit" onclick="submitForm()" id="btnSend">Envoyer le message →</button>
         </div>
 
-        <!-- Success -->
         <div class="form-success" id="formSuccess">
           <div class="success-icon">✅</div>
-          <h3 class="success-title">Message envoyé !</h3>
-          <p class="success-text">Merci pour votre message. Notre équipe vous répondra dans les 2 heures pendant les horaires d'ouverture.</p>
+          <h3 class="success-title" id="successTitle">Message envoyé !</h3>
+          <p style="font-size:.9rem;color:var(--text-muted);line-height:1.72;" id="successText">Notre équipe vous répondra dans les 2 heures.</p>
           <div style="margin-top:28px;padding:16px;background:rgba(155,126,248,.08);border:1px solid rgba(155,126,248,.2);border-radius:14px;">
-            <p style="font-size:.82rem;color:var(--text-muted);">En attendant, vous pouvez :</p>
-            <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;justify-content:center;">
-              <a href="products.html" class="btn btn-secondary btn-sm" style="text-decoration:none;">Explorer nos produits</a>
-              <a href="gallery.html" class="btn btn-secondary btn-sm" style="text-decoration:none;">Voir la galerie</a>
+            <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;justify-content:center;">
+              <a href="products.html" class="btn btn-secondary btn-sm" style="text-decoration:none;" id="btnProds">Explorer nos produits</a>
+              <a href="gallery.html" class="btn btn-secondary btn-sm" style="text-decoration:none;" id="btnGal">Voir la galerie</a>
             </div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- QUICK LINKS -->
 <section class="section-sm" style="position:relative;z-index:2;">
   <div class="container">
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;" class="reveal">
+    <div class="quick-grid reveal">
       <div class="ci-card glass" style="text-align:center;padding:30px;">
         <div style="font-size:1.8rem;margin-bottom:12px;">⚡</div>
-        <h4 style="margin-bottom:6px;">Devis express</h4>
-        <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:16px;line-height:1.6;">Configurez votre commande et obtenez un prix instantané.</p>
-        <a href="configurator.html" class="btn btn-primary btn-sm" style="text-decoration:none;">Configurer →</a>
+        <h4 style="margin-bottom:6px;" id="q1Title">Devis express</h4>
+        <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:16px;line-height:1.6;" id="q1Desc">Configurez votre commande et obtenez un prix instantané.</p>
+        <a href="configurator.html" class="btn btn-primary btn-sm" style="text-decoration:none;" id="q1Btn">Configurer →</a>
       </div>
       <div class="ci-card glass" style="text-align:center;padding:30px;">
         <div style="font-size:1.8rem;margin-bottom:12px;">📋</div>
-        <h4 style="margin-bottom:6px;">Voir la FAQ</h4>
-        <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:16px;line-height:1.6;">Trouvez les réponses aux questions les plus fréquentes.</p>
-        <a href="about.html#faq" class="btn btn-secondary btn-sm" style="text-decoration:none;">Voir la FAQ</a>
+        <h4 style="margin-bottom:6px;" id="q2Title">Voir la FAQ</h4>
+        <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:16px;line-height:1.6;" id="q2Desc">Trouvez les réponses aux questions fréquentes.</p>
+        <a href="about.html#faq" class="btn btn-secondary btn-sm" style="text-decoration:none;" id="q2Btn">Voir la FAQ</a>
       </div>
       <div class="ci-card glass" style="text-align:center;padding:30px;">
         <div style="font-size:1.8rem;margin-bottom:12px;">🎨</div>
-        <h4 style="margin-bottom:6px;">Besoin d'un designer ?</h4>
-        <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:16px;line-height:1.6;">Notre équipe crée votre visuel à partir de 49€.</p>
-        <a href="configurator.html" class="btn btn-secondary btn-sm" style="text-decoration:none;">En savoir plus</a>
+        <h4 style="margin-bottom:6px;" id="q3Title">Besoin d'un designer ?</h4>
+        <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:16px;line-height:1.6;" id="q3Desc">Notre équipe crée votre visuel à partir de 7.100 DA.</p>
+        <a href="configurator.html" class="btn btn-secondary btn-sm" style="text-decoration:none;" id="q3Btn">En savoir plus</a>
       </div>
     </div>
   </div>
 </section>
 
 </div>
-<script src="js/app.js"></script>
+<script src="shared.js"></script>
 <script>
-initApp('contact');
+initShared('contact');
+const lang = localStorage.getItem('lang') || 'fr';
+
+const tx = {
+  fr: {
+    breadHome:'Accueil', breadContact:'Contact',
+    contactEyebrow:'Nous Contacter', contactTitle:'Parlons de votre<br><em class="grad">prochain projet</em>',
+    contactLead:"Devis gratuit sous 2h · Réponse garantie · Livraison dans toute l'Algérie",
+    mapStreet:'Alger Centre, Alger', mapCity:'Algérie',
+    telLabel:'Téléphone', telHours:'Dim–Jeu, 8h–17h',
+    emailLabel:'Email', emailResp:'Réponse sous 2h en journée',
+    chatLabel:'Chat en direct', chatVal:'Disponible sur le site', onlineStatus:'En ligne',
+    hoursLabel:"Horaires d'ouverture",
+    h1Day:'Dimanche – Jeudi', h2Day:'Vendredi', h3Day:'Samedi', closedLabel:'Fermé',
+    formTitle:'Envoyez-nous un message',
+    formSubtitle:'Devis, questions, design personnalisé — nous répondons à tout.',
+    subjLabel:'Objet',
+    fPrenomLabel:'Prénom *', fNomLabel:'Nom *', fEmailLabel:'Email *',
+    fTelLabel:'Téléphone', fSocieteLabel:'Société / Entreprise',
+    fProduitLabel:'Produit(s) souhaité(s)', fMessageLabel:'Votre message *',
+    rgpdText:"J'accepte que mes données soient utilisées pour traiter ma demande.",
+    btnSend:'Envoyer le message →',
+    successTitle:'Message envoyé !', successText:'Notre équipe vous répondra dans les 2 heures.',
+    btnProds:'Explorer nos produits', btnGal:'Voir la galerie',
+    products:['Sélectionnez un produit...','Cartes de visite','Invitations','Flyers','Stickers','Autocollants','Plusieurs produits','Je ne sais pas encore'],
+    msgPlaceholder:'Décrivez votre projet : quantité, délai, style, finitions, budget...',
+    required:'Veuillez remplir les champs obligatoires.', rgpdError:'Veuillez accepter la politique.',
+    q1Title:'Devis express', q1Desc:'Configurez votre commande et obtenez un prix instantané.', q1Btn:'Configurer →',
+    q2Title:'Voir la FAQ', q2Desc:'Trouvez les réponses aux questions fréquentes.', q2Btn:'Voir la FAQ',
+    q3Title:"Besoin d'un designer ?", q3Desc:'Notre équipe crée votre visuel à partir de 7.100 DA.', q3Btn:'En savoir plus',
+  },
+  ar: {
+    breadHome:'الرئيسية', breadContact:'اتصل بنا',
+    contactEyebrow:'تواصل معنا', contactTitle:'لنتحدث عن<br><em class="grad">مشروعك القادم</em>',
+    contactLead:'عرض مجاني خلال ساعتين · رد مضمون · توصيل لكل الجزائر',
+    mapStreet:'وسط العاصمة، الجزائر', mapCity:'الجزائر',
+    telLabel:'الهاتف', telHours:'الأحد – الخميس، 8ص–5م',
+    emailLabel:'البريد الإلكتروني', emailResp:'رد خلال ساعتين في أوقات العمل',
+    chatLabel:'الدردشة المباشرة', chatVal:'متاح على الموقع', onlineStatus:'متصل',
+    hoursLabel:'ساعات العمل',
+    h1Day:'الأحد – الخميس', h2Day:'الجمعة', h3Day:'السبت', closedLabel:'مغلق',
+    formTitle:'أرسل لنا رسالة',
+    formSubtitle:'عروض أسعار، استفسارات، تصاميم مخصصة — نجيب على كل شيء.',
+    subjLabel:'الموضوع',
+    fPrenomLabel:'الاسم الأول *', fNomLabel:'اللقب *', fEmailLabel:'البريد الإلكتروني *',
+    fTelLabel:'الهاتف', fSocieteLabel:'الشركة / المؤسسة',
+    fProduitLabel:'المنتج(ات) المطلوبة', fMessageLabel:'رسالتك *',
+    rgpdText:'أوافق على استخدام بياناتي لمعالجة طلبي.',
+    btnSend:'← أرسل الرسالة',
+    successTitle:'تم إرسال الرسالة!', successText:'سيرد فريقنا عليك خلال ساعتين.',
+    btnProds:'استعرض المنتجات', btnGal:'شاهد المعرض',
+    products:['اختر منتجاً...','بطاقات الأعمال','الدعوات','المنشورات','الملصقات','لاصقات الفينيل','منتجات متعددة','لم أقرر بعد'],
+    msgPlaceholder:'صف مشروعك: الكمية، الموعد، الأسلوب، التشطيبات، الميزانية...',
+    required:'يرجى ملء الحقول الإلزامية.', rgpdError:'يرجى الموافقة على سياسة الخصوصية.',
+    q1Title:'عرض سريع', q1Desc:'هيئ طلبك واحصل على سعر فوري.', q1Btn:'← تهيئة',
+    q2Title:'الأسئلة الشائعة', q2Desc:'اعثر على إجابات للأسئلة الشائعة.', q2Btn:'الأسئلة الشائعة',
+    q3Title:'تحتاج مصمماً؟', q3Desc:'فريقنا يصمم لك من 7.100 دج.', q3Btn:'← اعرف المزيد',
+  },
+  en: {
+    breadHome:'Home', breadContact:'Contact',
+    contactEyebrow:'Contact Us', contactTitle:"Let's talk about<br><em class=\"grad\">your next project</em>",
+    contactLead:'Free quote within 2h · Guaranteed response · Delivery throughout Algeria',
+    mapStreet:'Algiers Centre, Algiers', mapCity:'Algeria',
+    telLabel:'Phone', telHours:'Sun–Thu, 8am–5pm',
+    emailLabel:'Email', emailResp:'Response within 2 hours',
+    chatLabel:'Live Chat', chatVal:'Available on the website', onlineStatus:'Online',
+    hoursLabel:'Opening Hours',
+    h1Day:'Sunday – Thursday', h2Day:'Friday', h3Day:'Saturday', closedLabel:'Closed',
+    formTitle:'Send us a message',
+    formSubtitle:'Quotes, questions, custom design — we answer everything.',
+    subjLabel:'Subject',
+    fPrenomLabel:'First Name *', fNomLabel:'Last Name *', fEmailLabel:'Email *',
+    fTelLabel:'Phone', fSocieteLabel:'Company',
+    fProduitLabel:'Product(s) wanted', fMessageLabel:'Your message *',
+    rgpdText:'I agree my data may be used to process my request.',
+    btnSend:'Send Message →',
+    successTitle:'Message Sent!', successText:'Our team will reply within 2 hours.',
+    btnProds:'Explore Products', btnGal:'View Gallery',
+    products:['Select a product...','Business Cards','Invitations','Flyers','Stickers','Vinyl Labels','Multiple products','Not decided yet'],
+    msgPlaceholder:'Describe your project: quantity, deadline, style, finish, budget...',
+    required:'Please fill in all required fields.', rgpdError:'Please accept the privacy policy.',
+    q1Title:'Express Quote', q1Desc:'Configure your order and get an instant price.', q1Btn:'Configure →',
+    q2Title:'View FAQ', q2Desc:'Find answers to frequently asked questions.', q2Btn:'View FAQ',
+    q3Title:'Need a designer?', q3Desc:'Our team creates your visual from 7,100 DZD.', q3Btn:'Learn More',
+  }
+};
+
+const t = tx[lang] || tx.fr;
+const setEl = (id, html) => { const el = document.getElementById(id); if(el) el.innerHTML = html; };
+const setTxt = (id, txt) => { const el = document.getElementById(id); if(el) el.textContent = txt; };
+const setPlaceholder = (id, txt) => { const el = document.getElementById(id); if(el) el.placeholder = txt; };
+
+Object.keys(t).forEach(k => {
+  if (typeof t[k] === 'string') setEl(k, t[k]);
+});
+
+// Products select
+const sel = document.getElementById('fProduit');
+if(sel) sel.innerHTML = t.products.map(p => `<option>${p}</option>`).join('');
+
+setPlaceholder('fMessage', t.msgPlaceholder);
+setPlaceholder('fPrenom', lang==='ar'?'أحمد':lang==='en'?'John':'Jean');
+setPlaceholder('fNom', lang==='ar'?'بن علي':lang==='en'?'Smith':'Dupont');
+
+// Subject pills
+document.querySelectorAll('.subj-pill').forEach(p => {
+  p.textContent = p.dataset[lang] || p.dataset.fr;
+});
+
 function selectSubj(el){
   document.querySelectorAll('.subj-pill').forEach(p=>p.classList.remove('selected'));
   el.classList.add('selected');
 }
+
 function submitForm(){
   const prenom=document.getElementById('fPrenom').value.trim();
   const email=document.getElementById('fEmail').value.trim();
   const msg=document.getElementById('fMessage').value.trim();
   const rgpd=document.getElementById('fRgpd').checked;
-  if(!prenom||!email||!msg){showToast('Veuillez remplir les champs obligatoires.','⚠️');return;}
-  if(!rgpd){showToast('Veuillez accepter la politique de confidentialité.','⚠️');return;}
-  // Simulate send
+  if(!prenom||!email||!msg){showToast(t.required,'⚠️');return;}
+  if(!rgpd){showToast(t.rgpdError,'⚠️');return;}
   document.getElementById('formContent').style.display='none';
   document.getElementById('formSuccess').classList.add('show');
-  window.scrollTo({top:400,behavior:'smooth'});
+  showToast(lang==='ar'?'تم إرسال رسالتك!':lang==='en'?'Message sent!':'Message envoyé !','✅');
 }
 </script>
 </body>

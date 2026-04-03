@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" dir="ltr">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#07050e">
 <title>Configurateur — L'Artisan Imprimeur</title>
-<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="shared.css">
 <style>
 .config-layout {
   display:grid;grid-template-columns:1fr 360px;gap:32px;
   align-items:start;padding-top:160px;padding-bottom:80px;
 }
-/* STEPS NAV */
 .steps-nav {
   display:flex;gap:0;margin-bottom:40px;
   background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
-  border-radius:50px;padding:5px;
+  border-radius:50px;padding:5px;overflow-x:auto;scrollbar-width:none;
 }
+.steps-nav::-webkit-scrollbar{display:none;}
 .step-tab {
-  flex:1;padding:10px 8px;border-radius:50px;
+  flex:1;padding:10px 8px;border-radius:50px;min-width:70px;
   text-align:center;font-size:.78rem;font-weight:500;
   color:var(--text-muted);cursor:pointer;transition:all .25s;
   display:flex;flex-direction:column;align-items:center;gap:3px;
+  white-space:nowrap;
 }
 .step-tab .st-num {
   width:22px;height:22px;border-radius:50%;font-size:.68rem;font-weight:700;
@@ -27,26 +30,24 @@
   background:rgba(255,255,255,.08);margin-bottom:2px;
   transition:all .25s;
 }
-.step-tab.active {
-  background:rgba(155,126,248,.18);color:#c4b5fd;
-}
+.step-tab.active { background:rgba(155,126,248,.18);color:#c4b5fd; }
 .step-tab.active .st-num{background:linear-gradient(135deg,#9b7ef8,#f472b6);color:#fff;}
 .step-tab.done .st-num{background:rgba(74,222,128,.2);color:#4ade80;border:1px solid rgba(74,222,128,.3);}
 .step-tab.done .st-num::after{content:'✓';}
 .step-tab.done .st-num span{display:none;}
 
-/* STEP PANELS */
 .step-panel{display:none;}
 .step-panel.active{display:block;}
 .step-title{font-family:'Playfair Display',serif;font-size:1.6rem;margin-bottom:6px;}
+[dir="rtl"] .step-title{font-family:'Cairo',serif;}
 .step-sub{font-size:.88rem;color:var(--text-muted);margin-bottom:28px;line-height:1.65;}
 
-/* PRODUCT CHOOSER */
 .prod-chooser{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .pc-opt {
   padding:18px;border-radius:18px;cursor:pointer;
   background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
   transition:all .25s;display:flex;align-items:center;gap:14px;
+  min-height:var(--touch-target);
 }
 .pc-opt:hover{background:rgba(155,126,248,.1);border-color:rgba(155,126,248,.3);}
 .pc-opt.selected{background:rgba(155,126,248,.18);border-color:rgba(155,126,248,.5);box-shadow:0 0 0 1px rgba(155,126,248,.25);}
@@ -54,20 +55,18 @@
 .pc-opt .po-name{font-size:.9rem;font-weight:600;margin-bottom:2px;}
 .pc-opt .po-from{font-size:.72rem;color:var(--text-muted);}
 
-/* FORMAT / OPTIONS */
 .opt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px;}
 .opt-tile {
   padding:16px 12px;border-radius:14px;text-align:center;cursor:pointer;
   background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
-  transition:all .2s;
+  transition:all .2s;min-height:60px;
 }
 .opt-tile:hover{background:rgba(155,126,248,.1);border-color:rgba(155,126,248,.3);}
 .opt-tile.selected{background:rgba(155,126,248,.18);border-color:rgba(155,126,248,.5);}
 .opt-tile .ot-val{font-size:.9rem;font-weight:600;margin-bottom:3px;}
 .opt-tile .ot-note{font-size:.7rem;color:var(--text-muted);}
 
-/* FINISH SWATCHES */
-.finish-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;}
+.finish-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px;}
 .fin-swatch{
   padding:14px 8px;border-radius:14px;text-align:center;cursor:pointer;
   border:1px solid rgba(255,255,255,.1);transition:all .2s;
@@ -77,7 +76,6 @@
 .fin-preview{height:36px;border-radius:8px;margin-bottom:8px;}
 .fin-name{font-size:.72rem;font-weight:500;}
 
-/* UPLOAD ZONE */
 .upload-zone {
   border:2px dashed rgba(255,255,255,.18);border-radius:20px;
   padding:48px 24px;text-align:center;cursor:pointer;
@@ -103,9 +101,8 @@
 .uf-name{font-size:.88rem;font-weight:500;flex:1;}
 .uf-remove{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1rem;padding:4px;}
 
-/* PREVIEW CANVAS */
 .preview-canvas{
-  border-radius:20px;height:220px;
+  border-radius:20px;height:200px;
   display:flex;align-items:center;justify-content:center;
   margin-bottom:20px;position:relative;overflow:hidden;
   background:linear-gradient(145deg,#1e0a4e,#4a1d96,#7c3aed);
@@ -120,7 +117,6 @@
 .canvas-text{font-size:.72rem;color:rgba(255,255,255,.5);font-style:italic;}
 .canvas-label{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);}
 
-/* SUMMARY CARD */
 .summary-card{padding:28px;position:sticky;top:100px;}
 .summary-title{font-size:1rem;font-weight:600;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08);}
 .summary-row{display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:10px;}
@@ -131,13 +127,17 @@
   padding-top:16px;border-top:1px solid rgba(255,255,255,.1);margin-top:10px;
 }
 .st-label{font-size:.85rem;color:var(--text-muted);}
-.st-price{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;}
+.st-price{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;}
 .summary-actions{margin-top:20px;display:flex;flex-direction:column;gap:10px;}
 .progress-bar{height:3px;border-radius:2px;background:rgba(255,255,255,.08);margin-bottom:28px;}
 .progress-fill{height:100%;border-radius:2px;background:linear-gradient(to right,#9b7ef8,#f472b6);transition:width .4s var(--transition);}
 
-/* NAV BTNS */
-.step-actions{display:flex;justify-content:space-between;align-items:center;margin-top:32px;}
+.step-actions{display:flex;justify-content:space-between;align-items:center;margin-top:32px;gap:12px;}
+
+.option-title-lbl {
+  font-size:.78rem;font-weight:600;color:var(--text-muted);
+  text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:block;
+}
 
 @media(max-width:900px){
   .config-layout{grid-template-columns:1fr;padding-top:120px;}
@@ -147,6 +147,7 @@
   .prod-chooser{grid-template-columns:1fr;}
   .opt-grid{grid-template-columns:repeat(2,1fr);}
   .finish-grid{grid-template-columns:repeat(2,1fr);}
+  .step-tab{font-size:.68rem;padding:8px 6px;}
 }
 </style>
 </head>
@@ -158,162 +159,147 @@
 <!-- LEFT: CONFIGURATOR -->
 <div>
   <div class="breadcrumb reveal" style="padding-top:0;">
-    <a href="index.html">Accueil</a><span>/</span><a href="products.html">Produits</a><span>/</span><span>Configurateur</span>
+    <a href="index.html" id="breadHome">Accueil</a><span>/</span>
+    <a href="products.html" id="breadProd">Produits</a><span>/</span>
+    <span id="breadConfig">Configurateur</span>
   </div>
   <div style="margin-bottom:32px;" class="reveal">
-    <span class="eyebrow">Configurateur</span>
-    <h1 class="display-title" style="font-size:2.2rem;">Créez votre<br><em class="grad">commande sur mesure</em></h1>
+    <span class="eyebrow" id="configEyebrow">Configurateur</span>
+    <h1 class="display-title" style="font-size:2.2rem;" id="configTitle">Créez votre<br><em class="grad">commande sur mesure</em></h1>
   </div>
 
-  <!-- Progress bar -->
   <div class="progress-bar reveal">
-    <div class="progress-fill" id="progressFill" style="width:25%;"></div>
+    <div class="progress-fill" id="progressFill" style="width:20%;"></div>
   </div>
 
-  <!-- Steps nav -->
-  <div class="steps-nav reveal">
-    <div class="step-tab active" data-step="1" onclick="goStep(1)">
-      <div class="st-num"><span>1</span></div>Produit
-    </div>
-    <div class="step-tab" data-step="2" onclick="goStep(2)">
-      <div class="st-num"><span>2</span></div>Format
-    </div>
-    <div class="step-tab" data-step="3" onclick="goStep(3)">
-      <div class="st-num"><span>3</span></div>Finition
-    </div>
-    <div class="step-tab" data-step="4" onclick="goStep(4)">
-      <div class="st-num"><span>4</span></div>Fichier
-    </div>
-    <div class="step-tab" data-step="5" onclick="goStep(5)">
-      <div class="st-num"><span>5</span></div>Résumé
-    </div>
+  <div class="steps-nav reveal" id="stepsNav">
+    <div class="step-tab active" data-step="1" onclick="goStep(1)"><div class="st-num"><span>1</span></div><span id="stLabel1">Produit</span></div>
+    <div class="step-tab" data-step="2" onclick="goStep(2)"><div class="st-num"><span>2</span></div><span id="stLabel2">Format</span></div>
+    <div class="step-tab" data-step="3" onclick="goStep(3)"><div class="st-num"><span>3</span></div><span id="stLabel3">Finition</span></div>
+    <div class="step-tab" data-step="4" onclick="goStep(4)"><div class="st-num"><span>4</span></div><span id="stLabel4">Fichier</span></div>
+    <div class="step-tab" data-step="5" onclick="goStep(5)"><div class="st-num"><span>5</span></div><span id="stLabel5">Résumé</span></div>
   </div>
 
   <!-- STEP 1 : PRODUCT -->
   <div class="step-panel active" id="step1">
-    <h2 class="step-title">Quel produit souhaitez-vous ?</h2>
-    <p class="step-sub">Sélectionnez le type de produit que vous souhaitez commander.</p>
+    <h2 class="step-title" id="s1Title">Quel produit souhaitez-vous ?</h2>
+    <p class="step-sub" id="s1Sub">Sélectionnez le type de produit que vous souhaitez commander.</p>
     <div class="prod-chooser">
-      <div class="pc-opt selected" onclick="selectProd(this,'Carte de Visite','🪪')">
-        <div class="po-icon">🪪</div>
-        <div><div class="po-name">Carte de Visite</div><div class="po-from">Dès 19€ / 100 pcs</div></div>
+      <div class="pc-opt selected" onclick="selectProd(this,'Carte de Visite','🪪','fr')" data-prod-fr="Carte de Visite" data-prod-ar="بطاقة أعمال" data-prod-en="Business Card" data-icon="🪪" data-bg="linear-gradient(145deg,#1e0a4e,#4a1d96,#7c3aed)">
+        <div class="po-icon">🪪</div><div><div class="po-name" id="prod1Name">Carte de Visite</div><div class="po-from">Dès 2.750 DA / 100 pcs</div></div>
       </div>
-      <div class="pc-opt" onclick="selectProd(this,'Invitation','💌')">
-        <div class="po-icon">💌</div>
-        <div><div class="po-name">Invitation</div><div class="po-from">Dès 35€ / 50 pcs</div></div>
+      <div class="pc-opt" onclick="selectProd(this)" data-prod-fr="Invitation" data-prod-ar="دعوة" data-prod-en="Invitation" data-icon="💌" data-bg="linear-gradient(145deg,#500724,#9d174d,#ec4899)">
+        <div class="po-icon">💌</div><div><div class="po-name" id="prod2Name">Invitation</div><div class="po-from">Dès 5.000 DA / 50 pcs</div></div>
       </div>
-      <div class="pc-opt" onclick="selectProd(this,'Flyer','🗞️')">
-        <div class="po-icon">🗞️</div>
-        <div><div class="po-name">Flyer</div><div class="po-from">Dès 12€ / 100 pcs</div></div>
+      <div class="pc-opt" onclick="selectProd(this)" data-prod-fr="Flyer" data-prod-ar="منشور" data-prod-en="Flyer" data-icon="🗞️" data-bg="linear-gradient(145deg,#0c4a6e,#0369a1,#38bdf8)">
+        <div class="po-icon">🗞️</div><div><div class="po-name" id="prod3Name">Flyer</div><div class="po-from">Dès 1.750 DA / 100 pcs</div></div>
       </div>
-      <div class="pc-opt" onclick="selectProd(this,'Sticker','⭐')">
-        <div class="po-icon">⭐</div>
-        <div><div class="po-name">Sticker</div><div class="po-from">Dès 9€ / 50 pcs</div></div>
+      <div class="pc-opt" onclick="selectProd(this)" data-prod-fr="Sticker" data-prod-ar="ملصق" data-prod-en="Sticker" data-icon="⭐" data-bg="linear-gradient(145deg,#052e16,#166534,#4ade80)">
+        <div class="po-icon">⭐</div><div><div class="po-name" id="prod4Name">Sticker</div><div class="po-from">Dès 1.300 DA / 50 pcs</div></div>
       </div>
-      <div class="pc-opt" onclick="selectProd(this,'Autocollant','🏷️')">
-        <div class="po-icon">🏷️</div>
-        <div><div class="po-name">Autocollant</div><div class="po-from">Dès 14€ / 50 pcs</div></div>
+      <div class="pc-opt" onclick="selectProd(this)" data-prod-fr="Autocollant" data-prod-ar="لاصق" data-prod-en="Label" data-icon="🏷️" data-bg="linear-gradient(145deg,#451a03,#92400e,#f59e0b)">
+        <div class="po-icon">🏷️</div><div><div class="po-name" id="prod5Name">Autocollant</div><div class="po-from">Dès 2.000 DA / 50 pcs</div></div>
       </div>
     </div>
     <div class="step-actions">
       <span></span>
-      <button class="btn btn-primary" onclick="nextStep()">Suivant →</button>
+      <button class="btn btn-primary" onclick="nextStep()" id="btnNext1">Suivant →</button>
     </div>
   </div>
 
   <!-- STEP 2 : FORMAT & QTY -->
   <div class="step-panel" id="step2">
-    <h2 class="step-title">Format et quantité</h2>
-    <p class="step-sub">Choisissez le format qui correspond à vos besoins.</p>
+    <h2 class="step-title" id="s2Title">Format et quantité</h2>
+    <p class="step-sub" id="s2Sub">Choisissez le format qui correspond à vos besoins.</p>
 
-    <div class="option-title" style="font-size:.78rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">Format</div>
+    <span class="option-title-lbl" id="lblFormat">Format</span>
     <div class="opt-grid" id="formatGrid">
       <div class="opt-tile selected" onclick="selectTile(this,'formatGrid')"><div class="ot-val">85 × 54 mm</div><div class="ot-note">Standard</div></div>
       <div class="opt-tile" onclick="selectTile(this,'formatGrid')"><div class="ot-val">90 × 55 mm</div><div class="ot-note">Euro</div></div>
       <div class="opt-tile" onclick="selectTile(this,'formatGrid')"><div class="ot-val">A5</div><div class="ot-note">148 × 210</div></div>
       <div class="opt-tile" onclick="selectTile(this,'formatGrid')"><div class="ot-val">A4</div><div class="ot-note">210 × 297</div></div>
       <div class="opt-tile" onclick="selectTile(this,'formatGrid')"><div class="ot-val">Carré</div><div class="ot-note">150 × 150</div></div>
-      <div class="opt-tile" onclick="selectTile(this,'formatGrid')"><div class="ot-val">Sur mesure</div><div class="ot-note">Personnalisé</div></div>
+      <div class="opt-tile" onclick="selectTile(this,'formatGrid')"><div class="ot-val" id="customFmt">Sur mesure</div><div class="ot-note" id="customFmtNote">Personnalisé</div></div>
     </div>
 
-    <div class="option-title" style="font-size:.78rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">Quantité</div>
+    <span class="option-title-lbl" id="lblQty">Quantité</span>
     <div class="opt-grid" id="qtyGrid">
-      <div class="opt-tile" onclick="selectTile(this,'qtyGrid');updatePrice()"><div class="ot-val">50</div><div class="ot-note">pièces</div></div>
-      <div class="opt-tile selected" onclick="selectTile(this,'qtyGrid');updatePrice()"><div class="ot-val">100</div><div class="ot-note">pièces</div></div>
-      <div class="opt-tile" onclick="selectTile(this,'qtyGrid');updatePrice()"><div class="ot-val">250</div><div class="ot-note">pièces</div></div>
-      <div class="opt-tile" onclick="selectTile(this,'qtyGrid');updatePrice()"><div class="ot-val">500</div><div class="ot-note">pièces</div></div>
-      <div class="opt-tile" onclick="selectTile(this,'qtyGrid');updatePrice()"><div class="ot-val">1000</div><div class="ot-note">pièces</div></div>
-      <div class="opt-tile" onclick="selectTile(this,'qtyGrid');updatePrice()"><div class="ot-val">2500+</div><div class="ot-note">Sur devis</div></div>
+      <div class="opt-tile" onclick="selectTile(this,'qtyGrid');updatePrice()"><div class="ot-val">50</div><div class="ot-note" id="qtyNote">pièces</div></div>
+      <div class="opt-tile selected" onclick="selectTile(this,'qtyGrid');updatePrice()"><div class="ot-val">100</div><div class="ot-note" id="qtyNote2">pièces</div></div>
+      <div class="opt-tile" onclick="selectTile(this,'qtyGrid');updatePrice()"><div class="ot-val">250</div><div class="ot-note" id="qtyNote3">pièces</div></div>
+      <div class="opt-tile" onclick="selectTile(this,'qtyGrid');updatePrice()"><div class="ot-val">500</div><div class="ot-note" id="qtyNote4">pièces</div></div>
+      <div class="opt-tile" onclick="selectTile(this,'qtyGrid');updatePrice()"><div class="ot-val">1000</div><div class="ot-note" id="qtyNote5">pièces</div></div>
+      <div class="opt-tile" onclick="selectTile(this,'qtyGrid');updatePrice()"><div class="ot-val">2500+</div><div class="ot-note" id="qtyNoteQuote">Sur devis</div></div>
     </div>
 
-    <div class="option-title" style="font-size:.78rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">Impression</div>
+    <span class="option-title-lbl" id="lblPrint">Impression</span>
     <div class="opt-grid" id="impGrid">
-      <div class="opt-tile selected" onclick="selectTile(this,'impGrid')"><div class="ot-val">Recto</div><div class="ot-note">1 face</div></div>
-      <div class="opt-tile" onclick="selectTile(this,'impGrid')"><div class="ot-val">Recto-Verso</div><div class="ot-note">2 faces</div></div>
+      <div class="opt-tile selected" onclick="selectTile(this,'impGrid')"><div class="ot-val" id="imp1V">Recto</div><div class="ot-note" id="imp1N">1 face</div></div>
+      <div class="opt-tile" onclick="selectTile(this,'impGrid')"><div class="ot-val" id="imp2V">Recto-Verso</div><div class="ot-note" id="imp2N">2 faces</div></div>
     </div>
 
     <div class="step-actions">
-      <button class="btn btn-secondary" onclick="prevStep()">← Retour</button>
-      <button class="btn btn-primary" onclick="nextStep()">Suivant →</button>
+      <button class="btn btn-secondary" onclick="prevStep()" id="btnBack2">← Retour</button>
+      <button class="btn btn-primary" onclick="nextStep()" id="btnNext2">Suivant →</button>
     </div>
   </div>
 
   <!-- STEP 3 : FINISH -->
   <div class="step-panel" id="step3">
-    <h2 class="step-title">Papier et finitions</h2>
-    <p class="step-sub">Choisissez la texture et la finition qui sublimeront votre création.</p>
+    <h2 class="step-title" id="s3Title">Papier et finitions</h2>
+    <p class="step-sub" id="s3Sub">Choisissez la texture et la finition qui sublimeront votre création.</p>
 
-    <div class="option-title" style="font-size:.78rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">Papier</div>
+    <span class="option-title-lbl" id="lblPaper">Papier</span>
     <div class="opt-grid" id="papierGrid">
-      <div class="opt-tile selected" onclick="selectTile(this,'papierGrid')"><div class="ot-val">Standard</div><div class="ot-note">300g/m²</div></div>
-      <div class="opt-tile" onclick="selectTile(this,'papierGrid')"><div class="ot-val">Premium</div><div class="ot-note">350g/m²</div></div>
-      <div class="opt-tile" onclick="selectTile(this,'papierGrid')"><div class="ot-val">Luxe</div><div class="ot-note">Coton 600g</div></div>
-      <div class="opt-tile" onclick="selectTile(this,'papierGrid')"><div class="ot-val">Recyclé</div><div class="ot-note">FSC 300g</div></div>
+      <div class="opt-tile selected" onclick="selectTile(this,'papierGrid')"><div class="ot-val" id="pap1V">Standard</div><div class="ot-note">300g/m²</div></div>
+      <div class="opt-tile" onclick="selectTile(this,'papierGrid')"><div class="ot-val" id="pap2V">Premium</div><div class="ot-note">350g/m²</div></div>
+      <div class="opt-tile" onclick="selectTile(this,'papierGrid')"><div class="ot-val" id="pap3V">Luxe</div><div class="ot-note">Coton 600g</div></div>
+      <div class="opt-tile" onclick="selectTile(this,'papierGrid')"><div class="ot-val" id="pap4V">Recyclé</div><div class="ot-note">FSC 300g</div></div>
     </div>
 
-    <div class="option-title" style="font-size:.78rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">Finition</div>
+    <span class="option-title-lbl" id="lblFinish">Finition</span>
     <div class="finish-grid">
       <div class="fin-swatch selected" onclick="selectFin(this)">
         <div class="fin-preview" style="background:linear-gradient(135deg,#1a1a2e,#2d2d4e);"></div>
-        <div class="fin-name">Mat</div>
+        <div class="fin-name" id="fin1">Mat</div>
       </div>
       <div class="fin-swatch" onclick="selectFin(this)">
         <div class="fin-preview" style="background:linear-gradient(135deg,#e0e8ff,#c8d8ff);box-shadow:inset 0 0 0 1px rgba(255,255,255,.4);"></div>
-        <div class="fin-name">Brillant</div>
+        <div class="fin-name" id="fin2">Brillant</div>
       </div>
       <div class="fin-swatch" onclick="selectFin(this)">
-        <div class="fin-preview" style="background:linear-gradient(135deg,#2a2040,#3d2e60);filter:blur(.3px);"></div>
-        <div class="fin-name">Soft-touch</div>
+        <div class="fin-preview" style="background:linear-gradient(135deg,#2a2040,#3d2e60);"></div>
+        <div class="fin-name" id="fin3">Soft-touch</div>
       </div>
       <div class="fin-swatch" onclick="selectFin(this)">
         <div class="fin-preview" style="background:linear-gradient(135deg,#3d2800,#a06800);background-image:repeating-linear-gradient(45deg,rgba(255,200,0,.2) 0px,rgba(255,200,0,.2) 2px,transparent 2px,transparent 8px);"></div>
-        <div class="fin-name">Dorure</div>
+        <div class="fin-name" id="fin4">Dorure</div>
       </div>
       <div class="fin-swatch" onclick="selectFin(this)">
         <div class="fin-preview" style="background:linear-gradient(135deg,#1a0a3e,#3a1a6e);background-image:radial-gradient(ellipse at 30% 30%, rgba(255,255,255,.3),transparent 50%);"></div>
-        <div class="fin-name">Vernis</div>
+        <div class="fin-name" id="fin5">Vernis</div>
       </div>
       <div class="fin-swatch" onclick="selectFin(this)">
         <div class="fin-preview" style="background:linear-gradient(135deg,#0a2010,#1a5030);background-image:radial-gradient(circle at 60% 40%, rgba(74,222,128,.25),transparent 50%);"></div>
-        <div class="fin-name">Gaufrage</div>
+        <div class="fin-name" id="fin6">Gaufrage</div>
       </div>
     </div>
 
     <div class="step-actions">
-      <button class="btn btn-secondary" onclick="prevStep()">← Retour</button>
-      <button class="btn btn-primary" onclick="nextStep()">Suivant →</button>
+      <button class="btn btn-secondary" onclick="prevStep()" id="btnBack3">← Retour</button>
+      <button class="btn btn-primary" onclick="nextStep()" id="btnNext3">Suivant →</button>
     </div>
   </div>
 
   <!-- STEP 4 : UPLOAD -->
   <div class="step-panel" id="step4">
-    <h2 class="step-title">Votre fichier de création</h2>
-    <p class="step-sub">Uploadez votre fichier ou laissez nos designers créer votre visuel.</p>
+    <h2 class="step-title" id="s4Title">Votre fichier de création</h2>
+    <p class="step-sub" id="s4Sub">Uploadez votre fichier ou laissez nos designers créer votre visuel.</p>
 
     <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
       <div class="upload-icon">📂</div>
-      <div class="upload-title">Glissez votre fichier ici</div>
-      <div class="upload-sub">ou <span>parcourez vos fichiers</span></div>
+      <div class="upload-title" id="uploadTitle">Glissez votre fichier ici</div>
+      <div class="upload-sub" id="uploadSub">ou <span>parcourez vos fichiers</span></div>
       <div class="upload-specs">
         <span class="upload-spec-tag">PDF</span>
         <span class="upload-spec-tag">AI</span>
@@ -332,39 +318,35 @@
     </div>
 
     <div style="margin-top:16px;padding:18px;background:rgba(155,126,248,.08);border:1px solid rgba(155,126,248,.2);border-radius:14px;">
-      <p style="font-size:.85rem;font-weight:600;margin-bottom:6px;">Pas de fichier ?</p>
-      <p style="font-size:.82rem;color:var(--text-muted);line-height:1.65;">Nos graphistes peuvent créer votre design pour <strong style="color:#c4b5fd;">49€ supplémentaires</strong>. Décrivez votre idée dans les commentaires à l'étape suivante.</p>
+      <p style="font-size:.85rem;font-weight:600;margin-bottom:6px;" id="noFileTitle">Pas de fichier ?</p>
+      <p style="font-size:.82rem;color:var(--text-muted);line-height:1.65;" id="noFileDesc">Nos graphistes peuvent créer votre design pour <strong style="color:#c4b5fd;">7.100 DA supplémentaires</strong>.</p>
     </div>
 
     <div class="step-actions" style="margin-top:24px;">
-      <button class="btn btn-secondary" onclick="prevStep()">← Retour</button>
-      <button class="btn btn-primary" onclick="nextStep()">Continuer →</button>
+      <button class="btn btn-secondary" onclick="prevStep()" id="btnBack4">← Retour</button>
+      <button class="btn btn-primary" onclick="nextStep()" id="btnNext4">Continuer →</button>
     </div>
   </div>
 
   <!-- STEP 5 : SUMMARY -->
   <div class="step-panel" id="step5">
-    <h2 class="step-title">Récapitulatif de commande</h2>
-    <p class="step-sub">Vérifiez votre commande avant de l'ajouter au panier.</p>
-
+    <h2 class="step-title" id="s5Title">Récapitulatif de commande</h2>
+    <p class="step-sub" id="s5Sub">Vérifiez votre commande avant de l'ajouter au panier.</p>
     <div id="summaryDetails" style="margin-bottom:24px;"></div>
-
     <div class="form-group">
-      <label class="form-label">Commentaires / Instructions spéciales</label>
-      <textarea class="form-textarea" placeholder="Ex: Créer le design depuis zéro, utiliser nos couleurs (bleu #003366, or #C4A35A), style luxueux..."></textarea>
+      <label class="form-label" id="commentsLabel">Commentaires / Instructions spéciales</label>
+      <textarea class="form-textarea" id="commentsArea" placeholder="Ex: Créer le design depuis zéro, style luxueux, couleurs: bleu #003366 & or #C4A35A..."></textarea>
     </div>
-
     <div style="padding:16px 18px;background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.18);border-radius:14px;margin-bottom:24px;display:flex;align-items:center;gap:12px;">
       <span style="font-size:1.2rem;">🌿</span>
       <div>
-        <div style="font-size:.84rem;font-weight:600;margin-bottom:2px;">Livraison éco-responsable</div>
-        <div style="font-size:.78rem;color:var(--text-muted);">Emballage biodégradable · Papier FSC · Encres végétales</div>
+        <div style="font-size:.84rem;font-weight:600;margin-bottom:2px;" id="ecoTitle">Livraison éco-responsable</div>
+        <div style="font-size:.78rem;color:var(--text-muted);" id="ecoDesc">Emballage biodégradable · Papier FSC · Encres végétales</div>
       </div>
     </div>
-
     <div class="step-actions">
-      <button class="btn btn-secondary" onclick="prevStep()">← Retour</button>
-      <button class="btn btn-primary btn-lg" onclick="finalAddToCart()">Ajouter au panier →</button>
+      <button class="btn btn-secondary" onclick="prevStep()" id="btnBack5">← Retour</button>
+      <button class="btn btn-primary btn-lg" onclick="finalAddToCart()" id="btnFinalCart">Ajouter au panier →</button>
     </div>
   </div>
 
@@ -373,7 +355,6 @@
 <!-- RIGHT: LIVE SUMMARY -->
 <div>
   <div class="summary-card glass reveal right">
-    <!-- Live preview -->
     <div class="preview-canvas" id="previewCanvas">
       <div class="canvas-item">
         <span style="font-size:1.8rem;" id="previewIcon">🪪</span>
@@ -382,22 +363,22 @@
       </div>
     </div>
 
-    <div class="summary-title">Votre commande</div>
-    <div class="summary-row"><span class="sr-lbl">Produit</span><span class="sr-val" id="sumProd">Carte de Visite</span></div>
-    <div class="summary-row"><span class="sr-lbl">Format</span><span class="sr-val" id="sumFormat">85 × 54 mm</span></div>
-    <div class="summary-row"><span class="sr-lbl">Quantité</span><span class="sr-val" id="sumQty">100 pcs</span></div>
-    <div class="summary-row"><span class="sr-lbl">Papier</span><span class="sr-val" id="sumPaper">Standard 300g</span></div>
-    <div class="summary-row"><span class="sr-lbl">Finition</span><span class="sr-val" id="sumFin">Mat</span></div>
-    <div class="summary-row"><span class="sr-lbl">Délai</span><span class="sr-val" style="color:#4ade80;">⚡ 48h</span></div>
+    <div class="summary-title" id="sumCardTitle">Votre commande</div>
+    <div class="summary-row"><span class="sr-lbl" id="sumLblProd">Produit</span><span class="sr-val" id="sumProd">Carte de Visite</span></div>
+    <div class="summary-row"><span class="sr-lbl" id="sumLblFmt">Format</span><span class="sr-val" id="sumFormat">85 × 54 mm</span></div>
+    <div class="summary-row"><span class="sr-lbl" id="sumLblQty">Quantité</span><span class="sr-val" id="sumQty">100 pcs</span></div>
+    <div class="summary-row"><span class="sr-lbl" id="sumLblPaper">Papier</span><span class="sr-val" id="sumPaper">Standard 300g</span></div>
+    <div class="summary-row"><span class="sr-lbl" id="sumLblFin">Finition</span><span class="sr-val" id="sumFin">Mat</span></div>
+    <div class="summary-row"><span class="sr-lbl" id="sumLblDelay">Délai</span><span class="sr-val" style="color:#4ade80;">⚡ 48h</span></div>
     <div class="summary-total">
-      <span class="st-label">Total estimé</span>
-      <span class="st-price" id="totalPrice">19€</span>
+      <span class="st-label" id="totalLabel">Total estimé</span>
+      <span class="st-price" id="totalPrice">2.750 DA</span>
     </div>
     <div class="summary-actions">
-      <button class="btn btn-primary" style="justify-content:center;" onclick="finalAddToCart()">Commander maintenant →</button>
-      <a href="contact.html" class="btn btn-secondary" style="justify-content:center;text-decoration:none;">Demander un devis</a>
+      <button class="btn btn-primary" style="justify-content:center;" onclick="finalAddToCart()" id="btnSummaryCart">Commander maintenant →</button>
+      <a href="contact.html" class="btn btn-secondary" style="justify-content:center;text-decoration:none;" id="btnQuote">Demander un devis</a>
     </div>
-    <p style="font-size:.72rem;color:var(--text-dim);text-align:center;margin-top:14px;line-height:1.6;">🔒 Paiement sécurisé · Satisfaction garantie · Retour 30 jours</p>
+    <p style="font-size:.72rem;color:var(--text-dim);text-align:center;margin-top:14px;line-height:1.6;" id="securityNote">🔒 Paiement sécurisé · Satisfaction garantie · Retour 30 jours</p>
   </div>
 </div>
 
@@ -405,68 +386,182 @@
 </div><!-- /container -->
 </div><!-- /page-wrap -->
 
-<script src="js/app.js"></script>
+<script src="shared.js"></script>
 <script>
-initApp('configurator');
+initShared('configurator');
 
+const lang = localStorage.getItem('lang') || 'fr';
+
+// ── Price table in DZD ──
+const prices = {'50':2000,'100':2750,'250':5500,'500':9500,'1000':16000,'2500+':null};
+
+// ── Translations ──
+const tx = {
+  fr: {
+    breadHome:'Accueil', breadProd:'Produits', breadConfig:'Configurateur',
+    configEyebrow:'Configurateur', configTitle:'Créez votre<br><em class="grad">commande sur mesure</em>',
+    st1:'Produit', st2:'Format', st3:'Finition', st4:'Fichier', st5:'Résumé',
+    s1Title:'Quel produit souhaitez-vous ?', s1Sub:'Sélectionnez le type de produit.',
+    s2Title:'Format et quantité', s2Sub:'Choisissez le format qui correspond à vos besoins.',
+    s3Title:'Papier et finitions', s3Sub:'Choisissez la texture et la finition.',
+    s4Title:'Votre fichier de création', s4Sub:'Uploadez votre fichier ou laissez nos designers créer.',
+    s5Title:'Récapitulatif de commande', s5Sub:'Vérifiez votre commande avant de l\'ajouter au panier.',
+    lblFormat:'Format', lblQty:'Quantité', lblPrint:'Impression', lblPaper:'Papier', lblFinish:'Finition',
+    customFmt:'Sur mesure', customFmtNote:'Personnalisé',
+    qtyNote:'pièces', qtyNoteQuote:'Sur devis',
+    imp1V:'Recto', imp1N:'1 face', imp2V:'Recto-Verso', imp2N:'2 faces',
+    fin1:'Mat', fin2:'Brillant', fin3:'Soft-touch', fin4:'Dorure', fin5:'Vernis', fin6:'Gaufrage',
+    uploadTitle:'Glissez votre fichier ici', uploadSub:'ou <span>parcourez vos fichiers</span>',
+    noFileTitle:'Pas de fichier ?', noFileDesc:'Nos graphistes peuvent créer votre design pour <strong style="color:#c4b5fd;">7.100 DA supplémentaires</strong>.',
+    commentsLabel:'Commentaires / Instructions spéciales',
+    ecoTitle:'Livraison éco-responsable', ecoDesc:'Emballage biodégradable · Papier FSC · Encres végétales',
+    prev:'Votre produit ici', prevLbl:'Prévisualisation',
+    sumCardTitle:'Votre commande', sumLblProd:'Produit', sumLblFmt:'Format', sumLblQty:'Quantité',
+    sumLblPaper:'Papier', sumLblFin:'Finition', sumLblDelay:'Délai', totalLabel:'Total estimé',
+    btnNext:'Suivant →', btnBack:'← Retour', btnContinue:'Continuer →',
+    btnSummaryCart:'Commander maintenant →', btnFinalCart:'Ajouter au panier →',
+    btnQuote:'Demander un devis', securityNote:'🔒 Paiement sécurisé · Satisfaction garantie · Retour 30 jours',
+    p1:'Carte de Visite', p2:'Invitation', p3:'Flyer', p4:'Sticker', p5:'Autocollant',
+    pcs:'pcs', quoteText:'Sur devis',
+    sumProdName:'Carte de Visite',
+  },
+  ar: {
+    breadHome:'الرئيسية', breadProd:'المنتجات', breadConfig:'المُهيِّئ',
+    configEyebrow:'المُهيِّئ', configTitle:'اصنع طلبك<br><em class="grad">المخصص</em>',
+    st1:'المنتج', st2:'الحجم', st3:'التشطيب', st4:'الملف', st5:'الملخص',
+    s1Title:'ما المنتج الذي تريده؟', s1Sub:'اختر نوع المنتج الذي تريد طلبه.',
+    s2Title:'الحجم والكمية', s2Sub:'اختر الحجم الذي يناسب احتياجاتك.',
+    s3Title:'الورق والتشطيبات', s3Sub:'اختر الملمس والتشطيب الذي يُجمّل إبداعك.',
+    s4Title:'ملف التصميم', s4Sub:'ارفع ملفك أو اترك مصممينا يبدعون لك.',
+    s5Title:'ملخص الطلب', s5Sub:'راجع طلبك قبل إضافته إلى السلة.',
+    lblFormat:'الحجم', lblQty:'الكمية', lblPrint:'الطباعة', lblPaper:'الورق', lblFinish:'التشطيب',
+    customFmt:'مخصص', customFmtNote:'حجم خاص',
+    qtyNote:'قطعة', qtyNoteQuote:'حسب الطلب',
+    imp1V:'وجه واحد', imp1N:'1 وجه', imp2V:'وجهان', imp2N:'2 وجه',
+    fin1:'مطفي', fin2:'لامع', fin3:'ناعم', fin4:'ذهبي', fin5:'طلاء', fin6:'نقش',
+    uploadTitle:'اسحب ملفك هنا', uploadSub:'أو <span>تصفح ملفاتك</span>',
+    noFileTitle:'لا يوجد ملف؟', noFileDesc:'يمكن لمصممينا إنشاء تصميمك مقابل <strong style="color:#c4b5fd;">7.100 دج إضافية</strong>.',
+    commentsLabel:'تعليقات / تعليمات خاصة',
+    ecoTitle:'توصيل صديق للبيئة', ecoDesc:'تعبئة قابلة للتحلل · ورق FSC · أحبار نباتية',
+    prev:'منتجك هنا', prevLbl:'معاينة',
+    sumCardTitle:'طلبك', sumLblProd:'المنتج', sumLblFmt:'الحجم', sumLblQty:'الكمية',
+    sumLblPaper:'الورق', sumLblFin:'التشطيب', sumLblDelay:'المدة', totalLabel:'الإجمالي التقديري',
+    btnNext:'التالي ←', btnBack:'رجوع →', btnContinue:'متابعة ←',
+    btnSummaryCart:'← اطلب الآن', btnFinalCart:'← أضف إلى السلة',
+    btnQuote:'طلب عرض أسعار', securityNote:'🔒 دفع آمن · ضمان الرضا · إرجاع 30 يوماً',
+    p1:'بطاقة أعمال', p2:'دعوة', p3:'منشور', p4:'ملصق', p5:'لاصق',
+    pcs:'قطعة', quoteText:'حسب الطلب',
+    sumProdName:'بطاقة أعمال',
+  },
+  en: {
+    breadHome:'Home', breadProd:'Products', breadConfig:'Configurator',
+    configEyebrow:'Configurator', configTitle:'Create your<br><em class="grad">custom order</em>',
+    st1:'Product', st2:'Format', st3:'Finish', st4:'File', st5:'Summary',
+    s1Title:'Which product do you want?', s1Sub:'Select the type of product you want to order.',
+    s2Title:'Format & Quantity', s2Sub:'Choose the format that matches your needs.',
+    s3Title:'Paper & Finish', s3Sub:'Choose the texture and finish for your creation.',
+    s4Title:'Your Design File', s4Sub:'Upload your file or let our designers create your visual.',
+    s5Title:'Order Summary', s5Sub:'Review your order before adding to cart.',
+    lblFormat:'Format', lblQty:'Quantity', lblPrint:'Print', lblPaper:'Paper', lblFinish:'Finish',
+    customFmt:'Custom', customFmtNote:'Personalized',
+    qtyNote:'pieces', qtyNoteQuote:'On quote',
+    imp1V:'Single Side', imp1N:'1 face', imp2V:'Double Sided', imp2N:'2 faces',
+    fin1:'Matte', fin2:'Glossy', fin3:'Soft-touch', fin4:'Gold Foil', fin5:'Varnish', fin6:'Embossed',
+    uploadTitle:'Drag your file here', uploadSub:'or <span>browse your files</span>',
+    noFileTitle:'No file?', noFileDesc:'Our designers can create your design for an additional <strong style="color:#c4b5fd;">7,100 DZD</strong>.',
+    commentsLabel:'Comments / Special Instructions',
+    ecoTitle:'Eco-friendly delivery', ecoDesc:'Biodegradable packaging · FSC Paper · Vegetable inks',
+    prev:'Your product here', prevLbl:'Preview',
+    sumCardTitle:'Your Order', sumLblProd:'Product', sumLblFmt:'Format', sumLblQty:'Quantity',
+    sumLblPaper:'Paper', sumLblFin:'Finish', sumLblDelay:'Delivery', totalLabel:'Estimated Total',
+    btnNext:'Next →', btnBack:'← Back', btnContinue:'Continue →',
+    btnSummaryCart:'Order Now →', btnFinalCart:'Add to Cart →',
+    btnQuote:'Request a Quote', securityNote:'🔒 Secure Payment · Satisfaction Guaranteed · 30-day Returns',
+    p1:'Business Card', p2:'Invitation', p3:'Flyer', p4:'Sticker', p5:'Label',
+    pcs:'pcs', quoteText:'On quote',
+    sumProdName:'Business Card',
+  }
+};
+
+const t = tx[lang] || tx.fr;
+
+// Apply translations
+const setEl = (id, html) => { const el = document.getElementById(id); if(el) el.innerHTML = html; };
+const setTxt = (id, txt) => { const el = document.getElementById(id); if(el) el.textContent = txt; };
+setEl('breadHome',t.breadHome); setEl('breadProd',t.breadProd); setEl('breadConfig',t.breadConfig);
+setEl('configEyebrow',t.configEyebrow); setEl('configTitle',t.configTitle);
+setTxt('stLabel1',t.st1); setTxt('stLabel2',t.st2); setTxt('stLabel3',t.st3); setTxt('stLabel4',t.st4); setTxt('stLabel5',t.st5);
+setEl('s1Title',t.s1Title); setEl('s1Sub',t.s1Sub); setEl('s2Title',t.s2Title); setEl('s2Sub',t.s2Sub);
+setEl('s3Title',t.s3Title); setEl('s3Sub',t.s3Sub); setEl('s4Title',t.s4Title); setEl('s4Sub',t.s4Sub);
+setEl('s5Title',t.s5Title); setEl('s5Sub',t.s5Sub);
+setTxt('lblFormat',t.lblFormat); setTxt('lblQty',t.lblQty); setTxt('lblPrint',t.lblPrint);
+setTxt('lblPaper',t.lblPaper); setTxt('lblFinish',t.lblFinish);
+setTxt('customFmt',t.customFmt); setTxt('customFmtNote',t.customFmtNote);
+['qtyNote','qtyNote2','qtyNote3','qtyNote4','qtyNote5'].forEach(id => setTxt(id, t.qtyNote));
+setTxt('qtyNoteQuote',t.qtyNoteQuote);
+setTxt('imp1V',t.imp1V); setTxt('imp1N',t.imp1N); setTxt('imp2V',t.imp2V); setTxt('imp2N',t.imp2N);
+setTxt('fin1',t.fin1); setTxt('fin2',t.fin2); setTxt('fin3',t.fin3); setTxt('fin4',t.fin4); setTxt('fin5',t.fin5); setTxt('fin6',t.fin6);
+setEl('uploadTitle',t.uploadTitle); setEl('uploadSub',t.uploadSub);
+setEl('noFileTitle',t.noFileTitle); setEl('noFileDesc',t.noFileDesc);
+setTxt('commentsLabel',t.commentsLabel);
+setTxt('ecoTitle',t.ecoTitle); setTxt('ecoDesc',t.ecoDesc);
+setTxt('previewText',t.prev); setTxt('previewLabel',t.prevLbl);
+setTxt('sumCardTitle',t.sumCardTitle); setTxt('sumLblProd',t.sumLblProd); setTxt('sumLblFmt',t.sumLblFmt);
+setTxt('sumLblQty',t.sumLblQty); setTxt('sumLblPaper',t.sumLblPaper); setTxt('sumLblFin',t.sumLblFin);
+setTxt('sumLblDelay',t.sumLblDelay); setTxt('totalLabel',t.totalLabel);
+setEl('btnSummaryCart',t.btnSummaryCart); setEl('btnFinalCart',t.btnFinalCart);
+setEl('btnQuote',t.btnQuote); setTxt('securityNote',t.securityNote);
+setEl('btnNext1',t.btnNext); setEl('btnNext2',t.btnNext); setEl('btnNext3',t.btnNext);
+setEl('btnNext4',t.btnContinue);
+setEl('btnBack2',t.btnBack); setEl('btnBack3',t.btnBack); setEl('btnBack4',t.btnBack); setEl('btnBack5',t.btnBack);
+// Product names
+setTxt('prod1Name',t.p1); setTxt('prod2Name',t.p2); setTxt('prod3Name',t.p3); setTxt('prod4Name',t.p4); setTxt('prod5Name',t.p5);
+
+// ── Step logic ──
 let currentStep = 1;
 const totalSteps = 5;
-
 const order = {
-  product: 'Carte de Visite',
-  icon: '🪪',
-  format: '85 × 54 mm',
-  qty: '100',
-  paper: 'Standard 300g',
-  finish: 'Mat',
-  file: null,
+  product: t.p1, icon: '🪪',
+  format: '85 × 54 mm', qty: '100',
+  paper: 'Standard 300g', finish: t.fin1, file: null,
 };
 
-const prices = {'50':14,'100':19,'250':38,'500':65,'1000':110,'2500+':null};
-const bgColors = {
-  'Carte de Visite':'linear-gradient(145deg,#1e0a4e,#4a1d96,#7c3aed)',
-  'Invitation':'linear-gradient(145deg,#500724,#9d174d,#ec4899)',
-  'Flyer':'linear-gradient(145deg,#0c4a6e,#0369a1,#38bdf8)',
-  'Sticker':'linear-gradient(145deg,#052e16,#166534,#4ade80)',
-  'Autocollant':'linear-gradient(145deg,#451a03,#92400e,#f59e0b)',
-};
+setTxt('sumProd', t.p1);
 
 function goStep(n) {
-  if(n > currentStep + 1) return; // can't skip ahead
-  currentStep = n;
-  renderStep();
+  if(n > currentStep + 1) return;
+  currentStep = n; renderStep();
 }
 function nextStep(){ if(currentStep < totalSteps){ currentStep++; renderStep(); } }
 function prevStep(){ if(currentStep > 1){ currentStep--; renderStep(); } }
 
 function renderStep() {
-  document.querySelectorAll('.step-panel').forEach((p,i) => {
-    p.classList.toggle('active', i+1 === currentStep);
-  });
-  document.querySelectorAll('.step-tab').forEach((t,i) => {
-    t.classList.remove('active','done');
-    if(i+1 === currentStep) t.classList.add('active');
-    else if(i+1 < currentStep) t.classList.add('done');
+  document.querySelectorAll('.step-panel').forEach((p,i) => p.classList.toggle('active', i+1 === currentStep));
+  document.querySelectorAll('.step-tab').forEach((tab,i) => {
+    tab.classList.remove('active','done');
+    if(i+1 === currentStep) tab.classList.add('active');
+    else if(i+1 < currentStep) tab.classList.add('done');
   });
   document.getElementById('progressFill').style.width = ((currentStep/totalSteps)*100)+'%';
-
   if(currentStep === 5) buildSummaryDetails();
   updateSummary();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function selectProd(el, name, icon) {
+function selectProd(el) {
   document.querySelectorAll('.pc-opt').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
-  order.product = name; order.icon = icon;
-  document.getElementById('previewIcon').textContent = icon;
-  document.getElementById('previewText').textContent = name;
-  document.getElementById('previewCanvas').style.background = bgColors[name] || bgColors['Carte de Visite'];
+  const prodKey = `prod${lang.charAt(0).toUpperCase()+lang.slice(1)}`;
+  order.product = el.dataset[prodKey] || el.dataset.prodFr;
+  order.icon = el.dataset.icon;
+  document.getElementById('previewIcon').textContent = order.icon;
+  document.getElementById('previewText').textContent = order.product;
+  document.getElementById('previewCanvas').style.background = el.dataset.bg;
   updateSummary();
 }
 
 function selectTile(el, gridId) {
-  document.querySelectorAll(`#${gridId} .opt-tile`).forEach(t => t.classList.remove('selected'));
+  document.querySelectorAll(`#${gridId} .opt-tile`).forEach(ti => ti.classList.remove('selected'));
   el.classList.add('selected');
   if(gridId==='formatGrid') order.format = el.querySelector('.ot-val').textContent;
   if(gridId==='qtyGrid') { order.qty = el.querySelector('.ot-val').textContent; updatePrice(); }
@@ -483,56 +578,52 @@ function selectFin(el) {
 
 function updatePrice() {
   const p = prices[order.qty];
-  document.getElementById('totalPrice').textContent = p ? p+'€' : 'Sur devis';
+  document.getElementById('totalPrice').textContent = p ? p.toLocaleString('fr-DZ')+' DA' : t.quoteText;
 }
 
 function updateSummary() {
-  document.getElementById('sumProd').textContent = order.product;
-  document.getElementById('sumFormat').textContent = order.format;
-  document.getElementById('sumQty').textContent = order.qty + ' pcs';
-  document.getElementById('sumPaper').textContent = order.paper;
-  document.getElementById('sumFin').textContent = order.finish;
+  setTxt('sumProd', order.product);
+  setTxt('sumFormat', order.format);
+  setTxt('sumQty', order.qty + ' ' + t.pcs);
+  setTxt('sumPaper', order.paper);
+  setTxt('sumFin', order.finish);
   updatePrice();
 }
 
+function buildSummaryDetails() {
+  const labels = [
+    [t.sumLblProd, order.product],
+    [t.sumLblFmt, order.format],
+    [t.sumLblQty, order.qty + ' ' + t.pcs],
+    [t.sumLblPaper, order.paper],
+    [t.sumLblFin, order.finish],
+    [t.lblFile||'Fichier', order.file || (t.fileNotProvided||'À fournir')],
+  ];
+  document.getElementById('summaryDetails').innerHTML = `
+    <div style="background:rgba(155,126,248,.08);border:1px solid rgba(155,126,248,.18);border-radius:18px;padding:20px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        ${labels.map(([l,v])=>`
+          <div style="padding:10px 14px;background:rgba(255,255,255,.05);border-radius:10px;">
+            <div style="font-size:.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;">${l}</div>
+            <div style="font-size:.85rem;font-weight:500;">${v}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
 function handleFile(input) {
-  const file = input.files[0];
-  if(!file) return;
+  const file = input.files[0]; if(!file) return;
   order.file = file.name;
-  document.getElementById('uploadedName').textContent = file.name;
+  setTxt('uploadedName', file.name);
   document.getElementById('uploadedFile').classList.add('visible');
   document.getElementById('uploadZone').style.display = 'none';
 }
-
 function removeFile() {
   order.file = null;
   document.getElementById('uploadedFile').classList.remove('visible');
   document.getElementById('uploadZone').style.display = '';
   document.getElementById('fileInput').value = '';
 }
-
-function buildSummaryDetails() {
-  document.getElementById('summaryDetails').innerHTML = `
-    <div style="background:rgba(155,126,248,.08);border:1px solid rgba(155,126,248,.18);border-radius:18px;padding:20px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-        ${[
-          ['Produit', order.product],
-          ['Format', order.format],
-          ['Quantité', order.qty+' pcs'],
-          ['Papier', order.paper],
-          ['Finition', order.finish],
-          ['Fichier', order.file || 'À fournir / Design par nos équipes'],
-        ].map(([l,v])=>`
-          <div style="padding:10px 14px;background:rgba(255,255,255,.05);border-radius:10px;">
-            <div style="font-size:.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;">${l}</div>
-            <div style="font-size:.85rem;font-weight:500;">${v}</div>
-          </div>
-        `).join('')}
-      </div>
-    </div>
-  `;
-}
-
 function finalAddToCart() {
   addToCart({...order, price: document.getElementById('totalPrice').textContent});
   setTimeout(() => { window.location.href = 'cart.html'; }, 600);
@@ -545,7 +636,7 @@ zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
 zone.addEventListener('drop', e => {
   e.preventDefault(); zone.classList.remove('dragover');
   const file = e.dataTransfer.files[0];
-  if(file) { order.file = file.name; document.getElementById('uploadedName').textContent = file.name; document.getElementById('uploadedFile').classList.add('visible'); zone.style.display='none'; }
+  if(file) { order.file = file.name; setTxt('uploadedName',file.name); document.getElementById('uploadedFile').classList.add('visible'); zone.style.display='none'; }
 });
 </script>
 </body>
